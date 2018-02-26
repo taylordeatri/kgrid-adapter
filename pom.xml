@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.kgrid</groupId>
+  <artifactId>activator</artifactId>
+  <version>0.o.1-SNAPSHOT</version>
+  <modules>
+    <module>javascript-adapter</module>
+    <module>javascript-adapter-gateway</module>
+    <module>adapter-api</module>
+    <module>adapter-gateway</module>
+  </modules>
+
+  <packaging>pom</packaging>
+
+  <name>kgrid-activator</name>
+  <description>KGrid: Activator</description>
+
+</project>
