@@ -86,9 +86,7 @@ public class JavascriptAdapterApplicationTests {
 
   @Test
   public void testEngine() {
-    JavascriptAdapter adapter = new JavascriptAdapter() {
-
-    };
+    JavascriptAdapter adapter = new JavascriptAdapter();
 
     adapter.initialize();
 
@@ -134,6 +132,8 @@ public class JavascriptAdapterApplicationTests {
 
     System.out.println(x.execute("Ralph"));
 
+
+
   }
 
   @Test
@@ -147,24 +147,12 @@ public class JavascriptAdapterApplicationTests {
 
     context.setBindings(bindings, ScriptContext.ENGINE_SCOPE);
 
-//		ScriptObjectMirror object = (ScriptObjectMirror) engine.eval("function bye(name) { return 'Bye, ' + name + '!'; }");
-
-//		Compilable compiler = ((Compilable) engine);
-//
-//		CompiledScript script = compiler.compile("function bye(name) { return 'Bye, ' + name + '!'; }");
-
-//		script.eval(bindings);
-
     engine.eval("function bye(name) { return 'Bye, ' + name + '!'; }", context);
-
-//		ScriptObjectMirror object = (ScriptObjectMirror) bindings;
 
     engine.setContext(context);
     Invocable invoker = ((Invocable) engine);
 
     String output = (String) invoker.invokeFunction("bye", "Bob");
-
-//		String output = (String) object.callMember("bye", "Bob");
 
     System.out.println(output);
   }

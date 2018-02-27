@@ -38,8 +38,6 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
   @Override
   public Executor activate(CompoundKnowledgeObject compoundKnowledgeObject) {
 
-    shelf.getBaseUrl();
-
     ScriptContext context = new SimpleScriptContext();
     context.setBindings(engine.createBindings(), ScriptContext.ENGINE_SCOPE);
     try {
