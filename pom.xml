@@ -6,7 +6,7 @@
 
   <groupId>org.kgrid</groupId>
   <artifactId>kgrid-adapter</artifactId>
-  <version>0.o.1-SNAPSHOT</version>
+  <version>0.0.1-SNAPSHOT</version>
   <modules>
     <module>javascript-adapter</module>
     <module>javascript-adapter-gateway</module>
