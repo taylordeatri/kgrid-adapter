@@ -13,6 +13,7 @@ import org.kgrid.activator.adapter.api.Adapter;
 import org.kgrid.activator.adapter.api.CompoundKnowledgeObject;
 import org.kgrid.activator.adapter.api.Executor;
 import org.kgrid.activator.adapter.api.Result;
+import org.kgrid.adapter.javascript.JavascriptAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,6 +25,43 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 public class JavascriptAdapterGateway extends AdapterGateway {
 
+  public static final String ANSWERS = "{\n"
+      + "    \"answers\": [\n"
+      + "        {\n"
+      + "            \"id\": \"1\",\n"
+      + "            \"scores\": [\n"
+      + "                {\n"
+      + "                    \"id\": \"1a\",\n"
+      + "                    \"score\": 1\n"
+      + "                },\n"
+      + "                {\n"
+      + "                    \"id\": \"1b\",\n"
+      + "                  \"score\": 2\n"
+      + "                },\n"
+      + "                {\n"
+      + "                    \"id\": \"1c\",\n"
+      + "                    \"score\": 1\n"
+      + "                },\n"
+      + "                {\n"
+      + "                    \"id\": \"1d\",\n"
+      + "                  \"score\": 3\n"
+      + "                },\n"
+      + "                {\n"
+      + "                  \"id\": \"1e\",\n"
+      + "                  \"score\": 0\n"
+      + "                },\n"
+      + "                {\n"
+      + "                  \"id\": \"1f\",\n"
+      + "                  \"score\": 1\n"
+      + "                },\n"
+      + "                {\n"
+      + "                  \"id\": \"1g\",\n"
+      + "                  \"score\": 200\n"
+      + "                }\n"
+      + "            ]\n"
+      + "        }\n"
+      + "    ]\n"
+      + "}\n";
   @Autowired
   Adapter adapter;
 
@@ -72,19 +110,18 @@ public class JavascriptAdapterGateway extends AdapterGateway {
 
     Result r = ex.execute(answers);
 
-
     return r;
 
   }
 
-   HashMap getAnswers()  {
-     try {
-       return new ObjectMapper().readValue(ANSWERS, HashMap.class);
-     } catch (IOException e) {
-       e.printStackTrace();
-     }
-     return null;
-   }
+  HashMap getAnswers() {
+    try {
+      return new ObjectMapper().readValue(ANSWERS, HashMap.class);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
 
   CompoundKnowledgeObject getCompoundKnowledgeObject() {
     byte[] code = {'n'};
@@ -106,42 +143,4 @@ public class JavascriptAdapterGateway extends AdapterGateway {
     gad7.setInputType("bar");
     return gad7;
   }
-
-  public static final String ANSWERS = "{\n"
-      + "    \"answers\": [\n"
-      + "        {\n"
-      + "            \"id\": \"1\",\n"
-      + "            \"scores\": [\n"
-      + "                {\n"
-      + "                    \"id\": \"1a\",\n"
-      + "                    \"score\": 1\n"
-      + "                },\n"
-      + "                {\n"
-      + "                    \"id\": \"1b\",\n"
-      + "                  \"score\": 2\n"
-      + "                },\n"
-      + "                {\n"
-      + "                    \"id\": \"1c\",\n"
-      + "                    \"score\": 1\n"
-      + "                },\n"
-      + "                {\n"
-      + "                    \"id\": \"1d\",\n"
-      + "                  \"score\": 3\n"
-      + "                },\n"
-      + "                {\n"
-      + "                  \"id\": \"1e\",\n"
-      + "                  \"score\": 0\n"
-      + "                },\n"
-      + "                {\n"
-      + "                  \"id\": \"1f\",\n"
-      + "                  \"score\": 1\n"
-      + "                },\n"
-      + "                {\n"
-      + "                  \"id\": \"1g\",\n"
-      + "                  \"score\": 200\n"
-      + "                }\n"
-      + "            ]\n"
-      + "        }\n"
-      + "    ]\n"
-      + "}\n";
 }

@@ -9,7 +9,7 @@ import org.junit.Test;
 //@SpringBootTest
 public class JavascriptAdapterGatewayTests {
 
-//  @Test
+  //  @Test
   public void contextLoads() {
   }
 
@@ -35,19 +35,9 @@ public class JavascriptAdapterGatewayTests {
 
   }
 
-  public interface Hackerly {
-
-    default String butter() {
-        return "muffin " + getStatus();
-      }
-
-    String getStatus();
-  }
-
   public enum CDOStore implements Hackerly {
     INSTANCE,
     OTHER_INSTANCE {
-
       @Override
       public String butter() {
         return "toast " + getStatus();
@@ -61,7 +51,7 @@ public class JavascriptAdapterGatewayTests {
     };
 
     // Each instance has its own status
-     private String status = "UP";
+    private String status = "UP";
 
     public String getStatus() {
       return status;
@@ -71,5 +61,14 @@ public class JavascriptAdapterGatewayTests {
       this.status = status;
     }
 
+  }
+
+  public interface Hackerly {
+
+    default String butter() {
+      return "muffin " + getStatus();
+    }
+
+    String getStatus();
   }
 }

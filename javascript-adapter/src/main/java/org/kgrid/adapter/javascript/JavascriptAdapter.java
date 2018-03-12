@@ -1,4 +1,4 @@
-package org.kgrid.activator.adapter.javascript;
+package org.kgrid.adapter.javascript;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ import org.kgrid.activator.adapter.api.Executor;
 import org.kgrid.activator.adapter.api.Result;
 import org.kgrid.activator.adapter.api.Shelf;
 
-public class JavascriptAdapter  implements Adapter, AdapterSupport {
+public class JavascriptAdapter implements Adapter, AdapterSupport {
 
   ScriptEngine engine;
   Shelf shelf;

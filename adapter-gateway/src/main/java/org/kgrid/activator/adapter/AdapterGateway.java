@@ -21,15 +21,14 @@ public class AdapterGateway {
 
   }
 
-
   // Supply dummy adapter for Controller
-
-  enum Types {FOO, BAR;}
 
   @Bean
   public Adapter getAdapter() {
 
     return new Adapter() {
+
+      private List<String> types = Arrays.asList("Foo", "bar", "BAZ");
 
       public boolean supports(final String typeName) {
 
@@ -38,8 +37,6 @@ public class AdapterGateway {
         return getTypes().stream().anyMatch(t -> t.equals(typeName));
 
       }
-
-      private List<String> types = Arrays.asList("Foo", "bar", "BAZ");
 
       @Override
       public List<String> getTypes() {
@@ -63,4 +60,6 @@ public class AdapterGateway {
       }
     };
   }
+
+  enum Types {FOO, BAR;}
 }

@@ -14,7 +14,7 @@ import org.kgrid.activator.adapter.api.Result;
 public class MultipleGatewayTest {
 
   @Test
-  public void activateTest()  {
+  public void activateTest() {
 
     JavascriptAdapterGateway gateway = new JavascriptAdapterGateway();
 
@@ -24,7 +24,6 @@ public class MultipleGatewayTest {
     Adapter adapter = gateway.getAdapter();
 
     adapter.initialize();
-
 
     cko.setEndpoint("question");
     Executor question = adapter.activate(cko);
@@ -43,10 +42,6 @@ public class MultipleGatewayTest {
     r = new ObjectMapper().convertValue(result.getResult(), JsonNode.class);
 
     assertNotNull("Questions should be good ones", r.get("questions"));
-
-
-
-
 
 
   }

@@ -19,6 +19,7 @@ import org.kgrid.activator.adapter.api.Adapter;
 import org.kgrid.activator.adapter.api.CompoundKnowledgeObject;
 import org.kgrid.activator.adapter.api.Executor;
 import org.kgrid.activator.adapter.api.Result;
+import org.kgrid.adapter.javascript.JavascriptAdapter;
 
 //@RunWith(SpringRunner.class)
 //@SpringBootTest
@@ -95,7 +96,6 @@ public class JavascriptAdapterApplicationTests {
     } catch (ScriptException e) {
       e.printStackTrace();
     }
-
 
     // Set up a 'CompoundKnowledgeObject' for a hello world object
     final CompoundKnowledgeObject compoundKnowledgeObject = new CompoundKnowledgeObject();

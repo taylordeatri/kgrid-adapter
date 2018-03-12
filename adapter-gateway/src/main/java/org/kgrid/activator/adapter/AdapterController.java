@@ -29,7 +29,7 @@ public class AdapterController {
   }
 
   @GetMapping("/supports/{type}")
-  public boolean supports(@PathVariable String type ) {
+  public boolean supports(@PathVariable String type) {
 
     return adapter.supports(type);
   }
