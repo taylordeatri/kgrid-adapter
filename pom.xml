@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.kgrid</groupId>
-  <artifactId>activator</artifactId>
+  <artifactId>kgrid-adapter</artifactId>
   <version>0.o.1-SNAPSHOT</version>
   <modules>
     <module>javascript-adapter</module>

@@ -12,14 +12,14 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.script.SimpleScriptContext;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
-import org.kgrid.activator.adapter.api.AdapterSupport;
 import org.kgrid.activator.adapter.api.Adapter;
+import org.kgrid.activator.adapter.api.AdapterSupport;
 import org.kgrid.activator.adapter.api.CompoundKnowledgeObject;
 import org.kgrid.activator.adapter.api.Executor;
 import org.kgrid.activator.adapter.api.Result;
 import org.kgrid.activator.adapter.api.Shelf;
 
-public class JavascriptAdapter implements Adapter, AdapterSupport {
+public class JavascriptAdapter  implements Adapter, AdapterSupport {
 
   ScriptEngine engine;
   Shelf shelf;
