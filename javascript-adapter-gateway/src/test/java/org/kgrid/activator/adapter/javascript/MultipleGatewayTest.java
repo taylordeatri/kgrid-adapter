@@ -102,7 +102,7 @@ public class MultipleGatewayTest {
     try {
 
       final Path path = FileSystems
-          .getDefault().getPath("shelf", "gad7", "v1", "models", "resource", "gad7.js");
+          .getDefault().getPath("shelf", "gad7-test", "v1", "models", "resource", "gad7.js");
       code = Files.readAllBytes(path);
     } catch (IOException e) {
       e.printStackTrace();
