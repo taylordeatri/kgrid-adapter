@@ -18,6 +18,7 @@ import org.kgrid.activator.adapter.api.CompoundKnowledgeObject;
 import org.kgrid.activator.adapter.api.Executor;
 import org.kgrid.activator.adapter.api.Result;
 import org.kgrid.activator.adapter.api.Shelf;
+import org.springframework.http.ResponseEntity;
 
 public class JavascriptAdapter implements Adapter, AdapterSupport {
 
@@ -32,7 +33,6 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
   public void initialize() {
 
     engine = new ScriptEngineManager().getEngineByName("JavaScript");
-
   }
 
   @Override
@@ -83,4 +83,5 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
   public void setShelf(Shelf shelf) {
 
   }
+
 }

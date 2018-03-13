@@ -1,6 +1,8 @@
 package org.kgrid.activator.adapter.javascript;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.FileSystems;
@@ -25,43 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 public class JavascriptAdapterGateway extends AdapterGateway {
 
-  public static final String ANSWERS = "{\n"
-      + "    \"answers\": [\n"
-      + "        {\n"
-      + "            \"id\": \"1\",\n"
-      + "            \"scores\": [\n"
-      + "                {\n"
-      + "                    \"id\": \"1a\",\n"
-      + "                    \"score\": 1\n"
-      + "                },\n"
-      + "                {\n"
-      + "                    \"id\": \"1b\",\n"
-      + "                  \"score\": 2\n"
-      + "                },\n"
-      + "                {\n"
-      + "                    \"id\": \"1c\",\n"
-      + "                    \"score\": 1\n"
-      + "                },\n"
-      + "                {\n"
-      + "                    \"id\": \"1d\",\n"
-      + "                  \"score\": 3\n"
-      + "                },\n"
-      + "                {\n"
-      + "                  \"id\": \"1e\",\n"
-      + "                  \"score\": 0\n"
-      + "                },\n"
-      + "                {\n"
-      + "                  \"id\": \"1f\",\n"
-      + "                  \"score\": 1\n"
-      + "                },\n"
-      + "                {\n"
-      + "                  \"id\": \"1g\",\n"
-      + "                  \"score\": 200\n"
-      + "                }\n"
-      + "            ]\n"
-      + "        }\n"
-      + "    ]\n"
-      + "}\n";
   @Autowired
   Adapter adapter;
 
@@ -98,7 +63,7 @@ public class JavascriptAdapterGateway extends AdapterGateway {
   @GetMapping("/score")
   public Result getScore() throws IOException {
 
-    Map<String, Object> answers = getAnswers();
+    JsonNode answers = getAnswers();
 
     CompoundKnowledgeObject gad7 = getCompoundKnowledgeObject();
 
@@ -114,14 +79,18 @@ public class JavascriptAdapterGateway extends AdapterGateway {
 
   }
 
-  HashMap getAnswers() {
+  JsonNode getAnswers() {
     try {
-      return new ObjectMapper().readValue(ANSWERS, HashMap.class);
+      File answersjson = new File("src/main/resources/answers.json");
+      System.out.println(answersjson.getAbsolutePath());
+      return new ObjectMapper().readTree(answersjson);
     } catch (IOException e) {
       e.printStackTrace();
     }
     return null;
   }
+
+
 
   CompoundKnowledgeObject getCompoundKnowledgeObject() {
     byte[] code = {'n'};
@@ -129,7 +98,6 @@ public class JavascriptAdapterGateway extends AdapterGateway {
 
       final Path path = FileSystems
           .getDefault().getPath("shelf", "gad7", "v1", "models", "resource", "gad7.js");
-//      System.out.println(path.toAbsolutePath());
       code = Files.readAllBytes(path);
     } catch (IOException e) {
       e.printStackTrace();
