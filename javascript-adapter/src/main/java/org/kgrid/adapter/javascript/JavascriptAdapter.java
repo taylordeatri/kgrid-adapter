@@ -1,5 +1,8 @@
 package org.kgrid.adapter.javascript;
 
+import edu.umich.lhs.activator.repository.CompoundDigitalObjectStore;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -17,13 +20,12 @@ import org.kgrid.activator.adapter.api.AdapterSupport;
 import org.kgrid.activator.adapter.api.CompoundKnowledgeObject;
 import org.kgrid.activator.adapter.api.Executor;
 import org.kgrid.activator.adapter.api.Result;
-import org.kgrid.activator.adapter.api.Shelf;
-import org.springframework.http.ResponseEntity;
+
 
 public class JavascriptAdapter implements Adapter, AdapterSupport {
 
   ScriptEngine engine;
-  Shelf shelf;
+  CompoundDigitalObjectStore cdoStore;
 
   public ScriptEngine getEngine() {
     return engine;
@@ -33,6 +35,7 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
   public void initialize() {
 
     engine = new ScriptEngineManager().getEngineByName("JavaScript");
+
   }
 
   @Override
@@ -68,6 +71,38 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
     };
   }
 
+  public Executor activate(Path resourcePath, String endpointName) {
+
+    ScriptContext context = new SimpleScriptContext();
+    context.setBindings(engine.createBindings(), ScriptContext.ENGINE_SCOPE);
+    try {
+      CompiledScript script = ((Compilable) engine).compile(new String(cdoStore.getBinary(resourcePath.resolve(endpointName + ".js")), Charset.defaultCharset()));
+      script.eval(context);
+    } catch (ScriptException e) {
+      e.printStackTrace();
+    }
+
+    ScriptObjectMirror mirror = (ScriptObjectMirror) context
+        .getBindings(ScriptContext.ENGINE_SCOPE);
+
+    return new Executor() {
+
+      String endpoint = endpointName;
+
+      @Override
+      public Result execute(Object input) {
+
+        Object output = mirror.callMember(endpoint, input);
+
+        final Map<String, String> errors = new HashMap<>();
+        errors.put("spec", resourcePath  + "/" + endpoint);
+
+        return new Result(output, errors);
+      }
+
+    };
+  }
+
   @Override
   public String status() {
     return "UP";
@@ -79,9 +114,8 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
     return Arrays.asList("JAVASCRIPT", "JS");
   }
 
-  @Override
-  public void setShelf(Shelf shelf) {
-
+  public void setCdoStore(CompoundDigitalObjectStore cdoStore) {
+    this.cdoStore = cdoStore;
   }
 
 }

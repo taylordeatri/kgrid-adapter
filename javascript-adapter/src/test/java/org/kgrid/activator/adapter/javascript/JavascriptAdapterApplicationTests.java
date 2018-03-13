@@ -2,6 +2,13 @@ package org.kgrid.activator.adapter.javascript;
 
 import static org.junit.Assert.assertEquals;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import edu.umich.lhs.activator.repository.CompoundDigitalObjectStore;
+import edu.umich.lhs.activator.repository.FilesystemCDOStore;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.stream.Stream;
@@ -20,6 +27,7 @@ import org.kgrid.activator.adapter.api.CompoundKnowledgeObject;
 import org.kgrid.activator.adapter.api.Executor;
 import org.kgrid.activator.adapter.api.Result;
 import org.kgrid.adapter.javascript.JavascriptAdapter;
+import org.springframework.mock.web.MockMultipartFile;
 
 //@RunWith(SpringRunner.class)
 //@SpringBootTest
@@ -65,14 +73,12 @@ public class JavascriptAdapterApplicationTests {
 
     Adapter adapter = new JavascriptAdapter();
 
-    adapter.initialize();
-
     final CompoundKnowledgeObject compoundKnowledgeObject = new CompoundKnowledgeObject();
 
     compoundKnowledgeObject.setOutputType("java.lang.Double");
     compoundKnowledgeObject.setCode("function foo(a) {return a * 2;}");
     compoundKnowledgeObject.setEndpoint("foo");
-
+    adapter.initialize();
     Executor x = adapter.activate(compoundKnowledgeObject);
 
     System.out.println(x.execute("2"));
@@ -154,6 +160,32 @@ public class JavascriptAdapterApplicationTests {
     String output = (String) invoker.invokeFunction("bye", "Bob");
 
     System.out.println(output);
+  }
+
+  @Test
+  public void testUsingCDOStore() throws Exception {
+    JavascriptAdapter adapter = new JavascriptAdapter();
+
+    Path shelf = Files.createTempDirectory("testShelf");
+
+    CompoundDigitalObjectStore cdoStore = new FilesystemCDOStore(shelf.toAbsolutePath().toString());
+
+    adapter.setCdoStore(cdoStore);
+
+    String filename = "99999-fk45m6gq9t.zip";
+
+    URL zipStream = JavascriptAdapterApplicationTests.class.getResource("/" + filename);
+    byte[] zippedKO = Files.readAllBytes(Paths.get(zipStream.toURI()));
+    MockMultipartFile koZip = new MockMultipartFile("ko", filename, "application/zip", zippedKO);
+
+    ObjectNode metadata = cdoStore.addCompoundObjectToShelf(koZip);
+
+
+    adapter.initialize();
+    Executor ex = adapter.activate(Paths.get("99999-fk45m6gq9t", "v0.0.1", "models", "resource"), "content");
+    Result res = ex.execute("10");
+    assertEquals("10", res.getResult());
+
   }
 
   enum Type {FOO, BAR}
