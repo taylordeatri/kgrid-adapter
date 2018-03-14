@@ -1,5 +1,6 @@
 package org.kgrid.activator.adapter;
 
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -9,9 +10,11 @@ import org.kgrid.activator.adapter.api.Executor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 public class AdapterGateway {
+
 
   public static void main(String[] args) {
 
@@ -55,10 +58,23 @@ public class AdapterGateway {
       }
 
       @Override
+      public Executor activate(Path resource, String endpoint) {
+        return null;
+      }
+
+      @Override
       public String status() {
         return "UP";
       }
     };
+  }
+
+  @RestController
+  class BaseAdapterController extends AdapterController {
+
+    public BaseAdapterController(Adapter adapter) {
+      super(adapter);
+    }
   }
 
   enum Types {FOO, BAR;}

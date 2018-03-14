@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import edu.umich.lhs.activator.repository.CompoundDigitalObjectStore;
 import edu.umich.lhs.activator.repository.FilesystemCDOStore;
+import java.nio.file.Path;
 import java.util.List;
 import org.junit.Test;
 
@@ -49,6 +50,11 @@ public class AdapterSupportTest {
     }
 
     @Override
+    public Executor activate(Path resource, String endpoint) {
+      return null;
+    }
+
+    @Override
     public String status() {
       return "does not support shelf";
     }
@@ -71,6 +77,11 @@ public class AdapterSupportTest {
 
     @Override
     public Executor activate(CompoundKnowledgeObject compoundKnowledgeObject) {
+      return null;
+    }
+
+    @Override
+    public Executor activate(Path resource, String endpoint) {
       return null;
     }
 

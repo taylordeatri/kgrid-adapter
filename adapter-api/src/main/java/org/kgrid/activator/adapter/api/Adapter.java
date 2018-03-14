@@ -1,5 +1,6 @@
 package org.kgrid.activator.adapter.api;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,6 +19,8 @@ public interface Adapter {
   void initialize();
 
   Executor activate(CompoundKnowledgeObject compoundKnowledgeObject);
+
+  Executor activate(Path resource, String endpoint);
 
   String status();
 }

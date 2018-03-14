@@ -8,8 +8,10 @@ import java.nio.charset.Charset;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import org.kgrid.activator.adapter.AdapterController;
 import org.kgrid.activator.adapter.AdapterGateway;
 import org.kgrid.activator.adapter.api.Adapter;
 import org.kgrid.activator.adapter.api.CompoundKnowledgeObject;
@@ -21,94 +23,61 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @SpringBootApplication
-public class JavascriptAdapterGateway extends AdapterGateway {
+public class JavascriptAdapterGateway {
 
   @Autowired
   Adapter adapter;
+
+  Map<String, Executor> executorMap;
 
   public static void main(String[] args) {
     SpringApplication.run(JavascriptAdapterGateway.class, args);
 
     System.out.println("Starting JavascriptAdapterGateway");
-
   }
 
-  @Override
   @Bean
   public Adapter getAdapter() {
 
-    return new JavascriptAdapter();
-  }
-
-  @GetMapping("/question")
-  public Object getFoo() {
-
-    CompoundKnowledgeObject gad7 = getCompoundKnowledgeObject();
-
+    adapter = new JavascriptAdapter();
     adapter.initialize();
-
-    gad7.setEndpoint("question");
-
-    Executor ex = adapter.activate(gad7);
-
-    Result r = ex.execute(null);
-
-    return r.getResult();
+    return adapter;
   }
 
-  @GetMapping("/score")
-  public Result getScore() throws IOException {
+  @PostMapping("/activate/{naan}-{name}/{version}/{endpoint}")
+  public void activate(@PathVariable String naan, @PathVariable String name, @PathVariable String version, @PathVariable String endpoint) {
 
-    JsonNode answers = getAnswers();
-
-    CompoundKnowledgeObject gad7 = getCompoundKnowledgeObject();
-
-    adapter.initialize();
-
-    gad7.setEndpoint("score");
-
-    Executor ex = adapter.activate(gad7);
-
-    Result r = ex.execute(answers);
-
-    return r;
-
-  }
-
-  JsonNode getAnswers() {
-    try {
-      File answersjson = new File("src/main/resources/answers.json");
-      System.out.println(answersjson.getAbsolutePath());
-      return new ObjectMapper().readTree(answersjson);
-    } catch (IOException e) {
-      e.printStackTrace();
+    Executor executor = adapter.activate(Paths.get(naan + "-" + name, version, "models", "resource"), endpoint);
+    if(executorMap == null) {
+      executorMap = new HashMap<>();
     }
-    return null;
+    executorMap.put(endpoint, executor);
   }
 
+  @PostMapping("/execute/{naan}-{name}/{version}/{endpoint}")
+  public Object executeEndpoint(@PathVariable String naan, @PathVariable String name, @PathVariable String version, @PathVariable String endpoint, @RequestBody Map inputs) {
 
+    return executorMap.get(endpoint).execute(inputs).getResult();
+  }
 
-  CompoundKnowledgeObject getCompoundKnowledgeObject() {
-    byte[] code = {'n'};
-    try {
+  @RestController
+  class BaseAdapterController extends AdapterController {
 
-      final Path path = FileSystems
-          .getDefault().getPath("shelf", "gad7-test", "v1", "models", "resource", "gad7.js");
-      code = Files.readAllBytes(path);
-    } catch (IOException e) {
-      e.printStackTrace();
+    public BaseAdapterController(Adapter adapter) {
+      super(adapter);
     }
 
-    CompoundKnowledgeObject gad7 = new CompoundKnowledgeObject();
+    @Override
+    public String status() {
+      return "javascript adapter ready";
+    }
 
-    gad7.setCode(new String(code, Charset.forName("UTF-8")));
-    gad7.setEndpoint("status");
-    gad7.setOutputType("foo");
-    gad7.setInputType("bar");
-    return gad7;
   }
 }

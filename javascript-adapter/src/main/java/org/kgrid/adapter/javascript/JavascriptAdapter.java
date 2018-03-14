@@ -1,6 +1,7 @@
 package org.kgrid.adapter.javascript;
 
 import edu.umich.lhs.activator.repository.CompoundDigitalObjectStore;
+import edu.umich.lhs.activator.repository.FilesystemCDOStore;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -35,7 +36,9 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
   public void initialize() {
 
     engine = new ScriptEngineManager().getEngineByName("JavaScript");
-
+    if(cdoStore == null) {
+      setCdoStore(new FilesystemCDOStore(System.getProperty("user.dir") + "/shelf"));
+    }
   }
 
   @Override
@@ -71,6 +74,7 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
     };
   }
 
+  @Override
   public Executor activate(Path resourcePath, String endpointName) {
 
     ScriptContext context = new SimpleScriptContext();

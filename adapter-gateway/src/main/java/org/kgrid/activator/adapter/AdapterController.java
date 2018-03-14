@@ -4,9 +4,7 @@ import java.util.List;
 import org.kgrid.activator.adapter.api.Adapter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
 public class AdapterController {
 
   private final Adapter adapter;
