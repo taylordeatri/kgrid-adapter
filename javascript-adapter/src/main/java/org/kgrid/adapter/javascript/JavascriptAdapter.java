@@ -2,6 +2,7 @@ package org.kgrid.adapter.javascript;
 
 import edu.umich.lhs.activator.repository.CompoundDigitalObjectStore;
 import edu.umich.lhs.activator.repository.FilesystemCDOStore;
+import java.io.FileNotFoundException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -15,6 +16,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.script.SimpleScriptContext;
+import javax.validation.constraints.Null;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.kgrid.activator.adapter.api.Adapter;
 import org.kgrid.activator.adapter.api.AdapterSupport;
@@ -80,7 +82,8 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
     ScriptContext context = new SimpleScriptContext();
     context.setBindings(engine.createBindings(), ScriptContext.ENGINE_SCOPE);
     try {
-      CompiledScript script = ((Compilable) engine).compile(new String(cdoStore.getBinary(resourcePath.resolve(endpointName + ".js")), Charset.defaultCharset()));
+      byte[] binary = cdoStore.getBinary(resourcePath.resolve(endpointName + ".js"));
+      CompiledScript script = ((Compilable) engine).compile(new String(binary, Charset.defaultCharset()));
       script.eval(context);
     } catch (ScriptException e) {
       e.printStackTrace();
