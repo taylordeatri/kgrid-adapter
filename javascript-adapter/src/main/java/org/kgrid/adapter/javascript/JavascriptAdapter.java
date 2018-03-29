@@ -3,6 +3,8 @@ package org.kgrid.adapter.javascript;
 import edu.umich.lhs.activator.repository.CompoundDigitalObjectStore;
 import edu.umich.lhs.activator.repository.FilesystemCDOStore;
 import java.io.FileNotFoundException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -82,10 +84,10 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
     ScriptContext context = new SimpleScriptContext();
     context.setBindings(engine.createBindings(), ScriptContext.ENGINE_SCOPE);
     try {
-      byte[] binary = cdoStore.getBinary(resourcePath.resolve(endpointName + ".js"));
+      byte[] binary = cdoStore.getBinary(new URI(resourcePath + "/" + endpointName + ".js"));
       CompiledScript script = ((Compilable) engine).compile(new String(binary, Charset.defaultCharset()));
       script.eval(context);
-    } catch (ScriptException e) {
+    } catch (ScriptException | URISyntaxException e) {
       e.printStackTrace();
     }
 
