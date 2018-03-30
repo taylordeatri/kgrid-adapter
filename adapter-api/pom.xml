@@ -28,8 +28,8 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>edu.umich.lhs</groupId>
-      <artifactId>shelf</artifactId>
+      <groupId>org.kgrid</groupId>
+      <artifactId>shelf-api</artifactId>
       <version>0.5.8-SNAPSHOT</version>
     </dependency>
   </dependencies>

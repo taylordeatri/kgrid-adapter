@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -84,10 +85,10 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
     ScriptContext context = new SimpleScriptContext();
     context.setBindings(engine.createBindings(), ScriptContext.ENGINE_SCOPE);
     try {
-      byte[] binary = cdoStore.getBinary(new URI(resourcePath + "/" + endpointName + ".js"));
+      byte[] binary = cdoStore.getBinary(resourcePath.resolve(endpointName + ".js"));
       CompiledScript script = ((Compilable) engine).compile(new String(binary, Charset.defaultCharset()));
       script.eval(context);
-    } catch (ScriptException | URISyntaxException e) {
+    } catch (ScriptException e) {
       e.printStackTrace();
     }
 
