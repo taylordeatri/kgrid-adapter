@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import edu.umich.lhs.activator.repository.CompoundDigitalObjectStore;
 import edu.umich.lhs.activator.repository.FilesystemCDOStore;
 import java.nio.file.Paths;
+import java.io.File;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.stream.Stream;
@@ -160,11 +161,8 @@ public class JavascriptAdapterApplicationTests {
   @Test
   public void testCanActivateKoFromCdoStore() throws Exception {
     JavascriptAdapter adapter = new JavascriptAdapter();
-
-    // create a cdo store and set it as the adapter's cdo store
-    CompoundDigitalObjectStore cdoStore = new FilesystemCDOStore(
-        this.getClass().getResource("/cdo-store").getPath()
-    );
+    String path = (new File(this.getClass().getResource("/cdo-store").toURI())).getPath();
+    CompoundDigitalObjectStore cdoStore = new FilesystemCDOStore(path);
 
     adapter.setCdoStore(cdoStore);
 
