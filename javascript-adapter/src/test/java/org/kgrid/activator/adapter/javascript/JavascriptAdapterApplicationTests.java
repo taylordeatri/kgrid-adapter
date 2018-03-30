@@ -2,12 +2,8 @@ package org.kgrid.activator.adapter.javascript;
 
 import static org.junit.Assert.assertEquals;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import edu.umich.lhs.activator.repository.CompoundDigitalObjectStore;
 import edu.umich.lhs.activator.repository.FilesystemCDOStore;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -27,7 +23,6 @@ import org.kgrid.activator.adapter.api.CompoundKnowledgeObject;
 import org.kgrid.activator.adapter.api.Executor;
 import org.kgrid.activator.adapter.api.Result;
 import org.kgrid.adapter.javascript.JavascriptAdapter;
-import org.springframework.mock.web.MockMultipartFile;
 
 //@RunWith(SpringRunner.class)
 //@SpringBootTest
@@ -163,23 +158,15 @@ public class JavascriptAdapterApplicationTests {
   }
 
   @Test
-  public void testUsingCDOStore() throws Exception {
+  public void testCanActivateKoFromCdoStore() throws Exception {
     JavascriptAdapter adapter = new JavascriptAdapter();
 
-    Path shelf = Files.createTempDirectory("testShelf");
-
-    CompoundDigitalObjectStore cdoStore = new FilesystemCDOStore(shelf.toAbsolutePath().toString());
+    // create a cdo store and set it as the adapter's cdo store
+    CompoundDigitalObjectStore cdoStore = new FilesystemCDOStore(
+        this.getClass().getResource("/cdo-store").getPath()
+    );
 
     adapter.setCdoStore(cdoStore);
-
-    String filename = "99999-fk45m6gq9t.zip";
-
-    URL zipStream = JavascriptAdapterApplicationTests.class.getResource("/" + filename);
-    byte[] zippedKO = Files.readAllBytes(Paths.get(zipStream.toURI()));
-    MockMultipartFile koZip = new MockMultipartFile("ko", filename, "application/zip", zippedKO);
-
-    ObjectNode metadata = cdoStore.addCompoundObjectToShelf(koZip);
-
 
     adapter.initialize();
     Executor ex = adapter.activate(Paths.get("99999-fk45m6gq9t", "v0.0.1", "models", "resource"), "content");
