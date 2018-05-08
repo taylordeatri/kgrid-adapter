@@ -11,7 +11,6 @@
     <module>javascript-adapter</module>
     <module>javascript-adapter-gateway</module>
     <module>adapter-api</module>
-    <module>adapter-gateway</module>
   </modules>
 
   <packaging>pom</packaging>

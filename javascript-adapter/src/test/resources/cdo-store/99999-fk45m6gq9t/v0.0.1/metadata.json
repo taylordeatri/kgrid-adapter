@@ -1,1 +1,22 @@
-{"metadata":{"title":"Stent Thrombosis Risk Calculator","description":"This object is derived from the DAPT study that aimed to identify the risk of benefit vs. harm for patients that continue thienopyridine treatment beyond one year after percutaneous coronary intervention (PCI). This object's input is a dictionary containing risk values for 12 different risk factors. It will then calculate the estimated risk of MI/stent thrombosis in the 12-30 month period post PCI using the following formula: RISK = 1 - S(18)^exp(sum of [coefficient * risk factor values] - sum","citations":[{"citation_title":"Development and Validation of a Prediction Rule for Benefit and Harm of Dual Antiplatelet Therapy Beyond 1 Year After Percutaneous Coronary ","citation_at":"https://www.ncbi.nlm.nih.gov/pubmed/27022822"},{"citation_title":"Development and Validation of a Prediction Rule for Benefit and Harm of Dual Antiplatelet Therapy Beyond 1 Year After Percutaneous Coronary ","citation_at":"https://www.ncbi.nlm.nih.gov/pubmed/27022822"}],"arkId":{"arkId":"ark:/99999/fk45m6gq9t","fedoraPath":"99999-fk45m6gq9t"}},"url":"http://kgrid.med.umich.edu/library2/knowledgeObject/ark:/99999/fk45m6gq9t","version":"v0.0.1"}
+{
+  "metadata": {
+    "title": "Stent Thrombosis Risk Calculator",
+    "description": "This object is derived from the DAPT study that aimed to identify the risk of benefit vs. harm for patients that continue thienopyridine treatment beyond one year after percutaneous coronary intervention (PCI). This object's input is a dictionary containing risk values for 12 different risk factors. It will then calculate the estimated risk of MI/stent thrombosis in the 12-30 month period post PCI using the following formula: RISK = 1 - S(18)^exp(sum of [coefficient * risk factor values] - sum",
+    "citations": [
+      {
+        "citation_title": "Development and Validation of a Prediction Rule for Benefit and Harm of Dual Antiplatelet Therapy Beyond 1 Year After Percutaneous Coronary ",
+        "citation_at": "https://www.ncbi.nlm.nih.gov/pubmed/27022822"
+      },
+      {
+        "citation_title": "Development and Validation of a Prediction Rule for Benefit and Harm of Dual Antiplatelet Therapy Beyond 1 Year After Percutaneous Coronary ",
+        "citation_at": "https://www.ncbi.nlm.nih.gov/pubmed/27022822"
+      }
+    ],
+    "arkId": {
+      "arkId": "ark:/99999/fk45m6gq9t",
+      "fedoraPath": "99999-fk45m6gq9t"
+    }
+  },
+  "url": "http://kgrid.med.umich.edu/library2/knowledgeObject/ark:/99999/fk45m6gq9t",
+  "version": "v0.0.1"
+}

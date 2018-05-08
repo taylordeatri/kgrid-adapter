@@ -2,10 +2,11 @@ package org.kgrid.activator.adapter.javascript;
 
 import static org.junit.Assert.assertEquals;
 
-import edu.umich.lhs.activator.repository.CompoundDigitalObjectStore;
-import edu.umich.lhs.activator.repository.FilesystemCDOStore;
 import java.util.Collections;
 import org.junit.Test;
+import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
+import org.kgrid.shelf.repository.FilesystemCDOStore;
+
 public class CompoundDigitalObjectStoreTest {
 
   @Test

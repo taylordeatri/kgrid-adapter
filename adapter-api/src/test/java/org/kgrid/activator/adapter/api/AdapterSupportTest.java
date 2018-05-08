@@ -1,13 +1,14 @@
 package org.kgrid.activator.adapter.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+import org.kgrid.shelf.domain.CompoundKnowledgeObject;
+import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
+import org.kgrid.shelf.repository.FilesystemCDOStore;
 
-import edu.umich.lhs.activator.repository.CompoundDigitalObjectStore;
-import edu.umich.lhs.activator.repository.FilesystemCDOStore;
 import java.nio.file.Path;
 import java.util.List;
-import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class AdapterSupportTest {
 
@@ -45,11 +46,6 @@ public class AdapterSupportTest {
     }
 
     @Override
-    public Executor activate(CompoundKnowledgeObject compoundKnowledgeObject) {
-      return null;
-    }
-
-    @Override
     public Executor activate(Path resource, String endpoint) {
       return null;
     }
@@ -73,11 +69,6 @@ public class AdapterSupportTest {
     @Override
     public void initialize() {
 
-    }
-
-    @Override
-    public Executor activate(CompoundKnowledgeObject compoundKnowledgeObject) {
-      return null;
     }
 
     @Override

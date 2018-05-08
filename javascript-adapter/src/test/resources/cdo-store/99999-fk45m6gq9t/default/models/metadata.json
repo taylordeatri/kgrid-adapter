@@ -1,1 +1,6 @@
-{"functionName":"getIschemicRisk","adapterType":"PYTHON","resource":"resource/content.js","service":"service/iospec.json"}
+{
+  "functionName": "getIschemicRisk",
+  "adapterType": "PYTHON",
+  "resource": "resource/content.js",
+  "service": "service/iospec.json"
+}

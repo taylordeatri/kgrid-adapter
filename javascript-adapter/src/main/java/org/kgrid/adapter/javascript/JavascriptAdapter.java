@@ -1,13 +1,7 @@
 package org.kgrid.adapter.javascript;
 
-import edu.umich.lhs.activator.repository.CompoundDigitalObjectStore;
-import edu.umich.lhs.activator.repository.FilesystemCDOStore;
-import java.io.FileNotFoundException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -19,13 +13,15 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.script.SimpleScriptContext;
-import javax.validation.constraints.Null;
+
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.kgrid.activator.adapter.api.Adapter;
 import org.kgrid.activator.adapter.api.AdapterSupport;
-import org.kgrid.activator.adapter.api.CompoundKnowledgeObject;
 import org.kgrid.activator.adapter.api.Executor;
 import org.kgrid.activator.adapter.api.Result;
+import org.kgrid.shelf.domain.CompoundKnowledgeObject;
+import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
+import org.kgrid.shelf.repository.FilesystemCDOStore;
 
 
 public class JavascriptAdapter implements Adapter, AdapterSupport {
@@ -44,39 +40,6 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
     if(cdoStore == null) {
       setCdoStore(new FilesystemCDOStore(System.getProperty("user.dir") + "/shelf"));
     }
-  }
-
-  @Override
-  public Executor activate(CompoundKnowledgeObject compoundKnowledgeObject) {
-
-    ScriptContext context = new SimpleScriptContext();
-    context.setBindings(engine.createBindings(), ScriptContext.ENGINE_SCOPE);
-    try {
-      CompiledScript script = ((Compilable) engine).compile(compoundKnowledgeObject.getCode());
-      script.eval(context);
-    } catch (ScriptException e) {
-      e.printStackTrace();
-    }
-
-    ScriptObjectMirror mirror = (ScriptObjectMirror) context
-        .getBindings(ScriptContext.ENGINE_SCOPE);
-
-    return new Executor() {
-
-      String endpoint = new String(compoundKnowledgeObject.getEndpoint());
-
-      @Override
-      public Result execute(Object input) {
-
-        Object output = mirror.callMember(endpoint, input);
-
-        final Map<String, String> errors = new HashMap<>();
-        errors.put("spec", compoundKnowledgeObject.toString());
-
-        return new Result(output, errors);
-      }
-
-    };
   }
 
   @Override

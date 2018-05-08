@@ -1,6 +1,6 @@
 package org.kgrid.activator.adapter.api;
 
-import edu.umich.lhs.activator.repository.CompoundDigitalObjectStore;
+import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 
 public interface AdapterSupport {
 

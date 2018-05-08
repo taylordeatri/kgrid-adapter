@@ -1,3 +1,3 @@
-function content(riskValues) {
-	return riskValues
+function content (riskValues) {
+  return riskValues
 }
