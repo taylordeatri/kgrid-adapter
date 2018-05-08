@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jdk.nashorn.internal.runtime.ECMAException;
-import org.kgrid.activator.adapter.AdapterController;
 import org.kgrid.activator.adapter.api.Adapter;
 import org.kgrid.activator.adapter.api.Executor;
 import org.kgrid.adapter.javascript.JavascriptAdapter;
@@ -71,17 +70,5 @@ public class JavascriptAdapterGateway {
     return new ResponseEntity<>("Error running javascript code: " + e.getMessage(), HttpStatus.FAILED_DEPENDENCY);
   }
 
-  @RestController
-  class BaseAdapterController extends AdapterController {
 
-    public BaseAdapterController(Adapter adapter) {
-      super(adapter);
-    }
-
-    @Override
-    public String status() {
-      return "javascript adapter ready";
-    }
-
-  }
 }
