@@ -29,17 +29,10 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
   ScriptEngine engine;
   CompoundDigitalObjectStore cdoStore;
 
-  public ScriptEngine getEngine() {
-    return engine;
-  }
-
   @Override
   public void initialize() {
 
     engine = new ScriptEngineManager().getEngineByName("JavaScript");
-    if(cdoStore == null) {
-      setCdoStore(new FilesystemCDOStore(System.getProperty("user.dir") + "/shelf"));
-    }
   }
 
   @Override
@@ -78,6 +71,12 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
 
   @Override
   public String status() {
+    if(engine  == null ){
+      return "DOWN";
+    }
+    if ( cdoStore == null ) {
+      return "DOWN";
+    }
     return "UP";
   }
 

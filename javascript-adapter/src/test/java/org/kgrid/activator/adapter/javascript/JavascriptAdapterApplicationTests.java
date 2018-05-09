@@ -2,8 +2,8 @@ package org.kgrid.activator.adapter.javascript;
 
 import static org.junit.Assert.assertEquals;
 
-import java.nio.file.Paths;
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.stream.Stream;
@@ -14,14 +14,15 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.script.SimpleScriptContext;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.kgrid.activator.adapter.api.Adapter;
+import org.kgrid.activator.adapter.api.AdapterSupport;
 import org.kgrid.activator.adapter.api.Executor;
 import org.kgrid.activator.adapter.api.Result;
 import org.kgrid.adapter.javascript.JavascriptAdapter;
-import org.kgrid.shelf.domain.CompoundKnowledgeObject;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 import org.kgrid.shelf.repository.FilesystemCDOStore;
 
@@ -31,6 +32,17 @@ public class JavascriptAdapterApplicationTests {
 
   @Rule
   public final ExpectedException exception = ExpectedException.none();
+
+  private CompoundDigitalObjectStore cdoStore;
+
+  @Before
+  public void setUpCDOStore() {
+
+    cdoStore = new FilesystemCDOStore(
+        Paths.get("shelf").toString());
+
+  }
+
 
   @Test
   public void contextLoads() {
@@ -70,9 +82,8 @@ public class JavascriptAdapterApplicationTests {
     Adapter adapter = new JavascriptAdapter();
 
     adapter.initialize();
+    ((AdapterSupport) adapter).setCdoStore(cdoStore);
     Executor x = adapter.activate(Paths.get(""), "doubler");
-
-    System.out.println(x.execute("2"));
 
 //		exception.expect(Throwable.class);
     Result r = x.execute(3);
@@ -85,12 +96,7 @@ public class JavascriptAdapterApplicationTests {
     JavascriptAdapter adapter = new JavascriptAdapter();
 
     adapter.initialize();
-
-    try {
-      adapter.getEngine().eval("function foo(a) {return a * 2;}");
-    } catch (ScriptException e) {
-      e.printStackTrace();
-    }
+    adapter.setCdoStore(cdoStore);
 
     Executor x = adapter.activate(Paths.get(""), "hello");
 
