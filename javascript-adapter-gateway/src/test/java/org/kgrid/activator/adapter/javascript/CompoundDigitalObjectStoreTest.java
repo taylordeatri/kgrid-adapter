@@ -3,6 +3,7 @@ package org.kgrid.activator.adapter.javascript;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.nio.file.Paths;
 import java.util.Collections;
 import org.junit.Test;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
@@ -27,8 +28,7 @@ public class CompoundDigitalObjectStoreTest {
 
     // create a cdo store and set it as the adapter's cdo store
     CompoundDigitalObjectStore cdoStore = new FilesystemCDOStore(
-        this.getClass().getResource("/cdo-store").getPath()
-    );
+        Paths.get(   this.getClass().getResource("/cdo-store").toURI()).toString() );
 
 
     assertTrue("Should find the 99999 fk45m6gq9t ko but found " + cdoStore.getChildren(null),
