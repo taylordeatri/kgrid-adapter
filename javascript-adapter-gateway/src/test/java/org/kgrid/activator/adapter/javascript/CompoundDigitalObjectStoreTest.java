@@ -1,6 +1,7 @@
 package org.kgrid.activator.adapter.javascript;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Collections;
 import org.junit.Test;
@@ -30,6 +31,7 @@ public class CompoundDigitalObjectStoreTest {
     );
 
 
-    assertEquals(Collections.singletonList("99999-fk45m6gq9t"), cdoStore.getChildren(null));
+    assertTrue("Should find the 99999 fk45m6gq9t ko but found " + cdoStore.getChildren(null),
+          cdoStore.getChildren(null).toString().contains( new StringBuffer("99999-fk45m6gq9t")));
   }
 }
