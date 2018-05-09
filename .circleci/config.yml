@@ -4,7 +4,7 @@
 #
 
 defaults: &defaults
-  working_directory: ~/shelf
+  working_directory: ~/simple-scripts
 
 version: 2
 jobs:
@@ -34,7 +34,7 @@ jobs:
           - v1-dependencies-
 
 
-      #must run install to ensure multi module dependencies(shelf-api) are cached
+      #must run install to ensure multi module dependencies(simple-scripts-api) are cached
       - run: mvn -DskipTests clean install dependency:resolve-plugins dependency:go-offline
 
       - save_cache:
@@ -46,7 +46,7 @@ jobs:
       - run: mvn package
 
       - persist_to_workspace:
-          root: shelf-gateway
+          root: simple-scripts-gateway
           paths:
             - target
 
@@ -66,7 +66,7 @@ jobs:
           path: ~/junit
 
       - store_artifacts:
-          path: shelf-gateway/target
+          path: simple-scripts-gateway/target
 
 
 

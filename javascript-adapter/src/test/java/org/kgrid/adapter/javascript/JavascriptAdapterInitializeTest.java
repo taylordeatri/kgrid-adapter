@@ -5,15 +5,21 @@ import static org.junit.Assert.assertEquals;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.kgrid.activator.adapter.api.Adapter;
 import org.kgrid.activator.adapter.api.AdapterSupport;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 import org.kgrid.shelf.repository.FilesystemCDOStore;
 
-public class JavascriptAdapterTest {
+public class JavascriptAdapterInitializeTest {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private CompoundDigitalObjectStore cdoStore;
+  private FilesystemCDOStore simpleScripts;
 
   @Before
   public void setUpCDOStore() throws URISyntaxException {
@@ -21,7 +27,10 @@ public class JavascriptAdapterTest {
     cdoStore = new FilesystemCDOStore(
         Paths.get(this.getClass().getResource("/cdo-store").toURI()).toString());
 
-    assertEquals(1, cdoStore.getChildren(null).size());
+    simpleScripts = new FilesystemCDOStore(
+        Paths.get(this.getClass().getResource("/cdo-store/simple-scripts").toURI()).toString());
+
+    assertEquals(2, cdoStore.getChildren(null).size());
   }
 
   @Test
@@ -42,4 +51,5 @@ public class JavascriptAdapterTest {
     assertEquals("DOWN", adapter.status());
 
   }
+
 }

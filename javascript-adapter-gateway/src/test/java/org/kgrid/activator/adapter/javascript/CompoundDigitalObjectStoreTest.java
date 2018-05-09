@@ -13,9 +13,9 @@ public class CompoundDigitalObjectStoreTest {
 
   @Test
   public void canLoadDigitalObject() throws Exception {
-//    Path shelf = Files.createTempDirectory("testShelf");
+//    Path simple-scripts = Files.createTempDirectory("testShelf");
 //
-//    CompoundDigitalObjectStore cdoStore = new FilesystemCDOStore(shelf.toAbsolutePath().toString());
+//    CompoundDigitalObjectStore cdoStore = new FilesystemCDOStore(simple-scripts.toAbsolutePath().toString());
 //
 //    String filename = "99999-fk45m6gq9t.zip";
 //

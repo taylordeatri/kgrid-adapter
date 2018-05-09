@@ -3,6 +3,7 @@ package org.kgrid.activator.adapter.javascript;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -36,10 +37,10 @@ public class JavascriptAdapterApplicationTests {
   private CompoundDigitalObjectStore cdoStore;
 
   @Before
-  public void setUpCDOStore() {
+  public void setUpCDOStore() throws URISyntaxException {
 
     cdoStore = new FilesystemCDOStore(
-        Paths.get("shelf").toString());
+        Paths.get(this.getClass().getResource("/cdo-store/simple-scripts").toURI()).toString());
 
   }
 
@@ -66,15 +67,6 @@ public class JavascriptAdapterApplicationTests {
   }
 
   ;
-
-  @Test
-  public void typeHandlingTwo() {
-
-    Adapter adapter = new JavascriptAdapter();
-
-    System.out.println(adapter.supports("java.script"));
-
-  }
 
   @Test
   public void testExecutor() {
@@ -145,7 +137,8 @@ public class JavascriptAdapterApplicationTests {
     adapter.setCdoStore(cdoStore);
 
     adapter.initialize();
-    Executor ex = adapter.activate(Paths.get("99999-fk45m6gq9t", "v0.0.1", "models", "resource"), "content");
+    Executor ex = adapter
+        .activate(Paths.get("99999-fk45m6gq9t", "v0.0.1", "models", "resource"), "content");
     Result res = ex.execute("10");
     assertEquals("10", res.getResult());
 

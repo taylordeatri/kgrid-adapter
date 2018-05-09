@@ -28,7 +28,7 @@ public class AdapterSupportTest {
     adapter1.initialize();
     adapter2.initialize();
 
-    assertEquals(adapter1.status(), "does not support shelf");
+    assertEquals(adapter1.status(), "does not support simple-scripts");
 
 
   }
@@ -36,7 +36,7 @@ public class AdapterSupportTest {
   class TestAdapter implements Adapter {
 
     @Override
-    public List<String> getTypes() {
+    public String getType() {
       return null;
     }
 
@@ -52,7 +52,7 @@ public class AdapterSupportTest {
 
     @Override
     public String status() {
-      return "does not support shelf";
+      return "does not support simple-scripts";
     }
   }
 
@@ -62,7 +62,7 @@ public class AdapterSupportTest {
     private CompoundDigitalObjectStore shelf;
 
     @Override
-    public List<String> getTypes() {
+    public String getType() {
       return null;
     }
 
@@ -78,7 +78,7 @@ public class AdapterSupportTest {
 
     @Override
     public String status() {
-      return "supports shelf: " + shelf.toString();
+      return "supports simple-scripts: " + shelf.toString();
     }
 
     @Override
