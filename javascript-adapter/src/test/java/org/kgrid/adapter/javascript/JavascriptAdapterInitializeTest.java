@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.kgrid.activator.adapter.api.Adapter;
-import org.kgrid.activator.adapter.api.AdapterSupport;
+import org.kgrid.adapter.api.Adapter;
+import org.kgrid.adapter.api.AdapterSupport;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 import org.kgrid.shelf.repository.FilesystemCDOStore;
 

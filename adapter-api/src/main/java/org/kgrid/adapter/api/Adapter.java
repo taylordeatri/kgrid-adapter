@@ -1,10 +1,6 @@
-package org.kgrid.activator.adapter.api;
-
-import org.kgrid.shelf.domain.CompoundKnowledgeObject;
+package org.kgrid.adapter.api;
 
 import java.nio.file.Path;
-import java.util.List;
-import java.util.Objects;
 
 public interface Adapter {
 

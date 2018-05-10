@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jdk.nashorn.internal.runtime.ECMAException;
-import org.kgrid.activator.adapter.api.Adapter;
-import org.kgrid.activator.adapter.api.Executor;
+import org.kgrid.adapter.api.Adapter;
+import org.kgrid.adapter.api.Executor;
 import org.kgrid.adapter.javascript.JavascriptAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;

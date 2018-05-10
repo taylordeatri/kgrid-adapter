@@ -1,12 +1,10 @@
-package org.kgrid.activator.adapter.api;
+package org.kgrid.adapter.api;
 
 import org.junit.Test;
-import org.kgrid.shelf.domain.CompoundKnowledgeObject;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 import org.kgrid.shelf.repository.FilesystemCDOStore;
 
 import java.nio.file.Path;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 

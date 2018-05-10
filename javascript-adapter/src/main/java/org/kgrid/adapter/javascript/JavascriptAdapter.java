@@ -2,9 +2,7 @@ package org.kgrid.adapter.javascript;
 
 import java.nio.charset.Charset;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.script.Compilable;
 import javax.script.CompiledScript;
@@ -14,11 +12,11 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.script.SimpleScriptContext;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
-import org.kgrid.activator.adapter.api.Adapter;
-import org.kgrid.activator.adapter.api.AdapterException;
-import org.kgrid.activator.adapter.api.AdapterSupport;
-import org.kgrid.activator.adapter.api.Executor;
-import org.kgrid.activator.adapter.api.Result;
+import org.kgrid.adapter.api.Adapter;
+import org.kgrid.adapter.api.AdapterException;
+import org.kgrid.adapter.api.AdapterSupport;
+import org.kgrid.adapter.api.Executor;
+import org.kgrid.adapter.api.Result;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 
 

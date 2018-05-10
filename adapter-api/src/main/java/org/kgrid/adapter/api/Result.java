@@ -1,4 +1,4 @@
-package org.kgrid.activator.adapter.api;
+package org.kgrid.adapter.api;
 
 
 import java.util.Collections;
