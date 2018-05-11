@@ -1,6 +1,6 @@
 package org.kgrid.adapter.javascript;
 
-import static org.junit.Assert.*;
+import  static org.junit.Assert.*;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -43,7 +43,7 @@ public class JavascriptAdapterActivationTest {
   public void badScriptThrowsException() throws AdapterException {
 
     thrown.expect(AdapterException.class);
-    thrown.expectMessage("unable to compile script simple-scripts/badscript.js");
+    thrown.expectMessage("unable to compile script");
 
     adapter.activate(Paths.get("simple-scripts"),"badscript");
 
