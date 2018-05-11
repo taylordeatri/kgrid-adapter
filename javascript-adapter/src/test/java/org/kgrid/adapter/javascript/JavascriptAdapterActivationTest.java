@@ -43,7 +43,8 @@ public class JavascriptAdapterActivationTest {
   public void badScriptThrowsException() throws AdapterException {
 
     thrown.expect(AdapterException.class);
-    thrown.expectMessage("unable to compile script");
+    String message = "unable to compile script " + Paths.get("simple-scripts", "badscript").toString() + ".js";
+    thrown.expectMessage(message);
 
     adapter.activate(Paths.get("simple-scripts"),"badscript");
 
