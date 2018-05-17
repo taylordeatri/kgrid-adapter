@@ -54,10 +54,10 @@ public class JavascriptAdapterActivationTest {
   public void happyActivation(){
     Path path = Paths.get("simple-scripts");
     Executor executor = adapter.activate(path, "doubler");
-    assertEquals(6.0, executor.execute(3).getResult() );
+    assertEquals(6.0, executor.execute(3) );
 
     executor = adapter.activate(Paths.get("simple-scripts"), "objectResult");
-    Map result = (Map) executor.execute(null).getResult();
+    Map result = (Map) executor.execute(null);
 
     // treat a javascript object as a map
     assertEquals("1", result.get("something"));

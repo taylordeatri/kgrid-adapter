@@ -16,7 +16,6 @@ import org.kgrid.adapter.api.Adapter;
 import org.kgrid.adapter.api.AdapterException;
 import org.kgrid.adapter.api.AdapterSupport;
 import org.kgrid.adapter.api.Executor;
-import org.kgrid.adapter.api.Result;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 
 
@@ -59,13 +58,13 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
       String endpoint = endpointName;
 
       @Override
-      public Result execute(Object input) {
+      public Object execute(Object input) {
 
         Object output = mirror.callMember(endpoint, input);
 
         final Map<String, String> errors = new HashMap<>();
 
-        return new Result(output, errors);
+        return output;
       }
 
     };

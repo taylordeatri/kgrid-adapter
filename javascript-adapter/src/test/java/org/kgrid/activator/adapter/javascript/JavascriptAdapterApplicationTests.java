@@ -22,7 +22,6 @@ import org.junit.rules.ExpectedException;
 import org.kgrid.adapter.api.Adapter;
 import org.kgrid.adapter.api.AdapterSupport;
 import org.kgrid.adapter.api.Executor;
-import org.kgrid.adapter.api.Result;
 import org.kgrid.adapter.javascript.JavascriptAdapter;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 import org.kgrid.shelf.repository.FilesystemCDOStore;
@@ -78,9 +77,9 @@ public class JavascriptAdapterApplicationTests {
     Executor x = adapter.activate(Paths.get(""), "doubler");
 
 //		exception.expect(Throwable.class);
-    Result r = x.execute(3);
+    Object r = x.execute(3);
 
-    assertEquals(6.0, r.getResult());
+    assertEquals(6.0, r);
   }
 
   @Test
@@ -92,7 +91,7 @@ public class JavascriptAdapterApplicationTests {
 
     Executor x = adapter.activate(Paths.get(""), "hello");
 
-    Result bob = x.execute("Bob");
+    Object bob = x.execute("Bob");
     System.out.println(bob);
 
     System.out.println(x.execute("EmmyLou"));
@@ -139,8 +138,8 @@ public class JavascriptAdapterApplicationTests {
     adapter.initialize();
     Executor ex = adapter
         .activate(Paths.get("99999-fk45m6gq9t", "v0.0.1", "models", "resource"), "content");
-    Result res = ex.execute("10");
-    assertEquals("10", res.getResult());
+    Object res = ex.execute("10");
+    assertEquals("10", res);
 
   }
 

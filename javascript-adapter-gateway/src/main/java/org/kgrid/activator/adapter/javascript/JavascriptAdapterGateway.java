@@ -57,7 +57,7 @@ public class JavascriptAdapterGateway {
   @PostMapping("/execute/{naan}-{name}/{version}/{endpoint}")
   public Object executeEndpoint(@PathVariable String naan, @PathVariable String name, @PathVariable String version, @PathVariable String endpoint, @RequestBody Map inputs) {
 
-    return executorMap.get(endpoint).execute(inputs).getResult();
+    return executorMap.get(endpoint).execute(inputs);
   }
 
   @ExceptionHandler(NullPointerException.class)
