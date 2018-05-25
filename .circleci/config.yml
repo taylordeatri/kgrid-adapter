@@ -3,9 +3,6 @@
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
 
-defaults: &defaults
-  working_directory: ~/simple-scripts
-
 version: 2
 jobs:
 
@@ -14,7 +11,7 @@ jobs:
   ##############
   build:
 
-    <<: *defaults
+    working_directory: ~/repo
 
     docker:
       - image: circleci/openjdk:8-jdk
@@ -74,7 +71,8 @@ jobs:
   # Integration Test Job
   ##############
   integration_test:
-    <<: *defaults
+
+    working_directory: ~/repo
 
     docker:
       - image: circleci/openjdk:8-jdk
