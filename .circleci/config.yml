@@ -35,7 +35,7 @@ jobs:
 
 
       #must run install to ensure multi module dependencies(simple-scripts-api) are cached
-      - run: mvn -DskipTests clean install dependency:resolve-plugins dependency:go-offline
+      - run: mvn -DskipTests clean install dependency:resolve-plugins dependency:go-offline -s ./circleci/settings.xml
 
       - save_cache:
           paths:
@@ -85,7 +85,7 @@ jobs:
 
     steps:
       - checkout
-      - run: mvn verify
+      - run: mvn verify -s ./circleci/settings.xml
 
       # save test results
       - run:
