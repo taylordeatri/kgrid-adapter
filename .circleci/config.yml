@@ -42,11 +42,6 @@ jobs:
       # run build and test
       - run: mvn package -s .circleci/settings.xml
 
-      - persist_to_workspace:
-          root: simple-scripts-gateway
-          paths:
-            - target
-
 
       # save test results
       - run:
@@ -61,10 +56,6 @@ jobs:
 
       - store_artifacts:
           path: ~/junit
-
-      - store_artifacts:
-          path: simple-scripts-gateway/target
-
 
 
   ##############
