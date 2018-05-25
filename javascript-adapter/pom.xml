@@ -48,11 +48,6 @@
       <artifactId>spring-test</artifactId>
       <version>4.3.13.RELEASE</version>
     </dependency>
-    <dependency>
-      <groupId>org.kgrid</groupId>
-      <artifactId>shelf-api</artifactId>
-      <version>0.5.8-SNAPSHOT</version>
-    </dependency>
   </dependencies>
 
 </project>
