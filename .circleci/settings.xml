@@ -5,6 +5,10 @@
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
+      <properties>
+        <gpg.keyname>${env.GPG_KEYNAME}</gpg.keyname>
+        <gpg.executable>gpg</gpg.executable>
+      </properties>
       <repositories>
         <repository>
           <id>dependency-snapshots-repo</id>
@@ -19,4 +23,15 @@
       </repositories>
     </profile>
   </profiles>
+  <servers>
+    <server>
+      <id>ossrh</id>
+      <username>${env.SONATYPE_USER}</username>
+      <password>${env.SONATYPE_PASSWORD}</password>
+    </server>
+    <server>
+      <id>gpg.passphrase</id>
+      <passphrase>${GPG_PASSPHRASE}</passphrase>
+    </server>
+  </servers>
 </settings>
