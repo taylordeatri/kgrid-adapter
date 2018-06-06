@@ -108,6 +108,7 @@ jobs:
       - checkout
       - run: echo $GPG_SECRET_KEYS | base64 --decode | gpg --import --no-tty --batch --yes
       - run: mvn clean deploy -Dmaven.test.skip=true -P ci -s .circleci/settings.xml
+      - run: curl -v -X POST  https://circleci.com/api/v1.1/project/github/kgrid/kgrid-activator/tree/master?circle-token=$CIRCLECI_TOKEN
 
 workflows:
   version: 2
