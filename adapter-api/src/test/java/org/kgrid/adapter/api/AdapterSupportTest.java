@@ -17,10 +17,10 @@ public class AdapterSupportTest {
     Adapter adapter2 = new TestAdapterSupport();
 
     if (adapter1 instanceof AdapterSupport) {
-      ((AdapterSupport) adapter1).setCdoStore(new FilesystemCDOStore(null));
+      ((AdapterSupport) adapter1).setCdoStore(new FilesystemCDOStore(""));
     }
     if (adapter2 instanceof AdapterSupport) {
-      ((AdapterSupport) adapter2).setCdoStore(new FilesystemCDOStore(null));
+      ((AdapterSupport) adapter2).setCdoStore(new FilesystemCDOStore(""));
     }
 
     adapter1.initialize();
