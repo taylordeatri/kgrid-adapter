@@ -63,12 +63,6 @@
   </developers>
 
   <!-- Environment Settings -->
-  <scm>
-    <url>https://github.com/kgrid/kgrid-adapter</url>
-    <connection>scm:git:https://github.com/kgrid/kgrid-adapter.git</connection>
-    <developerConnection>scm:git:https://github.com/kgrid/kgrid-adapter.git</developerConnection>
-  </scm>
-
   <profiles>
     <profile>
       <id>ci</id>
