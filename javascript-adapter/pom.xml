@@ -5,7 +5,7 @@
   <!-- The Basics -->
   <groupId>org.kgrid</groupId>
   <artifactId>javascript-adapter</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <!-- More Project Information -->
@@ -16,7 +16,7 @@
     <url>https://github.com/kgrid/kgrid-adapter</url>
     <connection>scm:git:https://github.com/kgrid/kgrid-adapter.git</connection>
     <developerConnection>scm:git:https://github.com/kgrid/kgrid-adapter.git</developerConnection>
-    <tag>javascript-adapter-0.0.1</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <properties>
