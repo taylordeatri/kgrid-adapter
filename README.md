@@ -34,3 +34,28 @@ mvn clean test
 ```
 
 ## Additional Information
+
+### Proposed adapters
+
+- THere is a mapping between KO types and adapter classes...how is that mapping maintained?
+
+#### Resource Adapter
+
+This adapter gives the ability to fetch individual binaries from a packaged knowledge object deplyed in an activator.
+- May also allow metadat about the individual binary (or node/cpontainer) to be returned
+- May require specification in the service description if not enabled by default.
+- Stick with standard mime types or mabe application/octet-stream
+
+#### Proxy adapter (generic; request only, no activation)
+
+This adapter simply passes the request body unchanged to a nother endpoint and returns the response entity as is
+- Assume the existence of an activated 
+- Should include headers returned
+- Uses paths from the service description
+- HTTP only
+
+#### Proxy adapter (type specific, with activation)
+
+This adapter knows how to deploy a knowledge object in a remote environment and to pass requests along
+- Activation is type specific (code deployment in local environment, container-based deployment, lamba deplotyment, etc.)
+- 
