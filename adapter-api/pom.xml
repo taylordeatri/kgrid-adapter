@@ -5,7 +5,7 @@
   <!-- The Basics -->
   <groupId>org.kgrid</groupId>
   <artifactId>adapter-api</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <!-- More Project Information -->
@@ -16,7 +16,7 @@
     <url>https://github.com/kgrid/kgrid-adapter</url>
     <connection>scm:git:https://github.com/kgrid/kgrid-adapter.git</connection>
     <developerConnection>scm:git:https://github.com/kgrid/kgrid-adapter.git</developerConnection>
-    <tag>adapter-api-0.0.2</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <properties>
