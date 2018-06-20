@@ -13,6 +13,7 @@
   <modules>
     <module>javascript-adapter</module>
     <module>adapter-api</module>
+    <module>proxy-adapter</module>
   </modules>
 
   <properties>

@@ -20,7 +20,7 @@ public class AdapterSupportTest {
       ((AdapterSupport) adapter1).setCdoStore(new FilesystemCDOStore(null));
     }
     if (adapter2 instanceof AdapterSupport) {
-      ((AdapterSupport) adapter2).setCdoStore(new FilesystemCDOStore(null));
+      ((AdapterSupport) adapter2).setCdoStore(new FilesystemCDOStore("filesystem:file:///"));
     }
 
     adapter1.initialize();
