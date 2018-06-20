@@ -5,8 +5,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <!-- The Basics -->
+  <groupId>org.kgrid</groupId>
   <artifactId>proxy-adapter</artifactId>
-  <version>${parent.version}</version>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <!-- More Project Information -->
@@ -14,9 +15,9 @@
   <description>proxy adapter used to execute code at a remote rest api</description>
 
   <scm>
-    <url>https://github.com/kgrid/proxy-adapter</url>
-    <connection>scm:git:https://github.com/kgrid/proxy-adapter.git</connection>
-    <developerConnection>scm:git:https://github.com/kgrid/proxy-adapter.git</developerConnection>
+    <url>https://github.com/kgrid/kgrid-adapter</url>
+    <connection>scm:git:https://github.com/kgrid/kgrid-adapter.git</connection>
+    <developerConnection>scm:git:https://github.com/kgrid/kgrid-adapter.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 
@@ -28,16 +29,27 @@
     <maven.compiler.target>${java.version}</maven.compiler.target>
   </properties>
 
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
+
   <dependencies>
     <dependency>
       <groupId>org.kgrid</groupId>
       <artifactId>adapter-api</artifactId>
-      <version>${parent.version}</version>
+      <version>0.0.1</version>
     </dependency>
     <dependency>
       <groupId>org.kgrid</groupId>
       <artifactId>shelf-api</artifactId>
-      <version>0.5.8-SNAPSHOT</version>
+      <version>0.6.0</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
@@ -64,10 +76,86 @@
     </dependency>
   </dependencies>
 
-  <parent>
-    <groupId>org.kgrid</groupId>
-    <artifactId>kgrid-adapter</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
+  <url>https://github.com/kgrid</url>
 
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>KGrid Developer</name>
+      <email>kgrid-developers@umich.edu</email>
+      <organization>KGrid</organization>
+      <organizationUrl>http://kgrig.org</organizationUrl>
+    </developer>
+  </developers>
+
+  <!-- Environment Settings -->
+  <profiles>
+    <profile>
+      <id>ci</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-source</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.6</version>
+            <configuration>
+              <gpgArguments>
+                <gpgArgument>--pinentry-mode=loopback</gpgArgument>
+              </gpgArguments>
+            </configuration>
+            <executions>
+              <execution>
+                <id>sign-artifact</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>1.6.7</version>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
