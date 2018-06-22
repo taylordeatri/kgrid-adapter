@@ -40,7 +40,10 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
       # run build and test
-      - run: mvn package -s .circleci/settings.xml
+      - run:
+         name: Build and Test And Verify
+         command: |
+            mvn verify -s .circleci/settings.xml
 
 
       # save test results
@@ -57,68 +60,28 @@ jobs:
       - store_artifacts:
           path: ~/junit
 
-
-  ##############
-  # Integration Test Job
-  ##############
-  integration_test:
-
-    working_directory: ~/repo
-
-    docker:
-      - image: circleci/openjdk:8-jdk
-
-    environment:
-      # Customize the JVM maximum heap limit
-      MAVEN_OPTS: -Xmx3200m
-
-    steps:
-      - checkout
-      - run: mvn verify -s .circleci/settings.xml
-
-      # save test results
+      # Will normally run deploy but if triggered with Release will prepare and perform maven release
       - run:
-          name: Save test results
+          name: Deploy/Release
           command: |
-            mkdir -p ~/junit/
-            find . -type f -regex ".*/target/failsafe-reports/.*xml" -exec cp {} ~/junit/ \;
-          when: always
+            echo $GPG_SECRET_KEYS | base64 --decode | gpg --import --no-tty --batch --yes
+            if [ $RELEASE ]; then
+                git config --global user.email "$GIT_USER_EMAIL"
+                git config --global user.name "$GIT_USER_NAME"
+                mvn release:clean release:prepare --projects $MODULE --batch-mode  -DscmCommentPrefix="Release [skip ci] " -DreleaseVersion=$RELEASE -DdevelopmentVersion=$NEXT release:perform -P ci -s .circleci/settings.xml
+            else
+                mvn clean deploy  -P ci -s .circleci/settings.xml
+            fi
 
-      - store_test_results:
-          path: ~/junit
+      # Tigger Builds of Activator so the newest snapshot gets used
+      - run:
+          name: Trigger Activator and Library to build
+          command: |
+            curl -v -X POST --header 'Content-Type:application/json' \
+              -d '{"build_parameters":{"CIRCLE_JOB":"deploy_heroku"}}' \
+              https://circleci.com/api/v1.1/project/github/kgrid/kgrid-activator/tree/master?circle-token=$CIRCLECI_TOKEN
 
-      - store_artifacts:
-          path: ~/junit
 
-  ##############
-  # Deploy To Maven Job
-  ##############
-  deploy_maven:
 
-    working_directory: ~/repo
 
-    docker:
-      - image: circleci/openjdk:8-jdk
-
-    environment:
-      # Customize the JVM maximum heap limit
-      MAVEN_OPTS: -Xmx3200m
-
-    steps:
-      - checkout
-      - run: echo $GPG_SECRET_KEYS | base64 --decode | gpg --import --no-tty --batch --yes
-      - run: mvn clean deploy -Dmaven.test.skip=true -P ci -s .circleci/settings.xml
-      - run: curl -v -X POST --header 'Content-Type:application/json' -d '{"build_parameters":{"CIRCLE_JOB":"deploy_heroku"}}' https://circleci.com/api/v1.1/project/github/kgrid/kgrid-activator/tree/master?circle-token=$CIRCLECI_TOKEN
-
-workflows:
-  version: 2
-  build_test_release:
-    jobs:
-      - build
-      - integration_test:
-          requires:
-            - build
-      - deploy_maven:
-          requires:
-            - integration_test
 
