@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class ProxyAdapter implements Adapter, AdapterSupport {
 
+  // Todo: have this pass through adapter types supported by the proxy?
   @Override
   public String getType() {
     return "PROXY";
@@ -31,6 +32,11 @@ public class ProxyAdapter implements Adapter, AdapterSupport {
 
   }
 
+  /*
+   * Right now just sends a post request to the url specified in the resource metadata + the endpoint
+   * passes through the body of the request and returns the body of the response.
+   * Let the RestTemplate handle http errors.
+   */
   @Override
   public Executor activate(Path resource, String endpoint) {
     try {
@@ -57,9 +63,17 @@ public class ProxyAdapter implements Adapter, AdapterSupport {
     }
   }
 
+  /*
+   * Would like this to check the remote server but the way it works now is that each object can point
+   * to a different server
+   */
   @Override
   public String status() {
-    return "UP";
+    if(cdoStore != null) {
+      return "UP" ;
+    } else {
+      return "DOWN";
+    }
   }
 
   public void setCdoStore(CompoundDigitalObjectStore cdoStore) {

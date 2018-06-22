@@ -4,13 +4,13 @@
 
   <!-- The Basics -->
   <groupId>org.kgrid</groupId>
-  <artifactId>adapter-api</artifactId>
-  <version>0.0.2-SNAPSHOT</version>
+  <artifactId>resource-adapter</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <!-- More Project Information -->
-  <name>adapter-api</name>
-  <description>Adapter interface and base classes</description>
+  <name>resource-adapter</name>
+  <description>resource adapter used to return files stored in a knowledge object</description>
 
   <scm>
     <url>https://github.com/kgrid/kgrid-adapter</url>
@@ -29,17 +29,23 @@
 
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
+      <groupId>org.kgrid</groupId>
+      <artifactId>adapter-api</artifactId>
+      <version>0.0.1</version>
     </dependency>
     <dependency>
       <groupId>org.kgrid</groupId>
       <artifactId>shelf-api</artifactId>
       <version>0.6.1-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
+
 
   <distributionManagement>
     <snapshotRepository>
@@ -67,7 +73,6 @@
   </developers>
 
   <!-- Environment Settings -->
-
   <profiles>
     <profile>
       <id>ci</id>
@@ -131,5 +136,7 @@
       </build>
     </profile>
   </profiles>
+
+
 
 </project>
