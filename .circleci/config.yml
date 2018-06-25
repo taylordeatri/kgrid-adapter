@@ -78,7 +78,6 @@ jobs:
           name: Trigger Activator and Library to build
           command: |
             curl -v -X POST --header 'Content-Type:application/json' \
-              -d '{"build_parameters":{"CIRCLE_JOB":"deploy_heroku"}}' \
               https://circleci.com/api/v1.1/project/github/kgrid/kgrid-activator/tree/master?circle-token=$CIRCLECI_TOKEN
 
 
