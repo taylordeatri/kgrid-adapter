@@ -20,6 +20,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.kgrid.adapter.api.Adapter;
+import org.kgrid.adapter.api.AdapterException;
 import org.kgrid.adapter.api.AdapterSupport;
 import org.kgrid.adapter.api.Executor;
 import org.kgrid.adapter.javascript.JavascriptAdapter;
@@ -142,6 +143,25 @@ public class JavascriptAdapterApplicationTests {
     assertEquals("10", res);
 
   }
+  @Test
+  public void testCantActivateKoFromCdoStoreBadEndPoint() throws Exception {
+
+    exception.expect(AdapterException.class);
+
+    JavascriptAdapter adapter = new JavascriptAdapter();
+    String path = (new File(this.getClass().getResource("/cdo-store").toURI())).getPath();
+    CompoundDigitalObjectStore cdoStore = new FilesystemCDOStore(path);
+
+    adapter.setCdoStore(cdoStore);
+
+    adapter.initialize();
+    Executor ex = adapter
+        .activate(Paths.get("99999-fk45m6gq9t", "v0.0.1", "models", "resource"), "xxxxx");
+    Object res = ex.execute("10");
+
+
+  }
+
 
   enum Type {FOO, BAR}
 

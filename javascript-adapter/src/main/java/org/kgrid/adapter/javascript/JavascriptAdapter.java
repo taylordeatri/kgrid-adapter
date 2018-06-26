@@ -42,6 +42,11 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
     context.setBindings(engine.createBindings(), ScriptContext.ENGINE_SCOPE);
     Path scriptPath = resourcePath.resolve(endpointName + ".js");
     byte[] binary = cdoStore.getBinary(scriptPath);
+
+    if(binary==null){
+      throw new AdapterException("Can't find endpoint " + endpointName + " in path " + scriptPath,null);
+    }
+
     try {
       CompiledScript script = ((Compilable) engine)
           .compile(new String(binary, Charset.defaultCharset()));
