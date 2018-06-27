@@ -29,8 +29,7 @@ public class ResourceAdapter implements Adapter, AdapterSupport {
     return new Executor() {
       @Override
       public Object execute(Object o) {
-        // Todo: Use the new service spec to return the correct type, right now just returns strings
-        return new String(file, Charset.defaultCharset());
+        return file;
       }
     };
   }

@@ -28,6 +28,6 @@ public class ResourceAdapterTest {
     resourceAdapter.setCdoStore(cdoStore);
     Path resource = Paths.get("99999-newko/v0.0.1/model/resource");
     Executor executor = resourceAdapter.activate(resource, "test");
-    assertEquals("Hello, World", executor.execute(null));
+    assertEquals("Hello, World", new String((byte[])executor.execute(null), Charset.defaultCharset()));
   }
 }
