@@ -1,15 +1,6 @@
 # Kgrid-Adapter
 [![CircleCI](https://circleci.com/gh/kgrid/kgrid-adapter/tree/master.svg?style=shield)](https://circleci.com/gh/kgrid/kgrid-adapter/tree/master)
 
-Adapter API
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.kgrid/adapter-api/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/org.kgrid/adapter-api)
-
-Javascript Adapter
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.kgrid/javascript-adapter/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/org.kgrid/javascript-adapter)
-
-Proxy Adapter
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.kgrid/proxy-adapter/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/org.kgrid/proxy-adapter)
-## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
