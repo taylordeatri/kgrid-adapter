@@ -1,6 +1,0 @@
-{
-  "functionName":"helloworld",
-  "adapterType":"PROXY",
-  "resource":"http://localhost:8889",
-  "service":"service/iospec.json"
-}

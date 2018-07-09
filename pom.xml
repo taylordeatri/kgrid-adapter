@@ -14,7 +14,6 @@
     <module>javascript-adapter</module>
     <module>adapter-api</module>
     <module>proxy-adapter</module>
-    <module>resource-adapter</module>
   </modules>
 
   <!-- Environment Settings -->

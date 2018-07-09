@@ -1,6 +1,0 @@
-{
-  "functionName":"test",
-  "adapterType":"RESOURCE",
-  "resource":"resource/test.txt",
-  "service":"service/iospec.json"
-}
