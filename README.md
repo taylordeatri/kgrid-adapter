@@ -1,6 +1,8 @@
 # Kgrid-Adapter
 [![CircleCI](https://circleci.com/gh/kgrid/kgrid-adapter/tree/master.svg?style=shield)](https://circleci.com/gh/kgrid/kgrid-adapter/tree/master)
 
+Adapters provide a common interface to load & execute code in the Knowledge Grid
+
 ## Table of Contents
 
 1. [Build and Test Activator](#build-adpaters)
@@ -35,7 +37,6 @@ mvn clean test
 ```
 
 ## Javascript Adapter
-
 
 
 ## Additional Information
