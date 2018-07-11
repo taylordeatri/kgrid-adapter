@@ -1,13 +1,18 @@
 # Kgrid-Adapter
 [![CircleCI](https://circleci.com/gh/kgrid/kgrid-adapter/tree/master.svg?style=shield)](https://circleci.com/gh/kgrid/kgrid-adapter/tree/master)
 
+## Table of Contents
 
+1. [Build and Test Activator](#build-adpaters)
+1. [Javascript Adapter](#javascript-adapter])
+2. [Additional Information](#additional-information)
+
+## Build Adpaters
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 ### Prerequisites
 For building and running the application you need:
 
-- [Git](https://git-scm.com/downloads)
 - [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 - [Maven 3](https://maven.apache.org)
 
@@ -28,6 +33,8 @@ Unit and Integration tests can be executed via
 ```
 mvn clean test
 ```
+
+## Javascript Adapter
 
 
 
