@@ -6,7 +6,7 @@ Adapters provide a common interface to load & execute code in the Knowledge Grid
 ## Table of Contents
 
 1. [Build and Test Activator](#build-adpaters)
-1. [Javascript Adapter](#javascript-adapter])
+1. [Javascript Adapter](#javascript-adapter)
 1. [Additional Information](#additional-information)
 
 ## Build Adpaters
