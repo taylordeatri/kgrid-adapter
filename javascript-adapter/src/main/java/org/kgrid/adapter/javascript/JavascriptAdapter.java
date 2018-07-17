@@ -40,7 +40,7 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
 
     ScriptContext context = new SimpleScriptContext();
     context.setBindings(engine.createBindings(), ScriptContext.ENGINE_SCOPE);
-    Path scriptPath = resourcePath.resolve(endpointName + ".js");
+    String scriptPath = resourcePath.resolve(endpointName + ".js").toString();
     byte[] binary = cdoStore.getBinary(scriptPath);
 
     if(binary==null){
