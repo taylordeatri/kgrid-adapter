@@ -46,17 +46,17 @@ public class JavascriptAdapterActivationTest {
     String message = "unable to compile script " + Paths.get("simple-scripts", "badscript").toString() + ".js";
     thrown.expectMessage(message);
 
-    adapter.activate(Paths.get("simple-scripts"),"badscript");
+    adapter.activate(Paths.get("simple-scripts", "badscript.js"),"badscript");
 
   }
 
   @Test
   public void happyActivation(){
-    Path path = Paths.get("simple-scripts");
+    Path path = Paths.get("simple-scripts", "doubler.js");
     Executor executor = adapter.activate(path, "doubler");
     assertEquals(6.0, executor.execute(3) );
 
-    executor = adapter.activate(Paths.get("simple-scripts"), "objectResult");
+    executor = adapter.activate(Paths.get("simple-scripts", "objectResult.js"), "objectResult");
     Map result = (Map) executor.execute(null);
 
     // treat a javascript object as a map
