@@ -36,15 +36,15 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
   }
 
   @Override
-  public Executor activate(Path resourcePath, String endpointName) {
+  public Executor activate(Path resourcePath, String functionName) {
 
     ScriptContext context = new SimpleScriptContext();
     context.setBindings(engine.createBindings(), ScriptContext.ENGINE_SCOPE);
-    String scriptPath = resourcePath.resolve(endpointName + ".js").toString();
+    String scriptPath = resourcePath.toString();
     byte[] binary = cdoStore.getBinary(scriptPath);
 
     if(binary==null){
-      throw new AdapterException("Can't find endpoint " + endpointName + " in path " + scriptPath,null);
+      throw new AdapterException("Can't find endpoint " + functionName + " in path " + scriptPath,null);
     }
 
     try {
@@ -60,7 +60,7 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
 
     return new Executor() {
 
-      String endpoint = endpointName;
+      String endpoint = functionName;
 
       @Override
       public Object execute(Object input) {

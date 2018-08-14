@@ -5,7 +5,7 @@
   <!-- The Basics -->
   <groupId>org.kgrid</groupId>
   <artifactId>adapter-api</artifactId>
-  <version>0.0.4-SNAPSHOT</version>
+  <version>0.0.5-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <!-- More Project Information -->
@@ -37,7 +37,7 @@
     <dependency>
       <groupId>org.kgrid</groupId>
       <artifactId>shelf-api</artifactId>
-      <version>0.6.2-SNAPSHOT</version>
+      <version>0.6.3</version>
     </dependency>
   </dependencies>
 

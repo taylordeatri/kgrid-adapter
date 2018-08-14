@@ -75,7 +75,7 @@ public class JavascriptAdapterApplicationTests {
 
     adapter.initialize();
     ((AdapterSupport) adapter).setCdoStore(cdoStore);
-    Executor x = adapter.activate(Paths.get(""), "doubler");
+    Executor x = adapter.activate(Paths.get("doubler.js"), "doubler");
 
 //		exception.expect(Throwable.class);
     Object r = x.execute(3);
@@ -90,7 +90,7 @@ public class JavascriptAdapterApplicationTests {
     adapter.initialize();
     adapter.setCdoStore(cdoStore);
 
-    Executor x = adapter.activate(Paths.get(""), "hello");
+    Executor x = adapter.activate(Paths.get("hello.js"), "hello");
 
     Object bob = x.execute("Bob");
     System.out.println(bob);
@@ -99,7 +99,7 @@ public class JavascriptAdapterApplicationTests {
 
     // Let's try a second one
 
-    Executor y = adapter.activate(Paths.get(""), "hello");
+    Executor y = adapter.activate(Paths.get("hello.js"), "hello");
     System.out.println(y.execute("Lorelei"));
 
     System.out.println(x.execute("Ralph"));
@@ -138,7 +138,7 @@ public class JavascriptAdapterApplicationTests {
 
     adapter.initialize();
     Executor ex = adapter
-        .activate(Paths.get("99999-fk45m6gq9t", "v0.0.1", "models", "resource"), "content");
+        .activate(Paths.get("99999-fk45m6gq9t", "v0.0.1", "models", "resource", "content.js"), "content");
     Object res = ex.execute("10");
     assertEquals("10", res);
 
