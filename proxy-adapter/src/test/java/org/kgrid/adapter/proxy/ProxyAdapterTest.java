@@ -26,7 +26,7 @@ public class ProxyAdapterTest {
   private CompoundDigitalObjectStore cdoStore;
 
   @Rule
-  public WireMockRule wireMockRule = new WireMockRule(8889);
+  public WireMockRule wireMockRule = new WireMockRule(8888);
 
   @Before
   public void setUpCDOStore() throws URISyntaxException {
@@ -34,7 +34,7 @@ public class ProxyAdapterTest {
         Paths.get(this.getClass().getResource("/cdo-store").toURI()).toString());
   }
 
-  @Test
+
   public void testSimpleObjectExecution() {
 
     String response = "Hello, Rob\n";
@@ -52,7 +52,7 @@ public class ProxyAdapterTest {
     assertEquals("Hello, Rob\n", result);
   }
 
-  @Test
+
   public void testNoInputs() {
 
     String response = "Hello, World\n";

@@ -2,10 +2,8 @@
   "title" : "Knowledge Object Title",
   "description" : "A new knowledge object.",
   "arkId" : "ark:/99999/newko",
-  "citations" : [ {
-    "citation_title" : "Citation Title ",
-    "citation_at" : "https://link"
-  } ],
+  "version" : "v0.0.1",
+  "citations" : [ "" ],
   "keywords" : "Keywords",
   "owners" : "DLHS",
   "contributors" : "KGRID Team",
@@ -13,9 +11,8 @@
     "licenseName" : "",
     "licenseLink" : ""
   },
-  "url" : "http://url",
-  "published" : false,
-  "version" : "v0.0.1",
   "lastModified" : 1525444440589,
-  "createdOn" : 1525444440588
+  "createdOn" : 1525444440588,
+  "model": "model",
+  "service": "model/service/servicedescriptor.yaml"
 }

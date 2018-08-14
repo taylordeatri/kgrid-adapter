@@ -50,7 +50,7 @@ public class ProxyAdapter implements Adapter, AdapterSupport {
         @Override
         public Object execute(Object input) {
           HttpEntity<Object> entity = new HttpEntity<>(input, headers);
-          String serverURL = cdoStore.getMetadata(resource.getParent().toString()).get("resource").asText();
+          String serverURL = cdoStore.getMetadata(resource.getParent().getParent().toString()).get("resource").asText();
           URI proxyEndpoint = URI.create(serverURL + "/" + endpoint);
           ResponseEntity<String> response =
               restTemplate.exchange(proxyEndpoint, HttpMethod.POST, entity, String.class);

@@ -1,6 +1,8 @@
 {
   "functionName":"helloworld",
   "adapterType":"PROXY",
-  "resource":"http://localhost:8889",
-  "service":"service/iospec.json"
+  "resource":"http://localhost:8888",
+  "adapters":[
+    {"name":"Proxy","version":"0.0.2","filename":"proxy-adapter-0.0.2-SNAPSHOT.jar","download_url":"https://github.com/kgrid/ko-templates/releases/download/0.2/", "target":"adapters/"}
+  ]
 }
