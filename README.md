@@ -41,6 +41,15 @@ mvn clean test
 
 ## Additional Information
 
+### Adding a new Adapter
+Creating new Adapters requires you implement the Adapter API interface. The Adapter's utilize Java Services and require that you package your adapter with a service identifer the META-INF.
+
+```
+META-INF
+   services
+        org.kgrid.adapter.javascript.JavascriptAdapter
+```
+
 ### Limitations
 
 Adapters running in activators as part of the knowledge grid may impose limitations on the kind of code in the KOs, and the format and type of inputs and outputs for the KOs. For example, the Javascript adapter requires valid JSON inputs ({}, [] at the top level) and the returned object (from the endpoint function in the KO) will be serialized back to JSON with arrays converted to objects with array indexes as keys (a limitation of the current nashorn javascript engine).
