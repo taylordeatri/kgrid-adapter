@@ -7,13 +7,14 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static org.junit.Assert.assertEquals;
 
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.github.tomakehurst.wiremock.junit.WireMockClassRule;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.kgrid.adapter.api.Executor;
@@ -21,12 +22,18 @@ import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 import org.kgrid.shelf.repository.FilesystemCDOStore;
 import org.springframework.http.MediaType;
 
+/*
+ NOTE THESE TESTS WILL FAIL IF YOU HAVE A SERVER RUNNING AT localhost:8888!!!!!!
+ */
 public class ProxyAdapterTest {
 
   private CompoundDigitalObjectStore cdoStore;
 
+  @ClassRule
+  public static WireMockClassRule wireMockRule = new WireMockClassRule(8888);
+
   @Rule
-  public WireMockRule wireMockRule = new WireMockRule(8888);
+  public WireMockClassRule instanceRule = wireMockRule;
 
   @Before
   public void setUpCDOStore() throws URISyntaxException {
@@ -34,7 +41,7 @@ public class ProxyAdapterTest {
         Paths.get(this.getClass().getResource("/shelf").toURI()).toString());
   }
 
-
+  @Test
   public void testSimpleObjectExecution() {
 
     String response = "Hello, Rob\n";
@@ -42,7 +49,7 @@ public class ProxyAdapterTest {
 
     ProxyAdapter proxyAdapter = new ProxyAdapter();
     proxyAdapter.setCdoStore(cdoStore);
-    Path url = Paths.get("99999-newko/v0.0.1/model/resource");
+    Path url = Paths.get("99999-newko/v0.0.1/model/http:/localhost:8888");
     Executor executor = proxyAdapter.activate(url,
         "helloworld");
     Map<String, Object> inputs = new HashMap<>();
@@ -52,7 +59,7 @@ public class ProxyAdapterTest {
     assertEquals("Hello, Rob\n", result);
   }
 
-
+  @Test
   public void testNoInputs() {
 
     String response = "Hello, World\n";
@@ -60,7 +67,7 @@ public class ProxyAdapterTest {
 
     ProxyAdapter proxyAdapter = new ProxyAdapter();
     proxyAdapter.setCdoStore(cdoStore);
-    Path url = Paths.get("99999-newko/v0.0.1/model/resource");
+    Path url = Paths.get("99999-newko/v0.0.1/model/http:/localhost:8888");
     Executor executor = proxyAdapter.activate(url,
         "helloworld");
     Map<String, Object> inputs = new HashMap<>();
@@ -68,11 +75,10 @@ public class ProxyAdapterTest {
   }
 
   // Mock jupyter notebook server response
-  private static void mockProxyAdapter(String response) {
+  private void mockProxyAdapter(String response) {
     stubFor(post(urlEqualTo("/helloworld"))
         .withHeader("Content-Type", equalTo(MediaType.APPLICATION_JSON_VALUE))
         .willReturn(aResponse().withStatus(200)
-            .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
             .withBody(response)));
   }
 
