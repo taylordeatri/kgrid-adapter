@@ -31,7 +31,7 @@ public class ProxyAdapterTest {
   @Before
   public void setUpCDOStore() throws URISyntaxException {
     cdoStore = new FilesystemCDOStore(
-        Paths.get(this.getClass().getResource("/cdo-store").toURI()).toString());
+        Paths.get(this.getClass().getResource("/shelf").toURI()).toString());
   }
 
 

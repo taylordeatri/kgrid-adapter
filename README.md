@@ -38,6 +38,30 @@ mvn clean test
 
 ## Javascript Adapter
 
+## Proxy Adapter
+
+To use the proxy adapter create an object that has the url of the execution environment as the resource field and the endpoint as the functionName in the model metadata as shown:
+```json
+{
+  "functionName":"helloworld",
+  "adapterType":"PROXY",
+  "resource":"http://localhost:8888",
+  "adapters":[
+    {"name":"Proxy","version":"0.0.2","filename":"proxy-adapter-0.0.2-SNAPSHOT.jar","download_url":"https://github.com/kgrid/ko-templates/releases/download/0.2/", "target":"adapters/"}
+  ]
+}
+```
+This metadata will cause the proxy adapter to send the post request with the supplied body on to `http://localhost:8888/helloworld` and pass the result back out.
+
+#### Setting up a Jupyter notebook as a proxy execution environment
+
+1. Install Jupyter [http://jupyter.org/install](http://jupyter.org/install) 
+2. Start the server by running `jupyter notebook`
+3. Create a notebook with annotations describing HTTP methods that can be used to execute the cells in the notebook. (See the [Jupyter documentation](http://jupyter-kernel-gateway.readthedocs.io/en/stable/http-mode.html) for more info)
+4. Run the notebook in HTTP mode using the command 
+`jupyter kernelgateway --KernelGatewayApp.api='kernel_gateway.notebook_http' --KernelGatewayApp.seed_uri='<PATH TO NOTEBOOK .ipynb FILE>' `
+
+See the test object in `src/test/resources/shelf/99999-newko/` for an example of a proxy object that connects to a jupyter notebook running the helloworld.ipynb notebook.
 
 ## Additional Information
 
