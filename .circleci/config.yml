@@ -58,7 +58,11 @@ jobs:
           path: ~/junit
 
       - store_artifacts:
-          path: target
+          path: adapter-api/target
+      - store_artifacts:
+          path: javascript-adapter/target
+      - store_artifacts:
+          path:  proxy-adapter/target
 
       # Will normally run deploy but if triggered with Release will prepare and perform maven release
       - run:
