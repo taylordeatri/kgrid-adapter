@@ -58,7 +58,7 @@ jobs:
           path: ~/junit
 
       - store_artifacts:
-          path: ~/junit
+          path: target
 
       # Will normally run deploy but if triggered with Release will prepare and perform maven release
       - run:
