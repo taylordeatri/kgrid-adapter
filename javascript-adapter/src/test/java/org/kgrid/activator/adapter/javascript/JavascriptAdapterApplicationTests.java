@@ -177,7 +177,7 @@ public class JavascriptAdapterApplicationTests {
     adapter.setCdoStore(cdoStore);
 
     adapter.initialize();
-    drugEx = adapter
+    Executor drugEx = adapter
         .activate(Paths.get("99999-fk4058s74p", "v0.0.1", "model", "resource", "recommendation.js"), "dosingrecommendation");
     Map<String, Map> inputs = new HashMap<>();
     Map<String, String> hlab = new HashMap<>();
@@ -206,11 +206,7 @@ public class JavascriptAdapterApplicationTests {
     Object res2 = future2.get();
     assertEquals("Use allopurinol per standard dosing guidelines", ((Map)((Map)res2).get("recommendation")).get("content"));
     assertEquals("*1/*1", ((Map)((Map)((Map)res2).get("genes")).get("HLA-B")).get("diplotype"));
-
   }
-
-  Executor drugEx;
-
 
   enum Type {FOO, BAR}
 
