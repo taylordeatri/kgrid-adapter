@@ -65,6 +65,14 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
       @Override
       public synchronized Object execute(Object input) {
 
+        try {
+          CompiledScript script = ((Compilable) engine)
+              .compile(new String(binary, Charset.defaultCharset()));
+          script.eval(context);
+        } catch (ScriptException e) {
+          throw new AdapterException("unable to compile script " + scriptPath + " : " +e.getMessage(), e);
+        }
+
         Object output = mirror.callMember(endpoint, input);
 
         final Map<String, String> errors = new HashMap<>();
