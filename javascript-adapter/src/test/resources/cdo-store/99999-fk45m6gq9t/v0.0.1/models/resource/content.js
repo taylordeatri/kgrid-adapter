@@ -1,3 +1,4 @@
 function content (riskValues) {
-  return riskValues
+  return riskValues + "test"
+
 }

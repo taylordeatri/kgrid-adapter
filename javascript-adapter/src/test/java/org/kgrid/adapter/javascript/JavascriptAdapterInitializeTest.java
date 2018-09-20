@@ -30,7 +30,7 @@ public class JavascriptAdapterInitializeTest {
     simpleScripts = new FilesystemCDOStore(
         Paths.get(this.getClass().getResource("/cdo-store/simple-scripts").toURI()).toString());
 
-    assertEquals(2, cdoStore.getChildren(null).size());
+    assertEquals(3, cdoStore.getChildren(null).size());
   }
 
   @Test

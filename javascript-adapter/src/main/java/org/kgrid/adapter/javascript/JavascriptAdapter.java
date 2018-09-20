@@ -63,7 +63,7 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
       String endpoint = functionName;
 
       @Override
-      public Object execute(Object input) {
+      public synchronized Object execute(Object input) {
 
         Object output = mirror.callMember(endpoint, input);
 

@@ -35,7 +35,7 @@ public class JavascriptAdapterActivationTest {
     ( (AdapterSupport) adapter).setCdoStore(cdoStore);
     adapter.initialize();
 
-    assertEquals(2, cdoStore.getChildren(null).size());
+    assertEquals(3, cdoStore.getChildren(null).size());
   }
 
 
