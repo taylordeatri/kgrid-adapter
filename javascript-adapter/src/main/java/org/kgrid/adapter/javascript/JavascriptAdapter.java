@@ -47,8 +47,9 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
       throw new AdapterException("Can't find endpoint " + functionName + " in path " + scriptPath,null);
     }
 
+    CompiledScript script;
     try {
-      CompiledScript script = ((Compilable) engine)
+      script = ((Compilable) engine)
           .compile(new String(binary, Charset.defaultCharset()));
       script.eval(context);
     } catch (ScriptException e) {
@@ -66,11 +67,9 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
       public synchronized Object execute(Object input) {
 
         try {
-          CompiledScript script = ((Compilable) engine)
-              .compile(new String(binary, Charset.defaultCharset()));
           script.eval(context);
-        } catch (ScriptException e) {
-          throw new AdapterException("unable to compile script " + scriptPath + " : " +e.getMessage(), e);
+        } catch (ScriptException ex) {
+          throw new AdapterException("unable to reset script context " + scriptPath + " : " +ex.getMessage(), ex);
         }
 
         Object output = mirror.callMember(endpoint, input);
