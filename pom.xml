@@ -24,36 +24,6 @@
     <developerConnection>scm:git:https://github.com/kgrid/kgrid-adapter.git</developerConnection>
   </scm>
 
-  <profiles>
-    <profile>
-      <id>jupyter_it</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <version>2.22.0</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>integration-test</goal>
-                </goals>
-                <configuration>
-                  <includes>
-                    <include>**/*.class</include>
-                  </includes>
-                </configuration>
-              </execution>
-            </executions>
-            <configuration>
-              <groups>org.kgrid.adapter.jupyterkernel.JupyterIntegationTest</groups>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
-
   <build>
     <plugins>
       <plugin>
@@ -62,24 +32,6 @@
         <version>2.8.2</version>
         <configuration>
           <skip>true</skip>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.18.1</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.apache.maven.surefire</groupId>
-            <artifactId>surefire-junit47</artifactId>
-            <version>2.12</version>
-          </dependency>
-        </dependencies>
-        <configuration>
-          <includes>
-            <include>**/*.class</include>
-          </includes>
-          <excludedGroups>org.kgrid.adapter.jupyterkernel.JupyterIntegationTest</excludedGroups>
         </configuration>
       </plugin>
     </plugins>

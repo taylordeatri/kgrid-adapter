@@ -63,6 +63,15 @@ This metadata will cause the proxy adapter to send the post request with the sup
 
 See the test object in `src/test/resources/shelf/99999-newko/` for an example of a proxy object that connects to a jupyter notebook running the helloworld.ipynb notebook.
 
+**Jupyter Integration Testing**
+There are a set of Jupyter Integration Tests that require a notebook environment. This currently is not 
+part of the continiues integration process.  yo ucan run the integration tests using a particular profile
+
+```bash
+mvn clean verify -P jupyter_it
+```
+
+
 ## Additional Information
 
 ### Adding a new Adapter
