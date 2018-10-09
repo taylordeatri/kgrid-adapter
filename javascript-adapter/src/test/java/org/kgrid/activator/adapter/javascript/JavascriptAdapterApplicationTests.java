@@ -79,7 +79,7 @@ public class JavascriptAdapterApplicationTests {
 
     Adapter adapter = new JavascriptAdapter();
 
-    adapter.initialize();
+    adapter.initialize(null);
     ((AdapterSupport) adapter).setCdoStore(cdoStore);
     Executor x = adapter.activate(Paths.get("doubler.js"), "doubler");
 
@@ -93,7 +93,7 @@ public class JavascriptAdapterApplicationTests {
   public void testEngine() {
     JavascriptAdapter adapter = new JavascriptAdapter();
 
-    adapter.initialize();
+    adapter.initialize(null);
     adapter.setCdoStore(cdoStore);
 
     Executor x = adapter.activate(Paths.get("hello.js"), "hello");
@@ -142,7 +142,7 @@ public class JavascriptAdapterApplicationTests {
 
     adapter.setCdoStore(cdoStore);
 
-    adapter.initialize();
+    adapter.initialize(null);
     Executor ex = adapter
         .activate(Paths.get("99999-fk45m6gq9t", "v0.0.1", "models", "resource", "content.js"), "content");
     Object res = ex.execute("10");
@@ -160,7 +160,7 @@ public class JavascriptAdapterApplicationTests {
 
     adapter.setCdoStore(cdoStore);
 
-    adapter.initialize();
+    adapter.initialize(null);
     Executor ex = adapter
         .activate(Paths.get("99999-fk45m6gq9t", "v0.0.1", "models", "resource"), "xxxxx");
     Object res = ex.execute("10");
@@ -176,7 +176,7 @@ public class JavascriptAdapterApplicationTests {
 
     adapter.setCdoStore(cdoStore);
 
-    adapter.initialize();
+    adapter.initialize(null);
     Executor drugEx = adapter
         .activate(Paths.get("99999-fk4058s74p", "v0.0.1", "model", "resource", "recommendation.js"), "dosingrecommendation");
     Map<String, Map> inputs = new HashMap<>();

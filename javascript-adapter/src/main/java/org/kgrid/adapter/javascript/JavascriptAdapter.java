@@ -4,6 +4,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import javax.script.Compilable;
 import javax.script.CompiledScript;
 import javax.script.ScriptContext;
@@ -30,7 +31,7 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
   }
 
   @Override
-  public void initialize() {
+  public void initialize(Properties properties) {
 
     engine = new ScriptEngineManager().getEngineByName("JavaScript");
   }

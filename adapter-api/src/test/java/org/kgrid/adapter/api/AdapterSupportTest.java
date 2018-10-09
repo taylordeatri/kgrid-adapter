@@ -1,5 +1,6 @@
 package org.kgrid.adapter.api;
 
+import java.util.Properties;
 import org.junit.Test;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 import org.kgrid.shelf.repository.FilesystemCDOStore;
@@ -23,8 +24,8 @@ public class AdapterSupportTest {
       ((AdapterSupport) adapter2).setCdoStore(new FilesystemCDOStore(""));
     }
 
-    adapter1.initialize();
-    adapter2.initialize();
+    adapter1.initialize(null);
+    adapter2.initialize(null);
 
     assertEquals(adapter1.status(), "does not support simple-scripts");
 
@@ -39,7 +40,7 @@ public class AdapterSupportTest {
     }
 
     @Override
-    public void initialize() {
+    public void initialize(Properties properties) {
 
     }
 
@@ -65,7 +66,7 @@ public class AdapterSupportTest {
     }
 
     @Override
-    public void initialize() {
+    public void initialize(Properties properties) {
 
     }
 

@@ -4,12 +4,12 @@
 
   <!-- The Basics -->
   <groupId>org.kgrid</groupId>
-  <artifactId>javascript-adapter</artifactId>
-  <version>0.0.5-SNAPSHOT</version>
+  <artifactId>jupyter-kernel-adapter</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <!-- More Project Information -->
-  <name>javascript-adapter</name>
+  <name>jupyter-kernel-adapter</name>
   <description>javascript adapter used to execute javascript resources</description>
 
   <scm>
@@ -43,6 +43,18 @@
       <artifactId>junit</artifactId>
       <version>4.12</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.9.6</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.9.6</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 
@@ -79,9 +91,56 @@
   <!-- Environment Settings -->
   <profiles>
     <profile>
+      <id>jupyter_it</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <version>2.22.0</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>integration-test</goal>
+                </goals>
+                <configuration>
+                  <includes>
+                    <include>**/*.class</include>
+                  </includes>
+                </configuration>
+              </execution>
+            </executions>
+            <configuration>
+              <groups>org.kgrid.adapter.jupyterkernel.JupyterIntegationTest</groups>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
       <id>ci</id>
       <build>
         <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <version>2.22.0</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>integration-test</goal>
+                </goals>
+                <configuration>
+                  <includes>
+                    <include>**/*.class</include>
+                  </includes>
+                </configuration>
+              </execution>
+            </executions>
+            <configuration>
+              <groups>org.kgrid.adapter.jupyterkernel.JupyterIntegationTest</groups>
+            </configuration>
+          </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
@@ -136,6 +195,25 @@
               <autoReleaseAfterClose>true</autoReleaseAfterClose>
             </configuration>
           </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.18.1</version>
+            <dependencies>
+              <dependency>
+                <groupId>org.apache.maven.surefire</groupId>
+                <artifactId>surefire-junit47</artifactId>
+                <version>2.12</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <includes>
+                <include>**/*.class</include>
+              </includes>
+              <excludedGroups>org.kgrid.adapter.jupyterkernel.JupyterIntegationTest</excludedGroups>
+            </configuration>
+          </plugin>
+
         </plugins>
       </build>
     </profile>

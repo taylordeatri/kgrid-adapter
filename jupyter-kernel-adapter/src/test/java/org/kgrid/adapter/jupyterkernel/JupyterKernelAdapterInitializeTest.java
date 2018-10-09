@@ -1,19 +1,22 @@
-package org.kgrid.adapter.javascript;
+package org.kgrid.adapter.jupyterkernel;
 
 import static org.junit.Assert.assertEquals;
 
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.Properties;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 import org.kgrid.adapter.api.Adapter;
 import org.kgrid.adapter.api.AdapterSupport;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 import org.kgrid.shelf.repository.FilesystemCDOStore;
 
-public class JavascriptAdapterInitializeTest {
+@Category(JupyterIntegationTest.class)
+public class JupyterKernelAdapterInitializeTest {
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
@@ -36,9 +39,9 @@ public class JavascriptAdapterInitializeTest {
   @Test
   public void initializeWithCDOStore() {
 
-     Adapter adapter = new JavascriptAdapter();
+     Adapter adapter = new JupyterKernelAdapter();
     ( (AdapterSupport) adapter).setCdoStore(cdoStore);
-    adapter.initialize(null);
+    adapter.initialize(new Properties());
     assertEquals("UP", adapter.status());
 
   }
@@ -46,8 +49,8 @@ public class JavascriptAdapterInitializeTest {
   @Test
   public void initializeWithOutCDOStore() {
 
-    Adapter adapter = new JavascriptAdapter();
-    adapter.initialize(null);
+    Adapter adapter = new JupyterKernelAdapter();
+    adapter.initialize(new Properties());
     assertEquals("DOWN", adapter.status());
 
   }

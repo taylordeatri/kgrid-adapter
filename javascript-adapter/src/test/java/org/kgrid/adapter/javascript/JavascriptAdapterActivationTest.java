@@ -33,7 +33,7 @@ public class JavascriptAdapterActivationTest {
 
     adapter = new JavascriptAdapter();
     ( (AdapterSupport) adapter).setCdoStore(cdoStore);
-    adapter.initialize();
+    adapter.initialize(null);
 
     assertEquals(3, cdoStore.getChildren(null).size());
   }
