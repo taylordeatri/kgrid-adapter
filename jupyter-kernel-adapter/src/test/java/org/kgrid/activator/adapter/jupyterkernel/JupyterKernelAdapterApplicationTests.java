@@ -110,7 +110,7 @@ public class JupyterKernelAdapterApplicationTests {
 
     adapter.initialize(new Properties());
     Executor ex = adapter
-        .activate(Paths.get("99999-python2", "v0.0.1", "models", "resource", "content.py"), "content");
+        .activate(Paths.get("99999-python", "v0.0.1", "models", "resource", "content.py"), "content");
     Object res = ex.execute("10");
     assertEquals("'10test'", res);
 
@@ -129,7 +129,7 @@ public class JupyterKernelAdapterApplicationTests {
 
     adapter.initialize(new Properties());
     Executor ex = adapter
-        .activate(Paths.get("99999-python2", "v0.0.1", "models", "resource"), "xxxxx");
+        .activate(Paths.get("99999-python", "v0.0.1", "models", "resource"), "xxxxx");
     Object res = ex.execute("10");
   }
 

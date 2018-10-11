@@ -113,3 +113,21 @@ This adapter simply passes the request body unchanged to a nother endpoint and r
 This adapter knows how to deploy a knowledge object in a remote environment and to pass requests along
 - Activation is type specific (code deployment in local environment, container-based deployment, lamba deplotyment, etc.)
 - 
+
+#### Jupyter With Python Kernel Adapter
+
+This adapter requires a jupyter instance with either a python 2 or 3 kernel running.
+By default jupyter should be running on localhost:8888/ but this can be set in the properties when running an activator by setting `kgrid.adapter.kernel.url`.
+If you are working with a kernel other than python you can switch to it by setting `kgrid.adapter.kernel.type`.
+
+Instructions on how to get a jupyter kernel started can be found [here](https://jupyter-kernel-gateway.readthedocs.io/en/stable/getting-started.html).
+
+Write your python code in a function that takes a dict of string inputs and returns a value e.g.
+```python
+import math
+def exp(inputs):
+  number = float(inputs.get("num"))
+  return math.exp(number)
+```
+
+The returned value will be the result the kgrid-activator shows as the result when accessed using the REST api. 

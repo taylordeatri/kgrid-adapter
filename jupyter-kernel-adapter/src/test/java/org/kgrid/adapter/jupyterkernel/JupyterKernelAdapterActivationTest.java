@@ -38,7 +38,7 @@ public class JupyterKernelAdapterActivationTest {
     ((AdapterSupport) adapter).setCdoStore(cdoStore);
     Properties properties = new Properties();
     properties.setProperty("adapter.kernel.url", "localhost:8888/api/kernels");
-    properties.setProperty("adapter.kernel.type", "python");
+    properties.setProperty("adapter.kernel.type", "python3");
     adapter.initialize(properties);
   }
 
@@ -56,6 +56,16 @@ public class JupyterKernelAdapterActivationTest {
     executor = adapter.activate(path, "doubler");
     assertEquals(6, Integer.parseInt(executor.execute(3).toString()) );
 
+  }
+
+  @Test
+  public void testImportMath() {
+    Path path = Paths.get("simple-scripts", "exp.py");
+    Executor executor = adapter.activate(path, "exp");
+    Map input = new LinkedHashMap();
+    input.put("num", 0);
+    assertEquals("1.0", executor.execute(input));
+    assertEquals("1.0", executor.execute("{\"num\":\"0\"}"));
   }
 
 }

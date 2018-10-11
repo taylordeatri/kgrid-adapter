@@ -38,7 +38,6 @@ public class JavascriptAdapterActivationTest {
     assertEquals(3, cdoStore.getChildren(null).size());
   }
 
-
   @Test
   public void badScriptThrowsException() throws AdapterException {
 

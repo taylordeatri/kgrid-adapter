@@ -46,11 +46,13 @@ public class JupyterKernelAdapter implements Adapter, AdapterSupport {
 
   @Override
   public void initialize(Properties properties) {
-    String serverURL = properties.getProperty("adapter.kernel.url");
+    String serverURL = properties.getProperty("kgrid.adapter.kernel.url");
     if(serverURL == null) {
       serverURL = "localhost:8888/api/kernels";
+    } else if (serverURL.startsWith("http://")) {
+      serverURL = serverURL.substring(7);
     }
-    this.kernelType = properties.getProperty("adapter.kernel.type");
+    this.kernelType = properties.getProperty("kgrid.adapter.kernel.type");
     if(kernelType == null) {
       kernelType = "python";
     }
@@ -74,7 +76,26 @@ public class JupyterKernelAdapter implements Adapter, AdapterSupport {
     log.info("Connecting to websocket URI " + executionEndpoint);
     clientEndPoint = new WebSocketClient(executionEndpoint);
 
-    // Should receive a big string of json from the jupyter kernel that we need to parse for the result
+    /*
+     * Should receive a big string of json from the jupyter kernel that we need to parse for the result
+     * Jupyter message response format:
+     * parent_header: {username:"", version: "", msg_type: "", msg_id: *the UUID we sent to the kernel*, session: "", date: ""}
+     * msg_type: status or execute_input or stream or execute_reply or execute_result or error
+     * msg_id: internal ID - do not use
+     * content: (depends on the msg_type)
+     *     for status {"execution_state": ""}
+     *     for execute_input {"execution_count": , "code": ""}
+     *     for stream {text: *string printed from the code*, name: *channel text is in*}
+     *     for execute_result {"execution_count": , "data": {"mimetype": *result returned from function*}, "metadata": {}}
+     *     for execute_reply {"status": "ok", "execution_count": 0, "user_expressions": {}, "payload": []}
+     *       or {"status": "error", "ename": "", "evalue": "" "traceback": "" "execution_count": #, "user_expressions": {},
+     *           "engine_info": {"engine_id": , "method": "execute", "engine_uuid": ""}, "payload": []}
+     *     for error {"ename": "", "evalue": "", "traceback": []}
+     * header: {"username": "", "version": "", "msg_type": "", "msg_id": "", "session": "", "date": ""}
+     * channel: ""
+     * buffers: []
+     * metadata: {}
+     */
     clientEndPoint.addMessageHandler(new WebSocketClient.MessageHandler() {
       @Override
       public void handleMessage(String message) throws IOException, InterruptedException {
@@ -104,8 +125,7 @@ public class JupyterKernelAdapter implements Adapter, AdapterSupport {
     byte[] binary = cdoStore.getBinary(scriptPath);
 
     if (binary == null) {
-      throw new AdapterException("Can't find endpoint " + functionName + " in path " + scriptPath,
-          null);
+      throw new AdapterException("Can't find endpoint " + functionName + " in path " + scriptPath);
     }
 
     // Send the function stored in the KO payload to the kernel
@@ -137,7 +157,7 @@ public class JupyterKernelAdapter implements Adapter, AdapterSupport {
         clientEndPoint.sendMessage(functionRun.toString());
 
         try {
-          String result = queue.poll(10, TimeUnit.SECONDS); // Can change this to make it timeout quicker or allow more complex programs
+          String result = queue.poll(10, TimeUnit.SECONDS); // Can change this to make it timeout faster or allow more complex programs
           if(result == null) {
             throw new AdapterException("System timed out when waiting for response from jupyter kernel execution");
           }

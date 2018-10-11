@@ -22,16 +22,12 @@ public class JupyterKernelAdapterInitializeTest {
   public ExpectedException thrown = ExpectedException.none();
 
   private CompoundDigitalObjectStore cdoStore;
-  private FilesystemCDOStore simpleScripts;
 
   @Before
   public void setUpCDOStore() throws URISyntaxException {
 
     cdoStore = new FilesystemCDOStore(
         Paths.get(this.getClass().getResource("/cdo-store").toURI()).toString());
-
-    simpleScripts = new FilesystemCDOStore(
-        Paths.get(this.getClass().getResource("/cdo-store/simple-scripts").toURI()).toString());
 
     assertEquals(3, cdoStore.getChildren(null).size());
   }
