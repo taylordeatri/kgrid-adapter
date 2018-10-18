@@ -8,6 +8,7 @@ import javax.websocket.CloseReason;
 import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
 import javax.websocket.OnClose;
+import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -23,13 +24,15 @@ public class WebSocketClient {
   private final Logger log = LoggerFactory.getLogger(this.getClass());
   private Session userSession = null;
   private MessageHandler messageHandler;
+  private URI endpointURI;
 
   public WebSocketClient(URI endpointURI) {
+    this.endpointURI = endpointURI;
     try {
       WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-      container.connectToServer(this, endpointURI);
+      container.connectToServer(this, this.endpointURI);
     } catch (IOException | DeploymentException e) {
-      throw new AdapterException("Could not connect to websocket URI " + endpointURI.toASCIIString() + " " + e.getMessage(), e);
+      throw new AdapterException("Could not connect to websocket URI " + this.endpointURI.toASCIIString() + " " + e.getMessage(), e);
     }
   }
 
@@ -42,6 +45,18 @@ public class WebSocketClient {
   public void onClose(Session userSession, CloseReason reason) {
     this.userSession = null;
     log.warn("Websocket connection closed due to " + reason );
+    try {
+      log.info("Reopening websocket connection to " + this.endpointURI);
+      WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+      container.connectToServer(this, this.endpointURI);
+    } catch (IOException | DeploymentException e) {
+      throw new AdapterException("Could not connect to websocket URI " + this.endpointURI.toASCIIString() + " " + e.getMessage(), e);
+    }
+  }
+
+  @OnError
+  public void onError(Throwable t, Session session) {
+    throw new AdapterException("Websocket error: " + t.getMessage());
   }
 
   @OnMessage

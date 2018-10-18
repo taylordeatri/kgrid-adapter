@@ -130,4 +130,4 @@ def exp(inputs):
   return math.exp(number)
 ```
 
-The returned value will be the result the kgrid-activator shows as the result when accessed using the REST api. 
+The returned value will be the result the kgrid-activator shows as the result when accessed using the REST api.

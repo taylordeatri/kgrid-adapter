@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 import org.kgrid.adapter.api.Adapter;
+import org.kgrid.adapter.api.AdapterException;
 import org.kgrid.adapter.api.AdapterSupport;
 import org.kgrid.adapter.api.Executor;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
@@ -59,7 +60,7 @@ public class JupyterKernelAdapterActivationTest {
   }
 
   @Test
-  public void testImportMath() {
+  public void importMath() {
     Path path = Paths.get("simple-scripts", "exp.py");
     Executor executor = adapter.activate(path, "exp");
     Map input = new LinkedHashMap();
@@ -68,4 +69,24 @@ public class JupyterKernelAdapterActivationTest {
     assertEquals("1.0", executor.execute("{\"num\":\"0\"}"));
   }
 
+  @Test
+  public void noParamsWhenNeedsOne() {
+    thrown.expect(AdapterException.class);
+    thrown.expectMessage("hello() takes exactly 1 argument (0 given)");
+
+    Path path = Paths.get("simple-scripts", "hello.py");
+    Executor executor = adapter.activate(path, "hello");
+    Map input = new LinkedHashMap();
+    executor.execute(input);
+  }
+
+  @Test
+  public void wrongParamType() {
+    thrown.expect(AdapterException.class);
+    thrown.expectMessage("unsupported operand type(s) for *: 'dict' and 'int'");
+
+    Path path = Paths.get("simple-scripts", "doubler.py");
+    Executor executor = adapter.activate(path, "doubler");
+    executor.execute("{\"num\":6}");
+  }
 }

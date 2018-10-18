@@ -1,0 +1,2 @@
+def badFun(inputs):
+return ""
