@@ -14,7 +14,7 @@ jobs:
     working_directory: ~/repo
 
     docker:
-      - image: circleci/openjdk:8-jdk
+      - image: circleci/openjdk:11-jdk
 
     environment:
       # Customize the JVM maximum heap limit
