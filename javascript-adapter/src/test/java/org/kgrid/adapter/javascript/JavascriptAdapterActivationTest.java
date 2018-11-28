@@ -28,8 +28,8 @@ public class JavascriptAdapterActivationTest {
   @Before
   public void setUpCDOStore() throws URISyntaxException {
 
-    cdoStore = new FilesystemCDOStore(
-        Paths.get(this.getClass().getResource("/cdo-store").toURI()).toString());
+    Path path = Paths.get(this.getClass().getResource("/cdo-store").toURI().toString());
+    cdoStore = new FilesystemCDOStore( "filesystem:" + path.toString());
 
     adapter = new JavascriptAdapter();
     ( (AdapterSupport) adapter).setCdoStore(cdoStore);

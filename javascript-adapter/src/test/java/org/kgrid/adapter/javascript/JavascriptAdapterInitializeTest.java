@@ -3,6 +3,7 @@ package org.kgrid.adapter.javascript;
 import static org.junit.Assert.assertEquals;
 
 import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.junit.Before;
 import org.junit.Rule;
@@ -24,11 +25,12 @@ public class JavascriptAdapterInitializeTest {
   @Before
   public void setUpCDOStore() throws URISyntaxException {
 
-    cdoStore = new FilesystemCDOStore(
-        Paths.get(this.getClass().getResource("/cdo-store").toURI()).toString());
+    Path path = Paths.get(this.getClass().getResource("/cdo-store").toURI().toString());
+    cdoStore = new FilesystemCDOStore("filesystem:" + path.toString());
 
-    simpleScripts = new FilesystemCDOStore(
-        Paths.get(this.getClass().getResource("/cdo-store/simple-scripts").toURI()).toString());
+    Path path1 =
+        Paths.get(this.getClass().getResource("/cdo-store/simple-scripts").toURI().toString());
+    simpleScripts = new FilesystemCDOStore("filesystem:" + path1.toString());
 
     assertEquals(3, cdoStore.getChildren(null).size());
   }
@@ -36,8 +38,8 @@ public class JavascriptAdapterInitializeTest {
   @Test
   public void initializeWithCDOStore() {
 
-     Adapter adapter = new JavascriptAdapter();
-    ( (AdapterSupport) adapter).setCdoStore(cdoStore);
+    Adapter adapter = new JavascriptAdapter();
+    ((AdapterSupport) adapter).setCdoStore(cdoStore);
     adapter.initialize(null);
     assertEquals("UP", adapter.status());
 
