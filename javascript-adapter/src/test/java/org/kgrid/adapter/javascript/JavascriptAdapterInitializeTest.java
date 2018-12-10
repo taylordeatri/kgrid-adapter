@@ -2,6 +2,7 @@ package org.kgrid.adapter.javascript;
 
 import static org.junit.Assert.assertEquals;
 
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,12 +26,11 @@ public class JavascriptAdapterInitializeTest {
   @Before
   public void setUpCDOStore() throws URISyntaxException {
 
-    Path path = Paths.get(this.getClass().getResource("/cdo-store").toURI().toString());
-    cdoStore = new FilesystemCDOStore("filesystem:" + path.toString());
+    URI uri = this.getClass().getResource("/cdo-store").toURI();
+    cdoStore = new FilesystemCDOStore("filesystem:" + uri.toString());
 
-    Path path1 =
-        Paths.get(this.getClass().getResource("/cdo-store/simple-scripts").toURI().toString());
-    simpleScripts = new FilesystemCDOStore("filesystem:" + path1.toString());
+    URI uri1 = this.getClass().getResource("/cdo-store/simple-scripts").toURI();
+    simpleScripts = new FilesystemCDOStore("filesystem:" + uri1.toString());
 
     assertEquals(3, cdoStore.getChildren("").size());
   }

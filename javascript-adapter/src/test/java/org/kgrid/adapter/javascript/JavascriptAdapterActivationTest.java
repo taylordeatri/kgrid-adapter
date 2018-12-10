@@ -2,6 +2,7 @@ package org.kgrid.adapter.javascript;
 
 import  static org.junit.Assert.*;
 
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,8 +29,9 @@ public class JavascriptAdapterActivationTest {
   @Before
   public void setUpCDOStore() throws URISyntaxException {
 
+    URI uri = this.getClass().getResource("/cdo-store").toURI();
     Path path = Paths.get(this.getClass().getResource("/cdo-store").toURI().toString());
-    cdoStore = new FilesystemCDOStore( "filesystem:" + path.toString());
+    cdoStore = new FilesystemCDOStore( "filesystem:" + uri.toString());
 
     adapter = new JavascriptAdapter();
     ( (AdapterSupport) adapter).setCdoStore(cdoStore);
