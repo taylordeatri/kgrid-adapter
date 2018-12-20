@@ -33,7 +33,7 @@ public class JavascriptAdapterActivationTest {
   public void setUpCDOStore() throws URISyntaxException {
 
     URI uri = this.getClass().getResource("/shelf").toURI();
-    Path path = Paths.get(this.getClass().getResource("/shelf").toURI().toString());
+//    Path path = Paths.get(this.getClass().getResource("/shelf").toURI().toString());
     cdoStore = new FilesystemCDOStore( "filesystem:" + uri.toString());
 
     adapter = new JavascriptAdapter();
