@@ -11,13 +11,16 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import org.kgrid.adapter.api.Adapter;
 import org.kgrid.adapter.api.AdapterException;
 import org.kgrid.adapter.api.AdapterSupport;
 import org.kgrid.adapter.api.Executor;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 import org.kgrid.shelf.repository.FilesystemCDOStore;
+import org.mockito.junit.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public class JavascriptAdapterActivationTest {
 
   @Rule
@@ -29,15 +32,13 @@ public class JavascriptAdapterActivationTest {
   @Before
   public void setUpCDOStore() throws URISyntaxException {
 
-    URI uri = this.getClass().getResource("/cdo-store").toURI();
-    Path path = Paths.get(this.getClass().getResource("/cdo-store").toURI().toString());
+    URI uri = this.getClass().getResource("/shelf").toURI();
+    Path path = Paths.get(this.getClass().getResource("/shelf").toURI().toString());
     cdoStore = new FilesystemCDOStore( "filesystem:" + uri.toString());
 
     adapter = new JavascriptAdapter();
     ( (AdapterSupport) adapter).setCdoStore(cdoStore);
     adapter.initialize(null);
-
-    assertEquals(3, cdoStore.getChildren("").size());
   }
 
   @Test
@@ -63,5 +64,13 @@ public class JavascriptAdapterActivationTest {
     // treat a javascript object as a map
     assertEquals("1", result.get("something"));
     assertEquals(2, result.get("somethingelse"));
+  }
+
+  @Test
+  public void activationWithMissingArtifactThrowsAdapterException() {
+    thrown.expect(AdapterException.class);
+    thrown.expectMessage("Binary resource not found");
+    adapter.activate(Paths.get("a-b/c"), "missing.js");
+
   }
 }

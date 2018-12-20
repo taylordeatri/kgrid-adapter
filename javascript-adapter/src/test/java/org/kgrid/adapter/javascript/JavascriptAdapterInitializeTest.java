@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,13 +24,13 @@ public class JavascriptAdapterInitializeTest {
   @Before
   public void setUpCDOStore() throws URISyntaxException {
 
-    URI uri = this.getClass().getResource("/cdo-store").toURI();
+    URI uri = this.getClass().getResource("/shelf").toURI();
     cdoStore = new FilesystemCDOStore("filesystem:" + uri.toString());
 
-    URI uri1 = this.getClass().getResource("/cdo-store/simple-scripts").toURI();
+    URI uri1 = this.getClass().getResource("/shelf/simple-scripts").toURI();
     simpleScripts = new FilesystemCDOStore("filesystem:" + uri1.toString());
 
-    assertEquals(3, cdoStore.getChildren("").size());
+    assertEquals(4, cdoStore.getChildren("").size());
   }
 
   @Test

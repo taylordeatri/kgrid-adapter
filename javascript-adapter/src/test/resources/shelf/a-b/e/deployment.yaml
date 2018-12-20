@@ -1,0 +1,9 @@
+endpoints:
+  /info:
+    adapterType: JAVASCRIPT
+    artifact: echo.js
+    entry: info
+  /echo:
+    adapterType: JAVASCRIPT
+    artifact: echo.js
+    entry: echo

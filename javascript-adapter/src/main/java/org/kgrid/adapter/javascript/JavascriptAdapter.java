@@ -2,9 +2,9 @@ package org.kgrid.adapter.javascript;
 
 import java.nio.charset.Charset;
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import javax.script.Bindings;
 import javax.script.Compilable;
 import javax.script.CompiledScript;
 import javax.script.ScriptContext;
@@ -17,11 +17,13 @@ import org.kgrid.adapter.api.Adapter;
 import org.kgrid.adapter.api.AdapterException;
 import org.kgrid.adapter.api.AdapterSupport;
 import org.kgrid.adapter.api.Executor;
+import org.kgrid.shelf.ShelfResourceNotFound;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 
 
 public class JavascriptAdapter implements Adapter, AdapterSupport {
 
+  Map<String, Object> endpoints;
   ScriptEngine engine;
   CompoundDigitalObjectStore cdoStore;
 
@@ -37,32 +39,17 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
   }
 
   @Override
-  public Executor activate(Path resourcePath, String functionName) {
+  public Executor activate(Path resourcePath, String entry) {
 
-    ScriptContext context = new SimpleScriptContext();
+    CompiledScript script = getCompiledScript(resourcePath.toString(), entry);
+
+    final ScriptContext context = new SimpleScriptContext();
     context.setBindings(engine.createBindings(), ScriptContext.ENGINE_SCOPE);
-    String scriptPath = resourcePath.toString();
-    byte[] binary = cdoStore.getBinary(scriptPath);
 
-    if(binary==null){
-      throw new AdapterException("Can't find endpoint " + functionName + " in path " + scriptPath,null);
-    }
-
-    CompiledScript script;
-    try {
-      script = ((Compilable) engine)
-          .compile(new String(binary, Charset.defaultCharset()));
-      script.eval(context);
-    } catch (ScriptException e) {
-      throw new AdapterException("unable to compile script " + scriptPath + " : " +e.getMessage(), e);
-    }
-
-    ScriptObjectMirror mirror = (ScriptObjectMirror) context
-        .getBindings(ScriptContext.ENGINE_SCOPE);
+    final Bindings bindings = context.getBindings(ScriptContext.ENGINE_SCOPE);
+    bindings.put("endpoints", endpoints);
 
     return new Executor() {
-
-      String endpoint = functionName;
 
       @Override
       public synchronized Object execute(Object input) {
@@ -70,17 +57,37 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
         try {
           script.eval(context);
         } catch (ScriptException ex) {
-          throw new AdapterException("unable to reset script context " + scriptPath + " : " +ex.getMessage(), ex);
+          throw new AdapterException(
+              "unable to reset script context " + resourcePath.toString() + " : " + ex.getMessage(),
+              ex);
         }
-
-        Object output = mirror.callMember(endpoint, input);
-
-        final Map<String, String> errors = new HashMap<>();
+        Object output = ((ScriptObjectMirror) bindings).callMember(entry, input);
 
         return output;
       }
-
     };
+  }
+
+  private CompiledScript getCompiledScript(String artifact, String entry) {
+    byte[] binary;
+    try {
+      binary = cdoStore.getBinary(artifact);
+    } catch (ShelfResourceNotFound e) {
+      throw new AdapterException(e.getMessage(), e);
+    }
+    if (binary == null) {
+      throw new AdapterException(
+          String.format("Can't find endpoint %s in path %s", entry, artifact));
+    }
+    CompiledScript script;
+    try {
+      script = ((Compilable) engine)
+          .compile(new String(binary, Charset.defaultCharset()));
+    } catch (ScriptException e) {
+      throw new AdapterException("unable to compile script " + artifact + " : " + e.getMessage(),
+          e);
+    }
+    return script;
   }
 
   @Override
@@ -94,9 +101,14 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
     return "UP";
   }
 
-
+  @Override
   public void setCdoStore(CompoundDigitalObjectStore cdoStore) {
     this.cdoStore = cdoStore;
+  }
+
+  @Override
+  public void setEndpoints(Map<String, Object> endpoints) {
+    this.endpoints = endpoints;
   }
 
 }
