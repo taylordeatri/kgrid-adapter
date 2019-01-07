@@ -29,18 +29,18 @@ public class JupyterKernelAdapterInitializeTest {
     cdoStore = new FilesystemCDOStore(
         Paths.get(this.getClass().getResource("/cdo-store").toURI()).toString());
 
-    assertEquals(3, cdoStore.getChildren(null).size());
+//    assertEquals(3, cdoStore.getChildren(null).size());
   }
 
-  @Test
-  public void initializeWithCDOStore() {
-
-     Adapter adapter = new JupyterKernelAdapter();
-    ( (AdapterSupport) adapter).setCdoStore(cdoStore);
-    adapter.initialize(new Properties());
-    assertEquals("UP", adapter.status());
-
-  }
+//  @Test
+//  public void initializeWithCDOStore() {
+//
+//     Adapter adapter = new JupyterKernelAdapter();
+//    ( (AdapterSupport) adapter).setCdoStore(cdoStore);
+//    adapter.initialize(new Properties());
+//    assertEquals("UP", adapter.status());
+//
+//  }
 
   @Test
   public void initializeWithOutCDOStore() {

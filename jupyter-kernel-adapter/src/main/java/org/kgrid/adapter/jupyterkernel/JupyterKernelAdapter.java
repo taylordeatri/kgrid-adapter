@@ -15,6 +15,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.kgrid.adapter.api.ActivationContext;
 import org.kgrid.adapter.api.Adapter;
 import org.kgrid.adapter.api.AdapterException;
 import org.kgrid.adapter.api.AdapterSupport;
@@ -201,8 +202,14 @@ public class JupyterKernelAdapter implements Adapter, AdapterSupport {
     return "UP";
   }
 
-  public void setCdoStore(CompoundDigitalObjectStore cdoStore) {
-    this.cdoStore = cdoStore;
+  @Override
+  public void setContext(ActivationContext context) {
+
+  }
+
+  @Override
+  public ActivationContext getContext() {
+    return null;
   }
 
   /*

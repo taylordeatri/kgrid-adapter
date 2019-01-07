@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -21,6 +22,7 @@ import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 import org.kgrid.shelf.repository.FilesystemCDOStore;
 
 @Category(JupyterIntegationTest.class)
+@Ignore
 public class JupyterKernelAdapterActivationTest {
 
   @Rule
@@ -36,7 +38,7 @@ public class JupyterKernelAdapterActivationTest {
         Paths.get(this.getClass().getResource("/cdo-store").toURI()).toString());
 
     adapter = new JupyterKernelAdapter();
-    ((AdapterSupport) adapter).setCdoStore(cdoStore);
+//    ((AdapterSupport) adapter).setCdoStore(cdoStore);
     Properties properties = new Properties();
     properties.setProperty("adapter.kernel.url", "localhost:8888/api/kernels");
     properties.setProperty("adapter.kernel.type", "python3");
