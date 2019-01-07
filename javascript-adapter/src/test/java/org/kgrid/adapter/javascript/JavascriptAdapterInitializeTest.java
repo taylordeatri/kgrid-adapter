@@ -9,7 +9,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.kgrid.adapter.api.Adapter;
+import org.kgrid.adapter.api.ActivationContext;
 import org.kgrid.adapter.api.AdapterSupport;
+import org.kgrid.adapter.api.Executor;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 import org.kgrid.shelf.repository.FilesystemCDOStore;
 
@@ -37,7 +39,23 @@ public class JavascriptAdapterInitializeTest {
   public void initializeWithCDOStore() {
 
     Adapter adapter = new JavascriptAdapter();
-    ((AdapterSupport) adapter).setCdoStore(cdoStore);
+//    ((AdapterSupport) adapter).setCdoStore(cdoStore);
+    ((AdapterSupport) adapter).setContext(new ActivationContext() {
+      @Override
+      public Executor getExecutor(String key) {
+        return null;
+      }
+
+      @Override
+      public byte[] getBinary(String pathToBinary) {
+        return cdoStore.getBinary(pathToBinary);
+      }
+
+      @Override
+      public String getProperty(String key) {
+        return null;
+      }
+    });
     adapter.initialize(null);
     assertEquals("UP", adapter.status());
 

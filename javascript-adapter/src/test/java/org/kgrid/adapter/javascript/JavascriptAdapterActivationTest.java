@@ -12,6 +12,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.kgrid.adapter.api.ActivationContext;
 import org.kgrid.adapter.api.Adapter;
 import org.kgrid.adapter.api.AdapterException;
 import org.kgrid.adapter.api.AdapterSupport;
@@ -37,7 +38,23 @@ public class JavascriptAdapterActivationTest {
     cdoStore = new FilesystemCDOStore( "filesystem:" + uri.toString());
 
     adapter = new JavascriptAdapter();
-    ( (AdapterSupport) adapter).setCdoStore(cdoStore);
+//    ( (AdapterSupport) adapter).setCdoStore(cdoStore);
+    ( (AdapterSupport) adapter).setContext(new ActivationContext() {
+      @Override
+      public Executor getExecutor(String key) {
+        return null;
+      }
+
+      @Override
+      public byte[] getBinary(String pathToBinary) {
+        return cdoStore.getBinary(pathToBinary);
+      }
+
+      @Override
+      public String getProperty(String key) {
+        return null;
+      }
+    });
     adapter.initialize(null);
   }
 

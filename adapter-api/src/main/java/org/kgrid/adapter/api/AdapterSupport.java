@@ -1,13 +1,9 @@
 package org.kgrid.adapter.api;
 
-import java.util.Map;
-import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
-
 public interface AdapterSupport {
 
-  void setCdoStore(CompoundDigitalObjectStore cdoStore);
+  void setContext(ActivationContext context);
 
-  default void setEndpoints(Map<String, Object> endpoints) {
+  ActivationContext getContext();
 
-  }
 }

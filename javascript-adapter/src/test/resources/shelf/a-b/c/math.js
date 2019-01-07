@@ -13,19 +13,17 @@ function math(input){
 
 function math2 (input) {
 
-  print(endpoints);
+  print("context: " + context);
 
-  var welcome = endpoints["a-b/d/welcome"].getExecutor();
+  print(input.value2);
 
   var exec = context.getExecutor("a-b/d/welcome");
 
   input.execResult = exec.execute({name: "Ted"});
 
-  input.result2 = welcome.execute({name: "Bob"});
-
   var answer = input.value2[0] + input.value2[1]
 
-  input.result2 += "! Answer is: " + answer
+  input.execResult += "! Answer is: " + answer
 
   print(input)
 

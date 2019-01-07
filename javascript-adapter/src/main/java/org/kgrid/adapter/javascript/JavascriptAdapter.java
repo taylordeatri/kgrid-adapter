@@ -14,6 +14,7 @@ import javax.script.ScriptException;
 import javax.script.SimpleScriptContext;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.kgrid.adapter.api.Adapter;
+import org.kgrid.adapter.api.ActivationContext;
 import org.kgrid.adapter.api.AdapterException;
 import org.kgrid.adapter.api.AdapterSupport;
 import org.kgrid.adapter.api.Executor;
@@ -24,6 +25,7 @@ import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 public class JavascriptAdapter implements Adapter, AdapterSupport {
 
   Map<String, Object> endpoints;
+  private ActivationContext activationContext;
   ScriptEngine engine;
   CompoundDigitalObjectStore cdoStore;
 
@@ -36,18 +38,20 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
   public void initialize(Properties properties) {
 
     engine = new ScriptEngineManager().getEngineByName("JavaScript");
+    engine.getBindings(ScriptContext.GLOBAL_SCOPE).put("context", activationContext);
   }
 
   @Override
-  public Executor activate(Path resourcePath, String entry) {
+  public Executor activate(Path artifact, String entry) {
 
-    CompiledScript script = getCompiledScript(resourcePath.toString(), entry);
+    CompiledScript script = getCompiledScript(artifact.toString(), entry);
 
     final ScriptContext context = new SimpleScriptContext();
     context.setBindings(engine.createBindings(), ScriptContext.ENGINE_SCOPE);
 
     final Bindings bindings = context.getBindings(ScriptContext.ENGINE_SCOPE);
-    bindings.put("endpoints", endpoints);
+//    bindings.put("endpoints", endpoints);
+//    bindings.put("context", activationContext);
 
     return new Executor() {
 
@@ -58,7 +62,7 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
           script.eval(context);
         } catch (ScriptException ex) {
           throw new AdapterException(
-              "unable to reset script context " + resourcePath.toString() + " : " + ex.getMessage(),
+              "unable to reset script context " + artifact.toString() + " : " + ex.getMessage(),
               ex);
         }
         Object output = ((ScriptObjectMirror) bindings).callMember(entry, input);
@@ -71,7 +75,8 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
   private CompiledScript getCompiledScript(String artifact, String entry) {
     byte[] binary;
     try {
-      binary = cdoStore.getBinary(artifact);
+//      binary = cdoStore.getBinary(artifact);
+      binary = activationContext.getBinary(artifact);
     } catch (ShelfResourceNotFound e) {
       throw new AdapterException(e.getMessage(), e);
     }
@@ -95,20 +100,20 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
     if (engine == null) {
       return "DOWN";
     }
-    if (cdoStore == null) {
+    if (activationContext == null) {
       return "DOWN";
     }
     return "UP";
   }
 
   @Override
-  public void setCdoStore(CompoundDigitalObjectStore cdoStore) {
-    this.cdoStore = cdoStore;
+  public void setContext(ActivationContext context) {
+    this.activationContext = context;
   }
 
   @Override
-  public void setEndpoints(Map<String, Object> endpoints) {
-    this.endpoints = endpoints;
+  public ActivationContext getContext() {
+    return activationContext;
   }
 
 }

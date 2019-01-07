@@ -12,7 +12,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kgrid.adapter.api.AdapterSupport;
+import org.kgrid.adapter.api.ActivationContext;
 import org.kgrid.adapter.api.Executor;
 import org.kgrid.adapter.javascript.utils.MyMath;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
@@ -24,13 +24,31 @@ public class JavascriptToJavaIntegrationTests {
 
   @Mock
   CompoundDigitalObjectStore cdoStore;
+
   private JavascriptAdapter adapter;
+  private Map<String, Object> endpoints = new HashMap<>();
 
   @Before
   public void setUp() throws Exception {
     adapter = new JavascriptAdapter();
+//    ((AdapterSupport) adapter).setCdoStore(cdoStore);
+    adapter.setContext(new ActivationContext() {
+      @Override
+      public Executor getExecutor(String key) {
+        return ((Endpoint) endpoints.get(key)).getExecutor();
+      }
+
+      @Override
+      public byte[] getBinary(String pathToBinary) {
+        return cdoStore.getBinary(pathToBinary);
+      }
+
+      @Override
+      public String getProperty(String key) {
+        return null;
+      }
+    });
     adapter.initialize(null);
-    ((AdapterSupport) adapter).setCdoStore(cdoStore);
   }
 
   @Test
@@ -75,8 +93,8 @@ public class JavascriptToJavaIntegrationTests {
     given(cdoStore.getBinary(eq("a-b/c")))
         .willReturn(getBinaryTestFile("a-b/c", "math.js"));
 
-    Map<String, Object> endpoints = new HashMap<>();
-    adapter.setEndpoints(endpoints);
+//    Map<String, Object> endpoints = new HashMap<>();
+//    adapter.setEndpoints(endpoints);
 
     final Executor welcome = adapter.activate(Paths.get("a-b/d"), "welcome");
     final Executor add = adapter.activate(Paths.get("a-b/c"), "math2");
@@ -91,8 +109,8 @@ public class JavascriptToJavaIntegrationTests {
     Map result = (Map) add.execute(inputs);
 
     assertEquals(
-        "Welcome to Knowledge Grid, Bob! Answer is: 3",
-        result.get("result2")
+        "Welcome to Knowledge Grid, Ted! Answer is: 3",
+        result.get("execResult")
     );
   }
 
