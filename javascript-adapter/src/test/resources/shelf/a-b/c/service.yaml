@@ -10,6 +10,8 @@ tags:
   - name: KO Endpoints
     description: Hello World Endpoints
 paths:
+  /info:
+    get:
   /add:
     post:
       requestBody:

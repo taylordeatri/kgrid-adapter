@@ -15,10 +15,13 @@ function math2 (input) {
 
   print(endpoints);
 
-  var executor = endpoints["a-b/d/welcome"].getExecutor();
+  var welcome = endpoints["a-b/d/welcome"].getExecutor();
 
-  // input.result2 = myMath.execute(input.value2[0], input.value2[1]);
-  input.result2 = executor.execute({name: "Bob"});
+  var exec = context.getExecutor("a-b/d/welcome");
+
+  input.execResult = exec.execute({name: "Ted"});
+
+  input.result2 = welcome.execute({name: "Bob"});
 
   var answer = input.value2[0] + input.value2[1]
 
@@ -28,8 +31,4 @@ function math2 (input) {
 
   return input;
 
-}
-
-function info () {
-  return "Greets a person by name."
 }

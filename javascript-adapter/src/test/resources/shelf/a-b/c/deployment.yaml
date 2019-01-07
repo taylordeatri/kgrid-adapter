@@ -1,7 +1,7 @@
 endpoints:
   /info:
     adapterType: JAVASCRIPT
-    artifact: math.js
+    artifact: info.js
     entry: info
   /add:
     adapterType: JAVASCRIPT
