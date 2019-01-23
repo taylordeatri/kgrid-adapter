@@ -22,7 +22,7 @@ import org.kgrid.shelf.ShelfResourceNotFound;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 
 
-public class JavascriptAdapter implements Adapter, AdapterSupport {
+public class JavascriptAdapter implements Adapter {
 
   Map<String, Object> endpoints;
   private ActivationContext activationContext;
@@ -35,7 +35,9 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
   }
 
   @Override
-  public void initialize(Properties properties) {
+  public void initialize(ActivationContext context) {
+
+    activationContext = context;
 
     engine = new ScriptEngineManager().getEngineByName("JavaScript");
     engine.getBindings(ScriptContext.GLOBAL_SCOPE).put("context", activationContext);
@@ -104,16 +106,6 @@ public class JavascriptAdapter implements Adapter, AdapterSupport {
       return "DOWN";
     }
     return "UP";
-  }
-
-  @Override
-  public void setContext(ActivationContext context) {
-    this.activationContext = context;
-  }
-
-  @Override
-  public ActivationContext getContext() {
-    return activationContext;
   }
 
 }

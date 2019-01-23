@@ -31,8 +31,7 @@ public class JavascriptToJavaIntegrationTests {
   @Before
   public void setUp() throws Exception {
     adapter = new JavascriptAdapter();
-//    ((AdapterSupport) adapter).setCdoStore(cdoStore);
-    adapter.setContext(new ActivationContext() {
+    adapter.initialize(new ActivationContext() {
       @Override
       public Executor getExecutor(String key) {
         return ((Endpoint) endpoints.get(key)).getExecutor();
@@ -48,7 +47,6 @@ public class JavascriptToJavaIntegrationTests {
         return null;
       }
     });
-    adapter.initialize(null);
   }
 
   @Test

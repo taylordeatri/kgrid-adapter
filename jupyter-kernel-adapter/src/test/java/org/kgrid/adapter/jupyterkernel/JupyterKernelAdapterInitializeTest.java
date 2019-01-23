@@ -46,7 +46,7 @@ public class JupyterKernelAdapterInitializeTest {
   public void initializeWithOutCDOStore() {
 
     Adapter adapter = new JupyterKernelAdapter();
-    adapter.initialize(new Properties());
+    adapter.initialize(null);
     assertEquals("DOWN", adapter.status());
 
   }

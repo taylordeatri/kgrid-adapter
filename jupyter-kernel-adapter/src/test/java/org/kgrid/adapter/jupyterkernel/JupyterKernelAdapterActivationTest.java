@@ -38,11 +38,10 @@ public class JupyterKernelAdapterActivationTest {
         Paths.get(this.getClass().getResource("/cdo-store").toURI()).toString());
 
     adapter = new JupyterKernelAdapter();
-//    ((AdapterSupport) adapter).setCdoStore(cdoStore);
     Properties properties = new Properties();
     properties.setProperty("adapter.kernel.url", "localhost:8888/api/kernels");
     properties.setProperty("adapter.kernel.type", "python3");
-    adapter.initialize(properties);
+    adapter.initialize(null);
   }
 
 

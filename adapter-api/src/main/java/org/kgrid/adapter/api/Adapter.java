@@ -7,7 +7,7 @@ public interface Adapter {
 
   String getType();
 
-  void initialize(Properties properties);
+  void initialize(ActivationContext context);
 
   // resource Path: .../99999-fk4r73t/v.1.1.2/models/resource, endpoint: "score"
   Executor activate(Path resource, String endpoint);

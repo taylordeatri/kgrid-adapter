@@ -34,12 +34,10 @@ public class JavascriptAdapterActivationTest {
   public void setUpCDOStore() throws URISyntaxException {
 
     URI uri = this.getClass().getResource("/shelf").toURI();
-//    Path path = Paths.get(this.getClass().getResource("/shelf").toURI().toString());
     cdoStore = new FilesystemCDOStore( "filesystem:" + uri.toString());
 
     adapter = new JavascriptAdapter();
-//    ( (AdapterSupport) adapter).setCdoStore(cdoStore);
-    ( (AdapterSupport) adapter).setContext(new ActivationContext() {
+    adapter.initialize(new ActivationContext() {
       @Override
       public Executor getExecutor(String key) {
         return null;
@@ -55,7 +53,6 @@ public class JavascriptAdapterActivationTest {
         return null;
       }
     });
-    adapter.initialize(null);
   }
 
   @Test

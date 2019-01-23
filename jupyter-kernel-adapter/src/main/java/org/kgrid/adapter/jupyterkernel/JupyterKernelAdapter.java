@@ -50,6 +50,10 @@ public class JupyterKernelAdapter implements Adapter, AdapterSupport {
   }
 
   @Override
+  public void initialize(ActivationContext context) {
+
+  }
+
   public void initialize(Properties properties) {
     serverURL = properties.getProperty("kgrid.adapter.kernel.url");
     if (serverURL == null) {
