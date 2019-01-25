@@ -1,23 +1,15 @@
 package org.kgrid.activator.adapter.jupyterkernel;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.File;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.EnumSet;
-import java.util.Properties;
 import java.util.stream.Stream;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
-import org.kgrid.adapter.api.Adapter;
-import org.kgrid.adapter.api.AdapterException;
-import org.kgrid.adapter.api.AdapterSupport;
-import org.kgrid.adapter.api.Executor;
 import org.kgrid.adapter.jupyterkernel.JupyterIntegationTest;
 import org.kgrid.adapter.jupyterkernel.JupyterKernelAdapter;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
@@ -68,7 +60,6 @@ public class JupyterKernelAdapterApplicationTests {
 //
 //
 //    adapter.initialize(new Properties());
-//    ((AdapterSupport) adapter).setCdoStore(cdoStore);
 //    Executor x = adapter.activate(Paths.get("doubler.py"), "doubler");
 //
 //    Object r = x.execute(3);
@@ -98,7 +89,6 @@ public class JupyterKernelAdapterApplicationTests {
 //    System.out.println(x.execute("'Ralph'"));
 //
 //  }
-
 
 //  @Test
 //  public void testCanActivateKoFromCdoStore() throws Exception {

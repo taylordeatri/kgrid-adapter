@@ -18,7 +18,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.kgrid.adapter.api.ActivationContext;
 import org.kgrid.adapter.api.Adapter;
 import org.kgrid.adapter.api.AdapterException;
-import org.kgrid.adapter.api.AdapterSupport;
 import org.kgrid.adapter.api.Executor;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 import org.slf4j.Logger;
@@ -34,7 +33,7 @@ import org.springframework.web.client.RestTemplate;
 import org.thavam.util.concurrent.blockingMap.BlockingHashMap;
 import org.thavam.util.concurrent.blockingMap.BlockingMap;
 
-public class JupyterKernelAdapter implements Adapter, AdapterSupport {
+public class JupyterKernelAdapter implements Adapter {
 
   private final Logger log = LoggerFactory.getLogger(this.getClass());
   private CompoundDigitalObjectStore cdoStore;
@@ -132,9 +131,9 @@ public class JupyterKernelAdapter implements Adapter, AdapterSupport {
                 throw new AdapterException(errorMessage);
               }
               // If want to analyze other status messages from the kernel:
-  //            else {
-  //              log.info("Got response from websocket:\n" + message);
-  //            }
+              //            else {
+              //              log.info("Got response from websocket:\n" + message);
+              //            }
             }
           });
 
@@ -142,7 +141,8 @@ public class JupyterKernelAdapter implements Adapter, AdapterSupport {
       byte[] binary = cdoStore.getBinary(scriptPath);
 
       if (binary == null) {
-        throw new AdapterException("Can't find endpoint " + functionName + " in path " + scriptPath);
+        throw new AdapterException(
+            "Can't find endpoint " + functionName + " in path " + scriptPath);
       }
 
       // Send the function stored in the KO payload to the kernel
@@ -164,7 +164,8 @@ public class JupyterKernelAdapter implements Adapter, AdapterSupport {
             if (inputMap.size() > 0) {
               functCallBuilder.append("{");
               (inputMap).forEach((Object key, Object value) -> {
-                functCallBuilder.append("\"").append(key).append("\": \"").append(value).append("\",");
+                functCallBuilder.append("\"").append(key).append("\": \"").append(value)
+                    .append("\",");
               });
               functCallBuilder.deleteCharAt(functCallBuilder.length() - 1).append("}");
             }
@@ -185,7 +186,7 @@ public class JupyterKernelAdapter implements Adapter, AdapterSupport {
             if (result == null) {
               throw new AdapterException(
                   "Error in jupyter kernel execution: " +
-                  kernelErrors.take(functionID, 10, TimeUnit.SECONDS));
+                      kernelErrors.take(functionID, 10, TimeUnit.SECONDS));
             }
             return result;
           } catch (InterruptedException e) {
@@ -204,16 +205,6 @@ public class JupyterKernelAdapter implements Adapter, AdapterSupport {
       return "DOWN";
     }
     return "UP";
-  }
-
-  @Override
-  public void setContext(ActivationContext context) {
-
-  }
-
-  @Override
-  public ActivationContext getContext() {
-    return null;
   }
 
   /*

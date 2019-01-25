@@ -1,6 +1,6 @@
 package org.kgrid.adapter.javascript;
 
-import  static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -15,7 +15,6 @@ import org.junit.runner.RunWith;
 import org.kgrid.adapter.api.ActivationContext;
 import org.kgrid.adapter.api.Adapter;
 import org.kgrid.adapter.api.AdapterException;
-import org.kgrid.adapter.api.AdapterSupport;
 import org.kgrid.adapter.api.Executor;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 import org.kgrid.shelf.repository.FilesystemCDOStore;
@@ -34,7 +33,7 @@ public class JavascriptAdapterActivationTest {
   public void setUpCDOStore() throws URISyntaxException {
 
     URI uri = this.getClass().getResource("/shelf").toURI();
-    cdoStore = new FilesystemCDOStore( "filesystem:" + uri.toString());
+    cdoStore = new FilesystemCDOStore("filesystem:" + uri.toString());
 
     adapter = new JavascriptAdapter();
     adapter.initialize(new ActivationContext() {
@@ -59,18 +58,19 @@ public class JavascriptAdapterActivationTest {
   public void badScriptThrowsException() throws AdapterException {
 
     thrown.expect(AdapterException.class);
-    String message = "unable to compile script " + Paths.get("simple-scripts", "badscript").toString() + ".js";
+    String message =
+        "unable to compile script " + Paths.get("simple-scripts", "badscript").toString() + ".js";
     thrown.expectMessage(message);
 
-    adapter.activate(Paths.get("simple-scripts", "badscript.js"),"badscript");
+    adapter.activate(Paths.get("simple-scripts", "badscript.js"), "badscript");
 
   }
 
   @Test
-  public void happyActivation(){
+  public void happyActivation() {
     Path path = Paths.get("simple-scripts", "doubler.js");
     Executor executor = adapter.activate(path, "doubler");
-    assertEquals(6.0, executor.execute(3) );
+    assertEquals(6.0, executor.execute(3));
 
     executor = adapter.activate(Paths.get("simple-scripts", "objectResult.js"), "objectResult");
     Map result = (Map) executor.execute(null);

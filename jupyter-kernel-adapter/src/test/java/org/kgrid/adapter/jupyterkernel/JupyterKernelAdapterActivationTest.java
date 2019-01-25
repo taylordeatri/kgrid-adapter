@@ -1,6 +1,6 @@
 package org.kgrid.adapter.jupyterkernel;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -16,7 +16,6 @@ import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 import org.kgrid.adapter.api.Adapter;
 import org.kgrid.adapter.api.AdapterException;
-import org.kgrid.adapter.api.AdapterSupport;
 import org.kgrid.adapter.api.Executor;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 import org.kgrid.shelf.repository.FilesystemCDOStore;
@@ -56,7 +55,7 @@ public class JupyterKernelAdapterActivationTest {
 
     path = Paths.get("simple-scripts", "doubler.py");
     executor = adapter.activate(path, "doubler");
-    assertEquals(6, Integer.parseInt(executor.execute(3).toString()) );
+    assertEquals(6, Integer.parseInt(executor.execute(3).toString()));
 
   }
 

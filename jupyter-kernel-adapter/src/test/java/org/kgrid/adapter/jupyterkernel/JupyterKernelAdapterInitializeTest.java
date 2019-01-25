@@ -4,14 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
-import java.util.Properties;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 import org.kgrid.adapter.api.Adapter;
-import org.kgrid.adapter.api.AdapterSupport;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 import org.kgrid.shelf.repository.FilesystemCDOStore;
 
@@ -36,7 +34,6 @@ public class JupyterKernelAdapterInitializeTest {
 //  public void initializeWithCDOStore() {
 //
 //     Adapter adapter = new JupyterKernelAdapter();
-//    ( (AdapterSupport) adapter).setCdoStore(cdoStore);
 //    adapter.initialize(new Properties());
 //    assertEquals("UP", adapter.status());
 //

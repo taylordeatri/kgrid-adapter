@@ -3,7 +3,6 @@ package org.kgrid.adapter.javascript;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.Map;
-import java.util.Properties;
 import javax.script.Bindings;
 import javax.script.Compilable;
 import javax.script.CompiledScript;
@@ -13,10 +12,9 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.script.SimpleScriptContext;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
-import org.kgrid.adapter.api.Adapter;
 import org.kgrid.adapter.api.ActivationContext;
+import org.kgrid.adapter.api.Adapter;
 import org.kgrid.adapter.api.AdapterException;
-import org.kgrid.adapter.api.AdapterSupport;
 import org.kgrid.adapter.api.Executor;
 import org.kgrid.shelf.ShelfResourceNotFound;
 import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
@@ -25,9 +23,9 @@ import org.kgrid.shelf.repository.CompoundDigitalObjectStore;
 public class JavascriptAdapter implements Adapter {
 
   Map<String, Object> endpoints;
-  private ActivationContext activationContext;
   ScriptEngine engine;
   CompoundDigitalObjectStore cdoStore;
+  private ActivationContext activationContext;
 
   @Override
   public String getType() {
