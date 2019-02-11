@@ -72,7 +72,7 @@ jobs:
             if [ $RELEASE ]; then
                 git config --global user.email "$GIT_USER_EMAIL"
                 git config --global user.name "$GIT_USER_NAME"
-                mvn release:clean release:prepare --projects $MODULE --batch-mode  -DscmCommentPrefix="Release [skip ci] " -DreleaseVersion=$RELEASE -DdevelopmentVersion=$NEXT release:perform -P ci -s .circleci/settings.xml
+                mvn release:clean release:prepare --projects $MODULE --batch-mode -DreleaseVersion=$RELEASE -DdevelopmentVersion=$NEXT release:perform -P ci -s .circleci/settings.xml
             else
                 mvn clean deploy  -P ci -s .circleci/settings.xml
             fi
