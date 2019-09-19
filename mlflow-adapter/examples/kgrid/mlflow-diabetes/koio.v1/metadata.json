@@ -1,0 +1,12 @@
+{
+	"@id":	"v0.0.1",
+	"@type": "koio:Implementation",
+	"title": "MLFlow Diabetes koio.v1",
+	"identifier": "ark:/mlflow/diabetes/koio.v1",
+	"adapterType": "MLFLOW",
+	"hasServiceSpecification": "koio.v1/service-specification.yaml",
+	"hasDeploymentSpecification": "koio.v1/deployment-specification.yaml",
+	"@context": [
+		"http://kgrid.org/koio/contexts/implementation.jsonld"
+	]
+}

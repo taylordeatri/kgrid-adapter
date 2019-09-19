@@ -1,0 +1,12 @@
+name: mlflow1
+channels:
+  - defaults
+dependencies:
+  - cloudpickle=0.6.1
+  - python=3.7.4
+  - numpy=1.16.4
+  - matplotlib=3.0.2
+  - pandas=0.22.0
+  - scikit-learn=0.21.2
+  - pip:
+    - mlflow
