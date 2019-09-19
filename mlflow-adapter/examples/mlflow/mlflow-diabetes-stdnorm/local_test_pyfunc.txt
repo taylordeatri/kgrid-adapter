@@ -1,0 +1,46 @@
+import os
+import warnings
+import sys
+from pathlib import Path
+​
+import pandas as pd
+import numpy as np
+from itertools import cycle
+import matplotlib.pyplot as plt
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import ElasticNet
+from sklearn.linear_model import lasso_path, enet_path
+from sklearn import datasets
+​
+import mlflow
+import mlflow.sklearn
+​
+​
+​
+​
+​
+from mlflow.utils import PYTHON_VERSION
+from mlflow.utils.file_utils import TempDir
+from mlflow.utils.environment import _mlflow_conda_env
+from diabetes_pyfunc import SkLearnDiabetesPyfunc
+d_mean = pd.read_csv("mlruns/0/e20a374530244435b81718c19500b7ce/artifacts/model/data/diabetes_model/trained_mean.csv", header=None, index_col=0, squeeze =True)
+d_std = pd.read_csv("mlruns/0/e20a374530244435b81718c19500b7ce/artifacts/model/data/diabetes_model/trained_std.csv", header=None, index_col=0, squeeze =True)
+skmodel_path = "mlruns/0/e20a374530244435b81718c19500b7ce/artifacts/model/data/diabetes_model/sklearn_model"
+sklearn_model = mlflow.sklearn.load_model(skmodel_path)
+sklfunc =     SkLearnDiabetesPyfunc(d_mean, d_std, sklearn_model)
+​
+data2 = [{ "age" : 60, "sex" : 2, "bmi": 22.3, "bp": 113, "s1": 186, "s2": 125.8, "s3"  : 46, "s4"  : 4, "s5"  : 4.2627, "s6"  : 94}]
+​
+​
+# Should predict around 143
+​
+df2 = pd.DataFrame(data2)
+​
+print(sklfunc.predict(df2) )
+        age       sex       bmi        bp        s1        s2        s3  \
+0  0.875877  1.064282 -0.922517  1.326919 -0.090738  0.340671 -0.292903   
+
+         s4        s5        s6  
+0 -0.054438 -0.724957  0.238321  
+[118.57491948]
