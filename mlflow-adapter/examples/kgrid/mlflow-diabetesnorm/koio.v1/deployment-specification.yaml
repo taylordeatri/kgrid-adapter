@@ -1,0 +1,5 @@
+endpoints:
+  /diabetesProgression:
+    adapterType: MLFLOW
+    artifact: mlflow-config.yaml
+    entry: invocations

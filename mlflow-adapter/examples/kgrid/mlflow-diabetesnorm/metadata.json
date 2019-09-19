@@ -1,0 +1,12 @@
+{
+	"@id": "mlflow-diabetesnorm",
+	"@type": "koio:KnowledgeObject",
+	"identifier": "ark:/mlflow/diabetesnorm",
+	"contributors": "David Taylor",
+	"description": "MLFlow implemented python model for diabetes progression. Docker image is from this run of the model below. Input data is normailzed.",
+	"title": "MLFlow Diabetes Progression Score",
+	"keywords": "mlflow diabetes skl",
+	"citations": [ "http://localhost:5000/#/experiments/0/runs/1daf410445694fe69dfb6598b2317e0e" ] ,
+	"hasImplementation": [ "mlflow-diabetesnorm/koio.v1" ],
+	"@context" : ["http://kgrid.org/koio/contexts/knowledgeobject.jsonld"]
+}

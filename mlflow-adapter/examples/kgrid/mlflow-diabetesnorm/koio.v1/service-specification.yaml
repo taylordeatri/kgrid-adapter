@@ -1,0 +1,113 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "version" : "1.0.0",
+    "title" : "Diabetes Progression Score",
+    "description" : "This object takes an array of columns and values and returns a float array which is the predicted Diabetes Progression Score."
+  },
+  "servers" : [ {
+    "url" : "/mlflow/diabetes/v0.0.1",
+    "description" : "mlflow-diabetes v0.0.1"
+  } ],
+  "paths" : {
+    "/diabetesProgression" : {
+      "post" : {
+        "description" : "SK Learn based Diabetes Progression Score.",
+        "operationId" : "diabetesProgression",
+        "requestBody" : {
+          "description" : "inputs",
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/diabetes-patient-stdnorm"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/output"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "x-kgrid-activation" : {
+        "artifact" : "mlflow-config.yaml",
+        "adapter" : "MLFLOW",
+        "entry" : "invocations"
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "diabetes-patient-stdnorm" : {
+        "type" : "object",
+        "properties" : {
+          "columns" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            },
+            "minItems" : 10,
+            "maxItems" : 10,
+            "example" : [ "age", "sex", "bmi", "map", "tc", "ldl", "hdl", "tch", "ltg", "glu" ]
+          },
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "type" : "array",
+              "items" : {
+                "type" : "number",
+                "format" : "float"
+              }
+            },
+            "example" : [ [ 60, 2, 22.3, 113, 186, 125.8, 46, 4, 4.2627, 94 ] ]
+          }
+        },
+        "required" : [ "columns", "data" ]
+      },
+      "output" : {
+        "required" : [ "result" ],
+        "properties" : {
+          "result" : {
+            "type" : "array",
+            "items" : {
+              "type" : "number",
+              "format" : "float",
+              "example" : [ 150.223 ]
+            }
+          }
+        }
+      },
+      "Error" : {
+        "required" : [ "code", "message" ],
+        "properties" : {
+          "code" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}
