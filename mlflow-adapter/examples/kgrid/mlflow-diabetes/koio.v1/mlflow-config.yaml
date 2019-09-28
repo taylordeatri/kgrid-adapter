@@ -1,2 +1,0 @@
-mlflow-project-run: http://localhost:5000/#/experiments/1/runs/50b3ca3bf3f640e080829eacdfc4c692
-mlflow-docker-image: sklearn_diabetes

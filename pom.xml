@@ -17,7 +17,7 @@
      -->
     <module>javascript-adapter</module>
     <module>resource-adapter</module>
-    <module>mlflow-adapter</module>
+    <module>docker-adapter</module>
   </modules>
 
   <!-- Environment Settings -->

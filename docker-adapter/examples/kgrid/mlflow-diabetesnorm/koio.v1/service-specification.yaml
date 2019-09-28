@@ -20,7 +20,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/diabetes-patient"
+                "$ref" : "#/components/schemas/diabetes-patient-stdnorm"
               }
             }
           }
@@ -49,15 +49,15 @@
         }
       },
       "x-kgrid-activation" : {
-        "artifact" : "mlflow-config.yaml",
-        "adapter" : "MLFLOW",
+        "artifact" : "docker-config.yaml",
+        "adapter" : "DOCKER",
         "entry" : "invocations"
       }
     }
   },
   "components" : {
     "schemas" : {
-      "diabetes-patient" : {
+      "diabetes-patient-stdnorm" : {
         "type" : "object",
         "properties" : {
           "columns" : {
@@ -78,7 +78,7 @@
                 "format" : "float"
               }
             },
-            "example" : [ [ 0.0126481372762872, -0.044641636506989, 0.0228949718589761, 0.0528581912385822, 0.00806271018719657, -0.0285577936019079, 0.0375951860378887, -0.0394933828740919, 0.0547240033481791, -0.0259303389894746 ] ]
+            "example" : [ [ 60, 2, 22.3, 113, 186, 125.8, 46, 4, 4.2627, 94 ] ]
           }
         },
         "required" : [ "columns", "data" ]

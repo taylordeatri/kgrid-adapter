@@ -4,13 +4,13 @@
 
   <!-- The Basics -->
   <groupId>org.kgrid</groupId>
-  <artifactId>mlflow-adapter</artifactId>
+  <artifactId>docker-adapter</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <!-- More Project Information -->
-  <name>mlflow-adapter</name>
-  <description>adapter used to execute mlflow model resources</description>
+  <name>docker-adapter</name>
+  <description>adapter used to execute proxy calls to API running on docker container - auto allocates port and will start up the specific docker image if not already running.</description>
 
   <scm>
     <url>https://github.com/kgrid/kgrid-adapter</url>

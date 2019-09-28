@@ -3,7 +3,7 @@
 	"@type": "koio:Implementation",
 	"title": "MLFlow Diabetes with Standard Normalization koio.v1",
 	"identifier": "ark:/mlflow/diabetesnorm/koio.v1",
-	"adapterType": "MLFLOW",
+	"adapterType": "DOCKER",
 	"hasServiceSpecification": "koio.v1/service-specification.yaml",
 	"hasDeploymentSpecification": "koio.v1/deployment-specification.yaml",
 	"@context": [

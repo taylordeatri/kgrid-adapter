@@ -1,5 +1,5 @@
 endpoints:
   /diabetesProgression:
-    adapterType: MLFLOW
-    artifact: mlflow-config.yaml
+    adapterType: DOCKER
+    artifact: docker-config.yaml
     entry: invocations

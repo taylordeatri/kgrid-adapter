@@ -1,0 +1,2 @@
+docker-image: sklearn_diabetes
+docker-container-port: 8080
