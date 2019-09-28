@@ -39,14 +39,19 @@ public class MLFlowDockerRunner {
 		
 		try(DockerClient dockerClient = DockerUtil.createDockerClient()) {
 			
-			Optional<Container> container = getContainer(dockerClient, imageName);
+			log.info(String.format("STARTING MFLOW DOCKER CONTAINER: %s on port %d", imageName, port) );
 			
+			Optional<Container> container = getContainer(dockerClient, imageName);
+
+
 			if ( !containerIsRunning(dockerClient, container) ) {
 				String containerId = createContainer(dockerClient, imageName, port);
 				RunningMLFlowContainer runningContainer = new RunningMLFlowContainer(containerId, port);
+				log.info(String.format("STARTED CONTAINER: for %s on port %d with id = %s", imageName, port, containerId) );
 				return Optional.of(runningContainer); 
 			} else {
 				if ( container.isPresent() ) {
+					log.info(String.format("FOUND RUNNING DOCKER CONTAINER: for %s on port %d with id = %s", imageName, port, container.get().getId()) );
 					ContainerPort[] containerPorts = container.get().getPorts();
 					
 					ContainerPort firstPort = containerPorts[0];
@@ -69,6 +74,8 @@ public class MLFlowDockerRunner {
 		Ports portBindings = new Ports();
 		portBindings.bind(internalPort, Ports.Binding.bindPort(port));
 		
+		log.info(String.format("CREATING DOCKER CONTAINER: for %s on port %d", imageName, port ) );
+
 		CreateContainerResponse containerResponse = dockerClient.createContainerCmd(imageName)
 			.withExposedPorts(internalPort)
 			.withHostConfig(HostConfig.newHostConfig().withPortBindings(portBindings))
@@ -107,20 +114,27 @@ public class MLFlowDockerRunner {
 
 	boolean containerIsRunning(DockerClient dockerClient, Optional<Container> container) {
 		if ( container.isPresent() ) {
+			log.info(String.format("IS DOCKER CONTAINER RUNNING: with name = %s", container.get().getNames()[0]) );
 			InspectContainerResponse containerResponse = dockerClient.inspectContainerCmd(container.get().getId()).exec();
 			ContainerState containerState = containerResponse.getState();
 			if ( ! containerState.getRunning() ) {
+				log.info( String.format("DOCKER CONTAINER IS NOT RUNNING - REMOVING IT: id = %s", container.get().getId()) );
 				dockerClient.removeContainerCmd(container.get().getId()).exec();
 				return false;
+			} else {
+				log.info(String.format("DOCKER CONTAINER IS RUNNING: with name = %s", container.get().getNames()[0]) );
 			}
 			return containerState.getRunning();
 		}
+		log.info(String.format("DOCKER IS NOT RUNNING CONTAINER") );
 		return false;
 	}
 	
 
 	public boolean containerIsRunning(int port) throws IOException {
 		String containerName = getContainerNameFromPort(port);
+
+		log.info(String.format("IS DOCKER CONTAINER RUNNING: with name = %s", containerName) );
 
 		try(DockerClient dockerClient = DockerUtil.createDockerClient()) {
 			return containerIsRunning(dockerClient, containerName);

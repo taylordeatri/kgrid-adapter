@@ -3,14 +3,14 @@
  */
 package org.kgrid.adapter.mlflow.util;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.OptionalInt;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
@@ -23,7 +23,7 @@ import com.github.dockerjava.core.DockerClientConfig;
  * To override the PORT_BASE set the KGRID_MLFLOW_PORT_BASE property to override default of 5100 base port number.
  * Total available ports are currently only PORT_BASE + 5;
  * 
- * @see DefaujltDockerClientConfig
+ * see DefaujltDockerClientConfig
  * @see DockerClient
  * 
  * @author taylorde
@@ -32,6 +32,7 @@ import com.github.dockerjava.core.DockerClientConfig;
 
 
 public class DockerUtil {
+	static final Log log = LogFactory.getLog(DockerUtil.class);
 	
 	static DockerClientConfig localConfig;
 	
@@ -88,13 +89,30 @@ public class DockerUtil {
 	public static DockerClientConfig getLocalDockerConfig() {
 		if ( localConfig == null ) {
 			String userHome = System.getProperty("user.home");
-			String dockerHost = System.getProperty("DOCKER_HOST");
+			String dockerHost = System.getenv("DOCKER_HOST");
+			String dockerCerts= System.getenv("DOCKER_CERTS");
+			String dockerDotDocker= System.getenv("DOCKER_DOT_DOCKER");
+			
+			// TCP: "tcp://
+			if ( StringUtils.isBlank(dockerHost)) {
+				dockerHost = "unix:///var/run/docker.sock";
+			}
+			
+			if ( StringUtils.isBlank(dockerCerts)) {
+				log.error("ERROR MISSNG DOCKER_CERTS Environment variable");
+			}
+			if ( StringUtils.isBlank(dockerDotDocker)) {
+				log.error("ERROR MISSNG DOCKER_DOT_DOCKER Environment variable");
+			}
 
+//			userHome + "/.docker/machine/certs"
+//			userHome + "/.docker/machine/.docker"
+			
 			localConfig = DefaultDockerClientConfig.createDefaultConfigBuilder()
-				    .withDockerHost("tcp://" + dockerHost + ":" + "2376")
-				    .withDockerTlsVerify(true)
-				    .withDockerCertPath(userHome + "/.docker/machine/certs")
-				    .withDockerConfig(userHome + "/.docker/machine/.docker")
+				    .withDockerHost(dockerHost)
+				    .withDockerCertPath(dockerCerts)
+				    .withDockerTlsVerify(false)
+				    .withDockerConfig(dockerDotDocker)
 				    .withApiVersion("1.30") // optional
 				    .withRegistryUrl("https://index.docker.io/v1/")
 				    .build();
