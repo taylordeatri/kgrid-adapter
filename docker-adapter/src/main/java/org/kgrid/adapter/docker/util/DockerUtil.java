@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.kgrid.adapter.mlflow.util;
+package org.kgrid.adapter.docker.util;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,7 @@ import com.github.dockerjava.core.DockerClientConfig;
 /**
  * This is a utility class that manages ports allocated to docker containers and provides the method to get a docker client connection.
  * 
- * To override the PORT_BASE set the KGRID_MLFLOW_PORT_BASE property to override default of 5100 base port number.
+ * To override the PORT_BASE set the KGRID_DOCKER_PORT_BASE property to override default of 5100 base port number.
  * Total available ports are currently only PORT_BASE + 5;
  * 
  * see DefaujltDockerClientConfig
@@ -68,14 +68,14 @@ public class DockerUtil {
 	}
 
 	static void overridePortCount() {
-		String newPortCountStr = System.getProperty("KGRID_MLFLOW_PORT_COUNT");
+		String newPortCountStr = System.getenv("KGRID_DOCKER_PORT_COUNT");
 		if (StringUtils.isNotBlank(newPortCountStr) && StringUtils.isNumeric(newPortCountStr)) {
 			PORT_COUNT = Integer.parseInt(newPortCountStr);
 		}
 	}
 
 	static void overridePortBase() {
-		String newPortBaseStr = System.getProperty("KGRID_MLFLOW_PORT_BASE");
+		String newPortBaseStr = System.getenv("KGRID_DOCKER_PORT_BASE");
 		if (StringUtils.isNotBlank(newPortBaseStr) && StringUtils.isNumeric(newPortBaseStr)) {
 			PORT_BASE = Integer.parseInt(newPortBaseStr);
 		}
@@ -111,7 +111,7 @@ public class DockerUtil {
 			localConfig = DefaultDockerClientConfig.createDefaultConfigBuilder()
 				    .withDockerHost(dockerHost)
 				    .withDockerCertPath(dockerCerts)
-				    .withDockerTlsVerify(false)
+				    .withDockerTlsVerify(true)
 				    .withDockerConfig(dockerDotDocker)
 				    .withApiVersion("1.30") // optional
 				    .withRegistryUrl("https://index.docker.io/v1/")

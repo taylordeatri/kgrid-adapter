@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.kgrid.adapter.mlflow;
+package org.kgrid.adapter.docker;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -17,35 +17,35 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.kgrid.adapter.api.Executor;
-import org.kgrid.adapter.mlflow.MLFlowDockerRunner.RunningMLFlowContainer;
-import org.kgrid.adapter.mlflow.util.DockerUtil;
+import org.kgrid.adapter.docker.DockerRunner.RunningDockerContainer;
+import org.kgrid.adapter.docker.util.DockerUtil;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * This is executor that proxies to the running docker container. It creates the container if not already running.
  * 
- * @see MLFlowDockerRunner
+ * @see DockerRunner
  * 
  * @author taylorde
  *
  */
-public class MLFlowExecutor implements Executor {
+public class DockerExecutor implements Executor {
 
-	private static final Log log = LogFactory.getLog(MLFlowExecutor.class);
+	private static final Log log = LogFactory.getLog(DockerExecutor.class);
 
-	MLFlowDockerRunner dockerRunner = new MLFlowDockerRunner();
+	DockerRunner dockerRunner = new DockerRunner();
 	
 	String dockerImageName;
 	int port;
 	
 	String containerId;
 	
-	public MLFlowExecutor(String dockerImageName, int port) {
+	public DockerExecutor(String dockerImageName, int port) {
 		this.dockerImageName = dockerImageName.trim();
 		this.port = port;
 		try {
-			Optional<RunningMLFlowContainer> runningContainer = dockerRunner.startMLFlowDockerContainer(this.dockerImageName, port);
+			Optional<RunningDockerContainer> runningContainer = dockerRunner.startDockerContainer(this.dockerImageName, port);
 			if ( runningContainer.isPresent()) {
 				this.containerId = runningContainer.get().getContainerId();
 				if ( runningContainer.get().getRunningPort() != this.port ) {

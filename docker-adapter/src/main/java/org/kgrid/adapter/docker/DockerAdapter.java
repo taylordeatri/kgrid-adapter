@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.kgrid.adapter.mlflow;
+package org.kgrid.adapter.docker;
 
 import java.nio.charset.Charset;
 import java.nio.file.Path;
@@ -13,19 +13,19 @@ import org.apache.commons.logging.LogFactory;
 import org.kgrid.adapter.api.ActivationContext;
 import org.kgrid.adapter.api.Adapter;
 import org.kgrid.adapter.api.Executor;
-import org.kgrid.adapter.mlflow.util.DockerUtil;
+import org.kgrid.adapter.docker.util.DockerUtil;
 
 /**
- * This is the main MLFlow adapter. It creates an MLFlowExecutor that acts as the proxy to the docker container.
+ * This is the main Docker adapter. It creates an DockerExecutor that acts as the proxy to the docker container.
  * 
- * @see MLFlowExecutor
+ * @see DockerExecutor
  * 
  * @author taylorde
  *
  */
-public class MLFlowAdapter implements Adapter {
+public class DockerAdapter implements Adapter {
 	
-	private static final Log log = LogFactory.getLog(MLFlowAdapter.class);
+	private static final Log log = LogFactory.getLog(DockerAdapter.class);
 
 	private ActivationContext context;
 	
@@ -33,7 +33,7 @@ public class MLFlowAdapter implements Adapter {
 
 	@Override
 	public String getType() {
-		return "MLFLOW";
+		return "DOCKER";
 	}
 
 	@Override
@@ -42,8 +42,8 @@ public class MLFlowAdapter implements Adapter {
 	}
 	
 	/** 
-	 * Activate this KO by creating an MLFlowExecutor.
-	 * @see MLFlowExecutor
+	 * Activate this KO by creating an DockerExecutor.
+	 * @see DockerExecutor
 	 * 
 	 * (non-Javadoc)
 	 * @see org.kgrid.adapter.api.Adapter#activate(java.nio.file.Path, java.lang.String)
@@ -57,15 +57,15 @@ public class MLFlowAdapter implements Adapter {
 			String[] lines = config.split("\n");
 			for ( String line : Arrays.asList(lines)) {
 				String[] fields = line.split(":");
-				if ("mlflow-docker-image".equalsIgnoreCase(fields[0]) ) {
+				if ("docker-image".equalsIgnoreCase(fields[0]) ) {
 					String imageName = fields[1];
 					OptionalInt optPort = DockerUtil.getPort();	// Get port for executor to proxy to.
 					if ( optPort.isPresent() ) {
 						this.port = optPort.getAsInt();
 						// Start up docker image in a container with the configured port and configured volume
-						MLFlowExecutor mlFlowExecutor = new MLFlowExecutor(imageName, port);
+						DockerExecutor dockerExecutor = new DockerExecutor(imageName, port);
 					
-						return mlFlowExecutor;
+						return dockerExecutor;
 					} else {
 						log.error(String.format("Failed to get a port allocated for %s",  imageName));
 						DockerUtil.clearPort(port);
@@ -74,7 +74,7 @@ public class MLFlowAdapter implements Adapter {
 				}
 			}
 		} catch (Exception e) {
-			log.error("Error activating MLFlowAdapter", e);
+			log.error("Error activating DockerAdapter", e);
 		}
 		return null;
 	}	

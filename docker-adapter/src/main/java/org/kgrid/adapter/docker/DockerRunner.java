@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.kgrid.adapter.mlflow;
+package org.kgrid.adapter.docker;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kgrid.adapter.mlflow.util.DockerUtil;
+import org.kgrid.adapter.docker.util.DockerUtil;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
@@ -31,22 +31,22 @@ import com.github.dockerjava.api.model.Ports;
  * @author taylorde
  *
  */
-public class MLFlowDockerRunner {
+public class DockerRunner {
 	
-	private static final Log log = LogFactory.getLog(MLFlowDockerRunner.class);
+	private static final Log log = LogFactory.getLog(DockerRunner.class);
 
-	public Optional<RunningMLFlowContainer> startMLFlowDockerContainer(String imageName, int port) throws IOException {
+	public Optional<RunningDockerContainer> startDockerContainer(String imageName, int port) throws IOException {
 		
 		try(DockerClient dockerClient = DockerUtil.createDockerClient()) {
 			
-			log.info(String.format("STARTING MFLOW DOCKER CONTAINER: %s on port %d", imageName, port) );
+			log.info(String.format("STARTING DOCKER CONTAINER: %s on port %d", imageName, port) );
 			
 			Optional<Container> container = getContainer(dockerClient, imageName);
 
 
 			if ( !containerIsRunning(dockerClient, container) ) {
 				String containerId = createContainer(dockerClient, imageName, port);
-				RunningMLFlowContainer runningContainer = new RunningMLFlowContainer(containerId, port);
+				RunningDockerContainer runningContainer = new RunningDockerContainer(containerId, port);
 				log.info(String.format("STARTED CONTAINER: for %s on port %d with id = %s", imageName, port, containerId) );
 				return Optional.of(runningContainer); 
 			} else {
@@ -57,7 +57,7 @@ public class MLFlowDockerRunner {
 					ContainerPort firstPort = containerPorts[0];
 					Integer publicPort = firstPort.getPublicPort();
 					if ( publicPort > 0 ) {
-						RunningMLFlowContainer runningContainer = new RunningMLFlowContainer(container.get().getId(), publicPort);
+						RunningDockerContainer runningContainer = new RunningDockerContainer(container.get().getId(), publicPort);
 						return Optional.of(runningContainer);
 					} else {
 						return Optional.empty();
@@ -100,7 +100,7 @@ public class MLFlowDockerRunner {
 		return containerId;
 	}
 	
-	public void stopMLFlowDockerContainer(int port, String imageName) throws IOException {
+	public void stopDockerContainer(int port, String imageName) throws IOException {
 //		String containerName = getContainerNameFromPort(port);
 		
 		try(DockerClient dockerClient = DockerUtil.createDockerClient()) {
@@ -167,14 +167,14 @@ public class MLFlowDockerRunner {
 	}
 	
 	String getContainerNameFromPort(int port) {
-		return String.format("mlflow%d", port);
+		return String.format("kgrid_docker_%d", port);
 	}
 	
-	public static class RunningMLFlowContainer {
+	public static class RunningDockerContainer {
 		String containerId;
 		int runningPort;
 		
-		public RunningMLFlowContainer(String containerId, int runningPort) {
+		public RunningDockerContainer(String containerId, int runningPort) {
 			this.containerId=containerId;
 			this.runningPort = runningPort;
 		}
