@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +42,11 @@ public class JavascriptToJavaIntegrationTests {
       public byte[] getBinary(String pathToBinary) {
         return cdoStore.getBinary(pathToBinary);
       }
+      
+      @Override
+    	public InputStream getInputStream(String pathToResource) {
+    	  return cdoStore.getInputStream(pathToResource);
+    	}
 
       @Override
       public String getProperty(String key) {

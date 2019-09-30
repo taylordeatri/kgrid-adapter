@@ -68,14 +68,14 @@ public class DockerUtil {
 	}
 
 	static void overridePortCount() {
-		String newPortCountStr = System.getenv("KGRID_DOCKER_PORT_COUNT");
+		String newPortCountStr = getValueFromEnvOrProperty("KGRID_DOCKER_PORT_COUNT", "5");
 		if (StringUtils.isNotBlank(newPortCountStr) && StringUtils.isNumeric(newPortCountStr)) {
 			PORT_COUNT = Integer.parseInt(newPortCountStr);
 		}
 	}
 
 	static void overridePortBase() {
-		String newPortBaseStr = System.getenv("KGRID_DOCKER_PORT_BASE");
+		String newPortBaseStr = getValueFromEnvOrProperty("KGRID_DOCKER_PORT_BASE", "5100");
 		if (StringUtils.isNotBlank(newPortBaseStr) && StringUtils.isNumeric(newPortBaseStr)) {
 			PORT_BASE = Integer.parseInt(newPortBaseStr);
 		}
@@ -88,25 +88,9 @@ public class DockerUtil {
 	 */
 	public static DockerClientConfig getLocalDockerConfig() {
 		if ( localConfig == null ) {
-			String userHome = System.getProperty("user.home");
-			String dockerHost = System.getenv("DOCKER_HOST");
-			String dockerCerts= System.getenv("DOCKER_CERTS");
-			String dockerDotDocker= System.getenv("DOCKER_DOT_DOCKER");
-			
-			// TCP: "tcp://
-			if ( StringUtils.isBlank(dockerHost)) {
-				dockerHost = "unix:///var/run/docker.sock";
-			}
-			
-			if ( StringUtils.isBlank(dockerCerts)) {
-				log.error("ERROR MISSNG DOCKER_CERTS Environment variable");
-			}
-			if ( StringUtils.isBlank(dockerDotDocker)) {
-				log.error("ERROR MISSNG DOCKER_DOT_DOCKER Environment variable");
-			}
-
-//			userHome + "/.docker/machine/certs"
-//			userHome + "/.docker/machine/.docker"
+			String dockerHost = getValueFromEnvOrProperty("DOCKER_HOST", "unix:///var/run/docker.sock");
+			String dockerCerts= getValueFromEnvOrProperty("DOCKER_CERTS", null);
+			String dockerDotDocker= getValueFromEnvOrProperty("DOCKER_CONFIG", null);
 			
 			localConfig = DefaultDockerClientConfig.createDefaultConfigBuilder()
 				    .withDockerHost(dockerHost)
@@ -119,6 +103,25 @@ public class DockerUtil {
 		}
 		
 		return localConfig;
+	}
+		
+	static String getValueFromEnvOrProperty(String propertyName, String defaultValue) {
+
+		String value = System.getenv(propertyName);
+		
+		if ( StringUtils.isBlank(value)) {
+			value = System.getProperty(propertyName);
+		}
+		
+		if ( StringUtils.isBlank(value)) {
+			value = defaultValue;
+		}
+			
+		if ( StringUtils.isBlank(value)) {
+			log.error(String.format("\n\nERROR MISSNG %s Environment variable\n\n", propertyName));
+		}
+		
+		return value;
 	}
 	
 	/**

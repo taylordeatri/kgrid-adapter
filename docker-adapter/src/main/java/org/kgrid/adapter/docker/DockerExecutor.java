@@ -16,6 +16,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.kgrid.adapter.api.ActivationContext;
 import org.kgrid.adapter.api.Executor;
 import org.kgrid.adapter.docker.DockerRunner.RunningDockerContainer;
 import org.kgrid.adapter.docker.util.DockerUtil;
@@ -34,18 +35,26 @@ public class DockerExecutor implements Executor {
 
 	private static final Log log = LogFactory.getLog(DockerExecutor.class);
 
-	DockerRunner dockerRunner = new DockerRunner();
+	DockerRunner dockerRunner;
 	
 	String dockerImageName;
 	int port;
+	String dockerImageArchivePath;
+	String url;
 	
 	String containerId;
 	
-	public DockerExecutor(String dockerImageName, int port) {
+	ActivationContext context;
+	
+	public DockerExecutor(ActivationContext context, String dockerImageName, int port, String dockerImageArchivePath, String url) {
+		this.context = context;
+		this.dockerImageArchivePath = dockerImageArchivePath.trim();
 		this.dockerImageName = dockerImageName.trim();
+		this.dockerRunner = new DockerRunner(context);
 		this.port = port;
+		this.url = url.trim();
 		try {
-			Optional<RunningDockerContainer> runningContainer = dockerRunner.startDockerContainer(this.dockerImageName, port);
+			Optional<RunningDockerContainer> runningContainer = dockerRunner.startDockerContainer(this.dockerImageName, port, dockerImageArchivePath);
 			if ( runningContainer.isPresent()) {
 				this.containerId = runningContainer.get().getContainerId();
 				if ( runningContainer.get().getRunningPort() != this.port ) {
@@ -74,7 +83,7 @@ public class DockerExecutor implements Executor {
 		// Take input and send to docker container at port
 
 		try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
-			HttpPost postReq = new HttpPost(String.format("http://localhost:%d/invocations", this.port));
+			HttpPost postReq = new HttpPost(url.replaceAll("_PORT_", String.valueOf(this.port)));
 			
 			postReq.addHeader("Content-Type", "application/json");
 			

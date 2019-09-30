@@ -2,6 +2,7 @@ package org.kgrid.adapter.javascript;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.junit.Before;
@@ -39,20 +40,25 @@ public class JavascriptAdapterInitializeTest {
 
     Adapter adapter = new JavascriptAdapter();
     adapter.initialize(new ActivationContext() {
-      @Override
-      public Executor getExecutor(String key) {
-        return null;
-      }
+    	@Override
+    	public Executor getExecutor(String key) {
+    		return null;
+    	}
 
-      @Override
-      public byte[] getBinary(String pathToBinary) {
-        return cdoStore.getBinary(pathToBinary);
-      }
+    	@Override
+    	public byte[] getBinary(String pathToBinary) {
+    		return cdoStore.getBinary(pathToBinary);
+    	}
 
-      @Override
-      public String getProperty(String key) {
-        return null;
-      }
+    	@Override
+    	public InputStream getInputStream(String pathToResource) {
+    		return cdoStore.getInputStream(pathToResource);
+    	}
+
+    	@Override
+    	public String getProperty(String key) {
+    		return null;
+    	}
     });
     assertEquals("UP", adapter.status());
 

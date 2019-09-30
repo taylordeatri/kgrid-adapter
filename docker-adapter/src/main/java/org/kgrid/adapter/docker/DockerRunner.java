@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kgrid.adapter.api.ActivationContext;
 import org.kgrid.adapter.docker.util.DockerUtil;
 
 import com.github.dockerjava.api.DockerClient;
@@ -21,6 +23,7 @@ import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.ContainerPort;
 import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.api.model.HostConfig;
+import com.github.dockerjava.api.model.Image;
 import com.github.dockerjava.api.model.Ports;
 
 /**
@@ -34,8 +37,14 @@ import com.github.dockerjava.api.model.Ports;
 public class DockerRunner {
 	
 	private static final Log log = LogFactory.getLog(DockerRunner.class);
+	
+	ActivationContext context; 
 
-	public Optional<RunningDockerContainer> startDockerContainer(String imageName, int port) throws IOException {
+	public DockerRunner(ActivationContext context) {
+		this.context = context;
+	}
+
+	public Optional<RunningDockerContainer> startDockerContainer(String imageName, int port, String imageArchivePath) throws IOException {
 		
 		try(DockerClient dockerClient = DockerUtil.createDockerClient()) {
 			
@@ -45,7 +54,7 @@ public class DockerRunner {
 
 
 			if ( !containerIsRunning(dockerClient, container) ) {
-				String containerId = createContainer(dockerClient, imageName, port);
+				String containerId = createContainer(dockerClient, imageName, port, imageArchivePath);
 				RunningDockerContainer runningContainer = new RunningDockerContainer(containerId, port);
 				log.info(String.format("STARTED CONTAINER: for %s on port %d with id = %s", imageName, port, containerId) );
 				return Optional.of(runningContainer); 
@@ -69,10 +78,22 @@ public class DockerRunner {
 		}
 	}
 
-	String createContainer(DockerClient dockerClient, String imageName, int port) {
+	String createContainer(DockerClient dockerClient, String imageName, int port, String imageArchivePath) {
 		ExposedPort internalPort = ExposedPort.tcp(8080);
 		Ports portBindings = new Ports();
 		portBindings.bind(internalPort, Ports.Binding.bindPort(port));
+		
+		// Verify docker image exists and if it doesn't do we have a valid path to an archive to load?
+		List<Image> images = dockerClient.listImagesCmd().withImageNameFilter(imageName).exec();
+		if ( images.size() <= 0 ) {	// Image not found so verify archive path
+			if ( StringUtils.isNotBlank(imageArchivePath)) {
+				dockerClient.loadImageCmd(context.getInputStream(imageArchivePath)).exec();
+				List<Image> images2 = dockerClient.listImagesCmd().withImageNameFilter(imageName).exec();
+				if ( images.size() <= 0 ) {
+					log.error(String.format("ERROR - Failed to load image %s to local docker repo.", imageArchivePath));
+				}
+			}
+		}
 		
 		log.info(String.format("CREATING DOCKER CONTAINER: for %s on port %d", imageName, port ) );
 
