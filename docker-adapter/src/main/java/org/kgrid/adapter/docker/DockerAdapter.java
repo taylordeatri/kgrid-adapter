@@ -55,29 +55,6 @@ public class DockerAdapter implements Adapter {
 	public Executor activate(Path resource, String endpoint) {
 		byte[] binary;
 		try {
-//			binary = context.getBinary(resource.toString());
-//			String config = new String(binary, Charset.defaultCharset());
-//			String[] lines = config.split("\n");
-//			
-//			String imageName = "";
-//			String imageArchivePath = "";
-//			String url = "http://localhost:{port}/";
-//			
-//			for ( String line : Arrays.asList(lines)) {
-//				String[] fields = line.split(":");
-//				if ("docker-image".equalsIgnoreCase(fields[0]) ) {
-//					imageName = fields[1];
-//				} else
-//				if ("docker-image-archive".equalsIgnoreCase(fields[0]) ) {
-//					imageArchivePath = fields[1];
-//				} else
-//				if ("url".equalsIgnoreCase(fields[0]) ) {
-//					url = fields[1];
-//				} else {
-//					log.error(String.format("ERROR - Unrecognized field name %s", fields[0]));
-//				}
-//			}
-
 			YAMLMapper yamlMapper = new YAMLMapper();
 			JsonNode dockerConfigNode = yamlMapper.readTree(context.getBinary(resource.toString()));
 			
