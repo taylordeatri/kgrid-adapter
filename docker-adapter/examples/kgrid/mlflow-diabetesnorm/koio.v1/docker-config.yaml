@@ -1,2 +1,6 @@
-mlflow-project-run: http://localhost:5000/#/experiments/0/runs/1daf410445694fe69dfb6598b2317e0e
-mlflow-docker-image: sklearn_diabetes_stdnorm
+#MFLow Run http://localhost:5000/#/experiments/0/runs/1daf410445694fe69dfb6598b2317e0e
+docker-image: sklearn_diabetes_stdnorm
+url: http://localhost:_PORT_/invocations
+#THIS IS REFERENCING AN IMAGE EXPORTED FROM A LOCAL REPO USING DOCKER SAVE COMMAND
+docker-image-archive: sklearn_diabetes_stdnorm.tgz
+

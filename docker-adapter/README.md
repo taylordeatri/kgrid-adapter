@@ -12,6 +12,7 @@ When using this adapter you specify the the adapter type as **DOCKER** and must 
 docker-image: <docker_image_name_here>
 url: <qualified url to invoke service including place holder for _PORT_>
 docker-image-archive: <SAVED docker image archive that can be loaded into the local docker repository>
+docker-container-port: 8080
 ```
 
 Of these only the **docker-image** property is required.

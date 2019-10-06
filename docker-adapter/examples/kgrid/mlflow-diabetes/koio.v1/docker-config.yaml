@@ -1,2 +1,4 @@
 docker-image: sklearn_diabetes
 docker-container-port: 8080
+url: http://localhost:_PORT_/invocations
+method: POST

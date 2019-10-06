@@ -61,12 +61,13 @@ public class DockerAdapter implements Adapter {
 			String imageName = dockerConfigNode.get("docker-image").asText("");
 			String imageArchivePath = dockerConfigNode.get("docker-image-archive").asText("");
 			String url = dockerConfigNode.get("url").asText("http://localhost:_PORT_/");
+			String containerPort = dockerConfigNode.get("docker-container-port").asText("8080");
 			
 			OptionalInt optPort = DockerUtil.getPort();	// Get port for executor to proxy to.
 			if ( optPort.isPresent() ) {
 				this.port = optPort.getAsInt();
 				// Start up docker image in a container with the configured port and configured volume
-				DockerExecutor dockerExecutor = new DockerExecutor(context, imageName, port, imageArchivePath, url);
+				DockerExecutor dockerExecutor = new DockerExecutor(context, imageName, port, containerPort, imageArchivePath, url );
 				return dockerExecutor;
 			} else {
 				log.error(String.format("Failed to get a port allocated for %s",  imageName));

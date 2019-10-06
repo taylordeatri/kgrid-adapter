@@ -44,7 +44,7 @@ public class DockerRunner {
 		this.context = context;
 	}
 
-	public Optional<RunningDockerContainer> startDockerContainer(String imageName, int port, String imageArchivePath) throws IOException {
+	public Optional<RunningDockerContainer> startDockerContainer(String imageName, int port, int containerPort, String imageArchivePath) throws IOException {
 		
 		try(DockerClient dockerClient = DockerUtil.createDockerClient()) {
 			
@@ -54,8 +54,8 @@ public class DockerRunner {
 
 
 			if ( !containerIsRunning(dockerClient, container) ) {
-				String containerId = createContainer(dockerClient, imageName, port, imageArchivePath);
-				RunningDockerContainer runningContainer = new RunningDockerContainer(containerId, port);
+				String containerId = createContainer(dockerClient, imageName, port, containerPort, imageArchivePath);
+				RunningDockerContainer runningContainer = new RunningDockerContainer(containerId, port, containerPort);
 				log.info(String.format("STARTED CONTAINER: for %s on port %d with id = %s", imageName, port, containerId) );
 				return Optional.of(runningContainer); 
 			} else {
@@ -66,7 +66,7 @@ public class DockerRunner {
 					ContainerPort firstPort = containerPorts[0];
 					Integer publicPort = firstPort.getPublicPort();
 					if ( publicPort > 0 ) {
-						RunningDockerContainer runningContainer = new RunningDockerContainer(container.get().getId(), publicPort);
+						RunningDockerContainer runningContainer = new RunningDockerContainer(container.get().getId(), publicPort, containerPort);
 						return Optional.of(runningContainer);
 					} else {
 						return Optional.empty();
@@ -78,8 +78,8 @@ public class DockerRunner {
 		}
 	}
 
-	String createContainer(DockerClient dockerClient, String imageName, int port, String imageArchivePath) {
-		ExposedPort internalPort = ExposedPort.tcp(8080);
+	String createContainer(DockerClient dockerClient, String imageName, int port, int containerPort, String imageArchivePath) {
+		ExposedPort internalPort = ExposedPort.tcp(containerPort);
 		Ports portBindings = new Ports();
 		portBindings.bind(internalPort, Ports.Binding.bindPort(port));
 		
@@ -194,10 +194,12 @@ public class DockerRunner {
 	public static class RunningDockerContainer {
 		String containerId;
 		int runningPort;
+		int containerPort;
 		
-		public RunningDockerContainer(String containerId, int runningPort) {
+		public RunningDockerContainer(String containerId, int runningPort, int containerPort) {
 			this.containerId=containerId;
 			this.runningPort = runningPort;
+			this.containerPort = containerPort;
 		}
 		
 		public String getContainerId() {
@@ -206,6 +208,10 @@ public class DockerRunner {
 		
 		public int getRunningPort() {
 			return runningPort;
+		}
+		
+		public int getContainerPort() {
+			return containerPort;
 		}
 	}
 }

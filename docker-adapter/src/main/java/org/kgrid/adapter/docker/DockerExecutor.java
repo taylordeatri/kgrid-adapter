@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.ClientProtocolException;
@@ -39,6 +40,7 @@ public class DockerExecutor implements Executor {
 	
 	String dockerImageName;
 	int port;
+	int containerPort = 8080;
 	String dockerImageArchivePath;
 	String url;
 	
@@ -46,7 +48,7 @@ public class DockerExecutor implements Executor {
 	
 	ActivationContext context;
 	
-	public DockerExecutor(ActivationContext context, String dockerImageName, int port, String dockerImageArchivePath, String url) {
+	public DockerExecutor(ActivationContext context, String dockerImageName, int port, String containerPortStr, String dockerImageArchivePath, String url) {
 		this.context = context;
 		this.dockerImageArchivePath = dockerImageArchivePath.trim();
 		this.dockerImageName = dockerImageName.trim();
@@ -54,7 +56,10 @@ public class DockerExecutor implements Executor {
 		this.port = port;
 		this.url = url.trim();
 		try {
-			Optional<RunningDockerContainer> runningContainer = dockerRunner.startDockerContainer(this.dockerImageName, port, dockerImageArchivePath);
+			if ( StringUtils.isNotBlank(containerPortStr) && StringUtils.isNumeric(containerPortStr)) {
+				containerPort = Integer.parseInt(containerPortStr);
+			}
+			Optional<RunningDockerContainer> runningContainer = dockerRunner.startDockerContainer(this.dockerImageName, port, containerPort, dockerImageArchivePath);
 			if ( runningContainer.isPresent()) {
 				this.containerId = runningContainer.get().getContainerId();
 				if ( runningContainer.get().getRunningPort() != this.port ) {
